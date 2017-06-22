@@ -25,7 +25,6 @@ public class HomeScreen extends RodKastScreenAdapter {
         if(this.app == null) {
             this.app = app;
         }
-
         stage = new HomeStage(app);
     }
 

@@ -30,19 +30,15 @@ public class HomeStage extends Stage {
     public HomeStage(RodKastApplication app){
         super(new ScalingViewport(Scaling.stretch, VIEWPORT_WIDTH, VIEWPORT_HEIGHT,
                 new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
+
         //this.app = app;
         this.imageProvider = app.getImageProvider();
         this.soundProvider = app.getSoundProvider();
 
+        imageProvider.pauseUntilLoadedImages();
         setUpCamera();
+        setUpStageTable();
 
-        try {
-            setUpStageTable();
-        } catch (AssetNotLoadedException anle) {
-            //e.printStackTrace();
-            app.getAssetsManager().getManager().update();
-            //setUpStageTable();
-        }
     }
 
     private void setUpCamera() {
@@ -51,12 +47,26 @@ public class HomeStage extends Stage {
         camera.update();
     }
 
-    private void setUpStageTable() throws AssetNotLoadedException{
+    private void setUpStageTable(){
         Table table = new Table();
         table.debug();
-        table.setPosition(0, 0);
+        table.setPosition(220, 220);
 
-        Label.LabelStyle headingStyle = new Label.LabelStyle(imageProvider.defaultFont(), Color.RED);
-        Label headingLabel = new Label("TOP BANNER",headingStyle);
+        Label.LabelStyle defaultStyle = imageProvider.getDefaultLableStyle();
+        Label headingLabel = new Label("TOP BANNER",defaultStyle);
+        Label bodyLabel = new Label("BODY SECTION",defaultStyle);
+        Label socialLabel = new Label("SOCIAL SECTION",defaultStyle);
+        Label adLabel = new Label("AD SECTION",defaultStyle);
+
+        table.add(headingLabel);
+        table.row();
+        table.add(bodyLabel);
+        table.row();
+        table.add(socialLabel);
+        table.row();
+        table.add(adLabel);
+
+        System.out.println("added: " + table);
+        addActor(table);
     }
 }
