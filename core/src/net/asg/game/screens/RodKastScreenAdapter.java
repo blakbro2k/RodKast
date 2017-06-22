@@ -2,13 +2,9 @@ package net.asg.game.screens;
 
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import net.asg.game.RodKastApplication;
-import net.asg.game.providers.ImageProvider;
-import net.asg.game.providers.SoundProvider;
 
 /**
  * Created by Blakbro2k on 6/21/2017.
@@ -17,8 +13,6 @@ import net.asg.game.providers.SoundProvider;
 public class RodKastScreenAdapter implements Screen, InputProcessor {
     protected Stage stage;
     protected RodKastApplication app;
-    protected ImageProvider imageProvider;
-    protected SoundProvider soundProvider;
 
     @Override
     public boolean keyDown(int keycode) {

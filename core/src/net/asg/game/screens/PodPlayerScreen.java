@@ -1,7 +1,5 @@
 package net.asg.game.screens;
 
-import com.badlogic.gdx.ScreenAdapter;
-
 import net.asg.game.RodKastApplication;
 
 /**

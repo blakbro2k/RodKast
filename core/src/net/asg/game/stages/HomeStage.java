@@ -1,6 +1,5 @@
 package net.asg.game.stages;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -9,7 +8,6 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 
 import net.asg.game.RodKastApplication;
-import net.asg.game.exceptions.AssetNotLoadedException;
 import net.asg.game.providers.ImageProvider;
 import net.asg.game.providers.SoundProvider;
 import net.asg.game.utils.Constants;

@@ -1,8 +1,6 @@
 package net.asg.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 
 import net.asg.game.RodKastApplication;
@@ -19,7 +17,6 @@ public class HomeScreen extends RodKastScreenAdapter {
     //TODO: Podcast Scroller
     //TODO: Social Medial
     //TODO: SettingButton
-    private HomeStage stage;
 
     public HomeScreen(RodKastApplication app) {
         if(this.app == null) {

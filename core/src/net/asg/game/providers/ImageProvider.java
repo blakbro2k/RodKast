@@ -4,9 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 
-import net.asg.game.exceptions.AssetNotLoadedException;
 import net.asg.game.utils.Constants;
 
 /**
@@ -30,8 +28,6 @@ public class ImageProvider {
         assetsManager.getManager().load(Constants.DEFAULT_FONT_IMAGE_PATH, Texture.class);
         assetsManager.getManager().load(Constants.DEFAULT_FONT_PATH, BitmapFont.class);
         //defaultFont = new BitmapFont(Gdx.files.internal("data/default.fnt"), Gdx.files.internal("data/default.png"), false);
-
-        update();
     }
 
     public void pauseUntilLoadedImages(){
