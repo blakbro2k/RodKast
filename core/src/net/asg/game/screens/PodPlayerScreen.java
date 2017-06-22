@@ -10,5 +10,8 @@ import net.asg.game.RodKastApplication;
 
 public class PodPlayerScreen extends RodKastScreenAdapter {
     public PodPlayerScreen(RodKastApplication app) {
+        if(this.app == null) {
+            this.app = app;
+        }
     }
 }

@@ -16,11 +16,8 @@ import net.asg.game.providers.SoundProvider;
 
 public class RodKastScreenAdapter implements Screen, InputProcessor {
     protected Stage stage;
-
     protected RodKastApplication app;
-
     protected ImageProvider imageProvider;
-
     protected SoundProvider soundProvider;
 
     @Override

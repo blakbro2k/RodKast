@@ -9,7 +9,9 @@ import net.asg.game.RodKastApplication;
  */
 
 public class PlayListScreen extends RodKastScreenAdapter{
-    public PlayListScreen(RodKastApplication application) {
-        this.app = application;
+    public PlayListScreen(RodKastApplication app) {
+        if(this.app == null) {
+            this.app = app;
+        }
     }
 }
