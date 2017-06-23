@@ -15,6 +15,7 @@ public class RodKastApplication extends Game {
 	private ImageProvider imageProvider;
 	private SoundProvider soundProvider;
 	private FPSLogger fpsLog;
+
 	private HomeScreen homeScreen;
 	private PlayListScreen playListScreen;
 	private PodPlayerScreen podPlayerScreen;

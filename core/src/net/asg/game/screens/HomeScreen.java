@@ -11,13 +11,6 @@ import net.asg.game.stages.HomeStage;
  */
 
 public class HomeScreen extends RodKastScreenAdapter {
-    //TODO: callButton
-    //TODO: shopButton
-    //TODO: AD Resolver
-    //TODO: Podcast Scroller
-    //TODO: Social Medial
-    //TODO: SettingButton
-
     public HomeScreen(RodKastApplication app) {
         if(this.app == null) {
             this.app = app;

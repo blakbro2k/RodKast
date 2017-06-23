@@ -26,6 +26,13 @@ public class HomeStage extends Stage {
     private SoundProvider soundProvider;
     private OrthographicCamera camera;
 
+    //TODO: callButton
+    //TODO: shopButton
+    //TODO: AD Resolver
+    //TODO: Podcast Scroller
+    //TODO: Social Medial
+    //TODO: SettingButton
+
     public HomeStage(RodKastApplication app){
         super(new ScalingViewport(Scaling.stretch, VIEWPORT_WIDTH, VIEWPORT_HEIGHT,
                 new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
@@ -56,7 +63,7 @@ public class HomeStage extends Stage {
 
         table.setPosition(0,0);
         Label.LabelStyle defaultStyle = imageProvider.getDefaultLableStyle();
-        Label headingLabel = new Label("TOP BANNER",defaultStyle);
+        Label headingLabel = new Label("TOP SECTION",defaultStyle);
         Label bodyLabel = new Label("BODY SECTION",defaultStyle);
         Label socialLabel = new Label("SOCIAL SECTION",defaultStyle);
         Label adLabel = new Label("AD SECTION",defaultStyle);
