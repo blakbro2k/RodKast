@@ -1,11 +1,14 @@
 package net.asg.game.stages;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import net.asg.game.RodKastApplication;
 import net.asg.game.providers.ImageProvider;
@@ -26,10 +29,12 @@ public class HomeStage extends Stage {
     private OrthographicCamera camera;
 
     public HomeStage(RodKastApplication app){
-        super(new ScalingViewport(Scaling.stretch, VIEWPORT_WIDTH, VIEWPORT_HEIGHT,
+        //super(new ScalingViewport(Scaling.stretch, VIEWPORT_WIDTH, VIEWPORT_HEIGHT,
+          //      new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
+        super(new StretchViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT,
                 new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
-
         //this.app = app;
+
         this.imageProvider = app.getImageProvider();
         this.soundProvider = app.getSoundProvider();
 
@@ -37,6 +42,7 @@ public class HomeStage extends Stage {
         setUpCamera();
         setUpStageTable();
 
+        Gdx.input.setInputProcessor(this);
     }
 
     private void setUpCamera() {
@@ -48,8 +54,8 @@ public class HomeStage extends Stage {
     private void setUpStageTable(){
         Table table = new Table();
         table.debug();
-        table.setPosition(220, 220);
-
+        //table.setBounds(0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+        table.setPosition(VIEWPORT_WIDTH / 2,VIEWPORT_HEIGHT /2);
         Label.LabelStyle defaultStyle = imageProvider.getDefaultLableStyle();
         Label headingLabel = new Label("TOP BANNER",defaultStyle);
         Label bodyLabel = new Label("BODY SECTION",defaultStyle);
@@ -66,5 +72,13 @@ public class HomeStage extends Stage {
 
         System.out.println("added: " + table);
         addActor(table);
+    }
+
+    public boolean keyDown(int keyCode){
+        if (keyCode == Input.Keys.BACK || keyCode == Input.Keys.BACKSPACE) {
+            Gdx.app.exit();
+            //game.getActionResolver().backButton(game);
+        }
+        return true;
     }
 }
