@@ -15,6 +15,10 @@ public class RodKastApplication extends Game {
 	private ImageProvider imageProvider;
 	private SoundProvider soundProvider;
 	private FPSLogger fpsLog;
+	private HomeScreen homeScreen;
+	private PlayListScreen playListScreen;
+	private PodPlayerScreen podPlayerScreen;
+
 
 
 	public RodKastApplication(){
@@ -45,15 +49,24 @@ public class RodKastApplication extends Game {
 	}
 
     public void gotoHomeScreen() {
-        setScreen(new HomeScreen(this));
+		if(homeScreen == null){
+			homeScreen = new HomeScreen(this);
+		}
+        setScreen(homeScreen);
     }
 
     public void gotoPlayListScreen() {
-        setScreen(new PlayListScreen(this));
+		if(playListScreen == null){
+			playListScreen = new PlayListScreen(this);
+		}
+        setScreen(playListScreen);
     }
 
     public void gotoPodPlayerScreen() {
-        setScreen(new PodPlayerScreen(this));
+		if(podPlayerScreen == null){
+			podPlayerScreen = new PodPlayerScreen(this);
+		}
+        setScreen(podPlayerScreen);
     }
 
 	public AssetsManager getAssetsManager(){
