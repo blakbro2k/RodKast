@@ -6,10 +6,10 @@ package net.asg.game.utils;
 
 public class Constants {
     public static final int APP_WIDTH = 480;
-    public static final int APP_HEIGHT = 860;
+    public static final int APP_HEIGHT = 800;
 
     public static final String BAD_LOGIC_IMAGE_PATH = "data/badlogic.jpg";
     public static final String DEFAULT_FONT_PATH = "data/default.fnt";
     public static final String DEFAULT_FONT_IMAGE_PATH = "data/default.png";
-
+    public static final String DEFAULT_UISKIN_PATH = "data/uiskin.json";
 }

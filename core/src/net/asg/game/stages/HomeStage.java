@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 
 import net.asg.game.RodKastApplication;
+import net.asg.game.menu.ExitDialog;
 import net.asg.game.providers.ImageProvider;
 import net.asg.game.providers.SoundProvider;
 import net.asg.game.utils.Constants;
@@ -25,6 +26,8 @@ public class HomeStage extends Stage {
     private ImageProvider imageProvider;
     private SoundProvider soundProvider;
     private OrthographicCamera camera;
+
+    private ExitDialog exitDialog;
 
     //TODO: callButton
     //TODO: shopButton
@@ -44,8 +47,14 @@ public class HomeStage extends Stage {
         imageProvider.pauseUntilLoadedImages();
         setUpCamera();
         setUpStageTable();
+        setUpMenuItems();
 
+        Gdx.input.setCatchBackKey(true);
         Gdx.input.setInputProcessor(this);
+    }
+
+    private void setUpMenuItems() {
+        exitDialog = new ExitDialog("Do you really want to leave?",imageProvider.getDefaultUISkin());
     }
 
     private void setUpCamera() {
@@ -81,8 +90,13 @@ public class HomeStage extends Stage {
 
     public boolean keyDown(int keyCode){
         if (keyCode == Input.Keys.BACK || keyCode == Input.Keys.BACKSPACE) {
-            Gdx.app.exit();
-            //game.getActionResolver().backButton(game);
+            if(exitDialog.isVisible()){
+                if(exitDialog.getCount() > 0){
+                    Gdx.app.exit();
+                }
+            }
+            exitDialog.show(this);
+            exitDialog.increment();
         }
         return true;
     }

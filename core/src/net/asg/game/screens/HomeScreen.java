@@ -21,12 +21,10 @@ public class HomeScreen extends RodKastScreenAdapter {
     @Override
     public void render(float delta) {
         //Clear the screen
-        //Gdx.gl.glClearColor(1f, 0.271f, 0f, 1f);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-        //Gdx.gl.glClear(GL30.GL_Color);
 
+        stage.act(delta);
         //Update the stage
         stage.draw();
-        stage.act(delta);
     }
 }

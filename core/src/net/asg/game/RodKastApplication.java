@@ -20,8 +20,6 @@ public class RodKastApplication extends Game {
 	private PlayListScreen playListScreen;
 	private PodPlayerScreen podPlayerScreen;
 
-
-
 	public RodKastApplication(){
 
 	}
