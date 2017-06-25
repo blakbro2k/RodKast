@@ -14,7 +14,6 @@ public class ExitDialog extends Dialog {
     public ExitDialog(String title, Skin skin) {
         super(title, skin);
 
-        //text("Do you really want to leave?");
         button("Yes", true);
         button("No", false);
         resetCount();
@@ -35,7 +34,7 @@ public class ExitDialog extends Dialog {
         count++;
     }
 
-    public void resetCount(){
+    private void resetCount(){
         count = 0;
     }
 

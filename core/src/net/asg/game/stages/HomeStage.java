@@ -26,6 +26,7 @@ public class HomeStage extends Stage {
     private ImageProvider imageProvider;
     private SoundProvider soundProvider;
     private OrthographicCamera camera;
+    private RodKastApplication app;
 
     private ExitDialog exitDialog;
 
@@ -39,7 +40,7 @@ public class HomeStage extends Stage {
     public HomeStage(RodKastApplication app){
         super(new ScalingViewport(Scaling.stretch, VIEWPORT_WIDTH, VIEWPORT_HEIGHT,
                 new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
-        //this.app = app;
+        this.app = app;
 
         this.imageProvider = app.getImageProvider();
         this.soundProvider = app.getSoundProvider();
@@ -54,7 +55,7 @@ public class HomeStage extends Stage {
     }
 
     private void setUpMenuItems() {
-        exitDialog = new ExitDialog("Do you really want to leave?",imageProvider.getDefaultUISkin());
+        exitDialog = new ExitDialog("Do you really want to exit?",imageProvider.getDefaultUISkin());
     }
 
     private void setUpCamera() {
@@ -88,15 +89,13 @@ public class HomeStage extends Stage {
         addActor(table);
     }
 
+    public ExitDialog getExitDialog(){
+        return exitDialog;
+    }
+
     public boolean keyDown(int keyCode){
         if (keyCode == Input.Keys.BACK || keyCode == Input.Keys.BACKSPACE) {
-            if(exitDialog.isVisible()){
-                if(exitDialog.getCount() > 0){
-                    Gdx.app.exit();
-                }
-            }
-            exitDialog.show(this);
-            exitDialog.increment();
+            app.getResolver().backButton(this);
         }
         return true;
     }

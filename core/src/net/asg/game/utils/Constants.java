@@ -5,6 +5,8 @@ package net.asg.game.utils;
  */
 
 public class Constants {
+    public static final int MAX_WIDTH = 1024;
+    public static final int MAX_HEIGHT = 1024;
     public static final int APP_WIDTH = 480;
     public static final int APP_HEIGHT = 800;
 
@@ -12,4 +14,11 @@ public class Constants {
     public static final String DEFAULT_FONT_PATH = "data/default.fnt";
     public static final String DEFAULT_FONT_IMAGE_PATH = "data/default.png";
     public static final String DEFAULT_UISKIN_PATH = "data/uiskin.json";
+    public static final String DEFAULT_ATLAS_PATH = "data/imageAssets.atlas";
+
+    public static final String GAME_TITLE = "RodKast App";
+    public static final String SOURCE_ASSETS_FOLDER_PATH = "desktop/";
+    public static final String TARGET_ASSETS_FOLDER_PATH = "android/assets/data";
+    public static final String IMAGES_FOLDER_NAME = "images";
+    public static final String GAME_ATLAS_NAME = "imageAssets";
 }

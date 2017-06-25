@@ -13,7 +13,7 @@ public class AssetsManager {
         this.manager = new AssetManager();
     }
 
-    public AssetManager getManager(){
+    AssetManager getManager(){
         return manager;
     }
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
@@ -16,6 +17,8 @@ import net.asg.game.utils.Constants;
 public class ImageProvider {
     private AssetsManager assetsManager;
     private Skin defaultSkin;
+    private TextureAtlas atlas;
+
 
     public ImageProvider(AssetsManager assetsManager) {
         this.assetsManager = assetsManager;
@@ -30,7 +33,7 @@ public class ImageProvider {
         assetsManager.getManager().load(Constants.BAD_LOGIC_IMAGE_PATH, Texture.class);
         assetsManager.getManager().load(Constants.DEFAULT_FONT_IMAGE_PATH, Texture.class);
         assetsManager.getManager().load(Constants.DEFAULT_FONT_PATH, BitmapFont.class);
-        //assetsManager.getManager().load(Constants.DEFAULT_UISKIN_PATH, Skin.class);
+        assetsManager.getManager().load(Constants.DEFAULT_ATLAS_PATH, TextureAtlas.class);
         //getDefaultFont = new BitmapFont(Gdx.files.internal("data/default.fnt"), Gdx.files.internal("data/default.png"), false);
     }
 
@@ -52,6 +55,13 @@ public class ImageProvider {
         return null;
     }
 
+    public TextureAtlas getAtlas(){
+        if(assetsManager.getManager().isLoaded(Constants.DEFAULT_ATLAS_PATH)) {
+            atlas =  assetsManager.getManager().get(Constants.DEFAULT_ATLAS_PATH);
+        }
+        return atlas;
+    }
+
     public Label.LabelStyle getDefaultLableStyle(){
         BitmapFont font = getDefaultFont();
         if(font != null){
@@ -65,5 +75,10 @@ public class ImageProvider {
             defaultSkin = new Skin(Gdx.files.internal(Constants.DEFAULT_UISKIN_PATH));
         }
         return defaultSkin;
+    }
+
+    public void dispose(){
+        assetsManager.dispose();
+        defaultSkin.dispose();
     }
 }

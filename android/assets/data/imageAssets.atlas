@@ -1,0 +1,41 @@
+
+imageAssets.png
+size: 256,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+RodKast_small
+  rotate: false
+  xy: 2, 63
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+call
+  rotate: false
+  xy: 154, 154
+  size: 59, 59
+  orig: 59, 59
+  offset: 0, 0
+  index: -1
+rodkast_icon
+  rotate: false
+  xy: 2, 2
+  size: 72, 59
+  orig: 72, 59
+  offset: 0, 0
+  index: -1
+settings
+  rotate: false
+  xy: 76, 2
+  size: 59, 59
+  orig: 59, 59
+  offset: 0, 0
+  index: -1
+shop
+  rotate: false
+  xy: 154, 93
+  size: 59, 59
+  orig: 59, 59
+  offset: 0, 0
+  index: -1
