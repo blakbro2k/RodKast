@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import net.asg.game.menu.ExitDialog;
 import net.asg.game.stages.HomeStage;
 import net.asg.game.utils.ActionResolver;
+import net.asg.game.utils.Util;
 
 /**
  * Created by Blakbro2k on 6/25/2017.
@@ -13,15 +14,7 @@ import net.asg.game.utils.ActionResolver;
 public class DesktopResolver implements ActionResolver {
     @Override
     public void backButton(HomeStage stage) {
-        ExitDialog exitDialog = stage.getExitDialog();
-
-        if(exitDialog.isVisible()){
-            if(exitDialog.getCount() > 0){
-                Gdx.app.exit();
-            }
-        }
-        exitDialog.show(stage);
-        exitDialog.increment();
+        Util.backButtonUtil(stage);
     }
 
     @Override
