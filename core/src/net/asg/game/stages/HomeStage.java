@@ -70,10 +70,9 @@ public class HomeStage extends Stage {
         Table table = new Table();
         table.debug();
         table.setBounds(0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-
         table.setWidth(VIEWPORT_WIDTH);
-
         table.setPosition(0,0);
+
         Label.LabelStyle defaultStyle = imageProvider.getDefaultLableStyle();
 
         setUpTopRowButtons(table, defaultStyle);
