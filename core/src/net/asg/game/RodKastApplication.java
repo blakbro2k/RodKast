@@ -10,7 +10,7 @@ import net.asg.game.providers.SoundProvider;
 import net.asg.game.screens.HomeScreen;
 import net.asg.game.screens.PlayListScreen;
 import net.asg.game.screens.PodPlayerScreen;
-import net.asg.game.utils.ActionResolver;
+import net.asg.game.utils.GameEventListener;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,10 +28,10 @@ public class RodKastApplication extends Game {
 
 	private List<Screen> screens;
 
-	private ActionResolver resolver;
+	private GameEventListener gameEventListener;
 
-	public RodKastApplication(ActionResolver resolver){
-		this.resolver = resolver;
+	public RodKastApplication(GameEventListener gameEventListener){
+		this.gameEventListener = gameEventListener;
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class RodKastApplication extends Game {
 		disposeScreens(screens);
 
 		fpsLog = null;
-		resolver = null;
+		gameEventListener = null;
 		screens = null;
 	}
 
@@ -117,7 +117,7 @@ public class RodKastApplication extends Game {
 		return soundProvider;
 	}
 
-	public ActionResolver getResolver() {
-		return resolver;
+	public GameEventListener getResolver() {
+		return gameEventListener;
 	}
 }

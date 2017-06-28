@@ -6,9 +6,12 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 
 import net.asg.game.RodKastApplication;
+import net.asg.game.stages.HomeStage;
 import net.asg.game.utils.Constants;
+import net.asg.game.utils.GameEventListener;
+import net.asg.game.utils.Util;
 
-public class DesktopLauncher {
+public class DesktopLauncher{
 	public static void main (String[] args) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
@@ -31,6 +34,6 @@ public class DesktopLauncher {
 		cfg.width = Constants.APP_WIDTH;
 		cfg.height = Constants.APP_HEIGHT;
 
-		new LwjglApplication(new RodKastApplication(new DesktopResolver()), config);
+		new LwjglApplication(new RodKastApplication(new DesktopEventListener()), config);
 	}
 }

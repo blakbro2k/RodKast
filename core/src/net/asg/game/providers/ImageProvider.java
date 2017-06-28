@@ -57,7 +57,7 @@ public class ImageProvider {
 
     public TextureAtlas getAtlas(){
         if(assetsManager.getManager().isLoaded(Constants.DEFAULT_ATLAS_PATH)) {
-            atlas =  assetsManager.getManager().get(Constants.DEFAULT_ATLAS_PATH);
+            atlas = assetsManager.getManager().get(Constants.DEFAULT_ATLAS_PATH);
         }
         return atlas;
     }
