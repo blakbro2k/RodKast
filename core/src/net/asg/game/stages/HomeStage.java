@@ -22,6 +22,8 @@ import net.asg.game.utils.Constants;
 public class HomeStage extends Stage {
     private static final int VIEWPORT_WIDTH = Constants.APP_WIDTH;
     private static final int VIEWPORT_HEIGHT = Constants.APP_HEIGHT;
+    private static final int HOMESTAGE_TOP_MENU_HEIGHT = 100;
+    private static final int HOMESTAGE_BOTTOM_MENU_HEIGHT = 100;
 
     private ImageProvider imageProvider;
     private SoundProvider soundProvider;
@@ -73,20 +75,44 @@ public class HomeStage extends Stage {
 
         table.setPosition(0,0);
         Label.LabelStyle defaultStyle = imageProvider.getDefaultLableStyle();
-        Label headingLabel = new Label("TOP SECTION",defaultStyle);
-        Label bodyLabel = new Label("BODY SECTION",defaultStyle);
-        Label socialLabel = new Label("SOCIAL SECTION",defaultStyle);
-        Label adLabel = new Label("AD SECTION",defaultStyle);
 
-        table.add(headingLabel).width(VIEWPORT_WIDTH).height(100);
-        table.row();
-        table.add(bodyLabel).width(VIEWPORT_WIDTH).height((VIEWPORT_HEIGHT - 200) * .7f);
-        table.row();
-        table.add(socialLabel).width(VIEWPORT_WIDTH).height((VIEWPORT_HEIGHT - 200) * .3f);
-        table.row();
-        table.add(adLabel).width(VIEWPORT_WIDTH).height(100);
+        setUpTopRowButtons(table, defaultStyle);
+        setUpTopBodySection(table, defaultStyle);
+        setUpTopSocialSection(table, defaultStyle);
+        setUpTopAdSection(table, defaultStyle);
 
         addActor(table);
+    }
+
+    private void setUpTopAdSection(Table table, Label.LabelStyle defaultStyle) {
+        Label adLabel = new Label("AD SECTION",defaultStyle);
+
+        table.add(adLabel).width(VIEWPORT_WIDTH).height(HOMESTAGE_BOTTOM_MENU_HEIGHT);
+    }
+
+    private void setUpTopSocialSection(Table table, Label.LabelStyle defaultStyle) {
+        Label socialLabel = new Label("SOCIAL SECTION",defaultStyle);
+
+        table.add(socialLabel).width(VIEWPORT_WIDTH).height((VIEWPORT_HEIGHT - getMenuOffSet()) * .3f);
+        table.row();
+    }
+
+    private void setUpTopBodySection(Table table, Label.LabelStyle defaultStyle) {
+        Label bodyLabel = new Label("BODY SECTION",defaultStyle);
+
+        table.add(bodyLabel).width(VIEWPORT_WIDTH).height((VIEWPORT_HEIGHT - getMenuOffSet()) * .7f);
+        table.row();
+    }
+
+    private int getMenuOffSet(){
+        return HOMESTAGE_TOP_MENU_HEIGHT + HOMESTAGE_BOTTOM_MENU_HEIGHT;
+    }
+
+    private void setUpTopRowButtons(Table table, Label.LabelStyle defaultStyle) {
+        Label headingLabel = new Label("TOP SECTION",defaultStyle);
+
+        table.add(headingLabel).width(VIEWPORT_WIDTH).height(HOMESTAGE_TOP_MENU_HEIGHT);
+        table.row();
     }
 
     public ExitDialog getExitDialog(){

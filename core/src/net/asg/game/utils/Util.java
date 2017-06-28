@@ -17,13 +17,15 @@ public class Util {
         if(stage != null){
             ExitDialog exitDialog = stage.getExitDialog();
 
-            if(exitDialog.isVisible()){
-                if(exitDialog.getCount() > 0){
-                    Gdx.app.exit();
+            if(exitDialog != null){
+                if(exitDialog.isVisible()){
+                    if(exitDialog.getCount() > 0){
+                        Gdx.app.exit();
+                    }
                 }
+                exitDialog.show(stage);
+                exitDialog.increment();
             }
-            exitDialog.show(stage);
-            exitDialog.increment();
         }
     }
 }
