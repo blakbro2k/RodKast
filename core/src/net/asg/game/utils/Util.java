@@ -1,6 +1,7 @@
 package net.asg.game.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Disposable;
 
 import net.asg.game.menu.ExitDialog;
 import net.asg.game.stages.HomeStage;
@@ -13,6 +14,10 @@ public class Util {
     //prevent instantiation
     private Util(){}
 
+    /**
+     * Takes exit Dialog from a HomeStage and executes app exit only on second confirm from user
+     * @param stage
+     */
     public static void backButtonUtil(HomeStage stage) {
         if(stage != null){
             ExitDialog exitDialog = stage.getExitDialog();
@@ -25,6 +30,20 @@ public class Util {
                 }
                 exitDialog.show(stage);
                 exitDialog.increment();
+            }
+        }
+    }
+
+    /**
+     * Disposes of all objects that implements {@code Disposable}
+     * @param objs
+     */
+    public static void disposeObjects(Disposable... objs){
+        if(objs != null){
+            for(Disposable obj : objs){
+                if(obj != null){
+                    obj.dispose();
+                }
             }
         }
     }

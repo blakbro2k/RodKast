@@ -3,9 +3,14 @@ package net.asg.game.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 
@@ -31,6 +36,8 @@ public class HomeStage extends Stage {
     private RodKastApplication app;
 
     private ExitDialog exitDialog;
+    private Skin homeScreenSkin;
+    private LabelStyle homeScreenLabelStyle;
 
     //TODO: callButton
     //TODO: shopButton
@@ -48,6 +55,9 @@ public class HomeStage extends Stage {
         this.soundProvider = app.getSoundProvider();
 
         imageProvider.pauseUntilLoadedImages();
+        homeScreenSkin = imageProvider.getShadeUISkin();
+        homeScreenLabelStyle = imageProvider.getDefaultLableStyle();
+
         setUpCamera();
         setUpStageTable();
         setUpMenuItems();
@@ -57,7 +67,7 @@ public class HomeStage extends Stage {
     }
 
     private void setUpMenuItems() {
-        exitDialog = new ExitDialog("Do you really want to exit?",imageProvider.getDefaultUISkin());
+        exitDialog = new ExitDialog("Do you really want to exit?", homeScreenSkin);
     }
 
     private void setUpCamera() {
@@ -67,36 +77,34 @@ public class HomeStage extends Stage {
     }
 
     private void setUpStageTable(){
-        Table table = new Table();
-        table.debug();
-        table.setBounds(0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-        table.setWidth(VIEWPORT_WIDTH);
-        table.setPosition(0,0);
+        Table mainScreenTable = new Table();
+        mainScreenTable.debug();
+        mainScreenTable.setBounds(0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+        mainScreenTable.setWidth(VIEWPORT_WIDTH);
+        mainScreenTable.setPosition(0,0);
 
-        Label.LabelStyle defaultStyle = imageProvider.getDefaultLableStyle();
+        setUpTopRowButtons(mainScreenTable, homeScreenLabelStyle);
+        setUpTopBodySection(mainScreenTable, homeScreenLabelStyle);
+        setUpTopSocialSection(mainScreenTable, homeScreenLabelStyle);
+        setUpTopAdSection(mainScreenTable, homeScreenLabelStyle);
 
-        setUpTopRowButtons(table, defaultStyle);
-        setUpTopBodySection(table, defaultStyle);
-        setUpTopSocialSection(table, defaultStyle);
-        setUpTopAdSection(table, defaultStyle);
-
-        addActor(table);
+        addActor(mainScreenTable);
     }
 
-    private void setUpTopAdSection(Table table, Label.LabelStyle defaultStyle) {
+    private void setUpTopAdSection(Table table, LabelStyle defaultStyle) {
         Label adLabel = new Label("AD SECTION",defaultStyle);
 
-        table.add(adLabel).width(VIEWPORT_WIDTH).height(HOMESTAGE_BOTTOM_MENU_HEIGHT);
+        table.add(adLabel).height(HOMESTAGE_BOTTOM_MENU_HEIGHT);
     }
 
-    private void setUpTopSocialSection(Table table, Label.LabelStyle defaultStyle) {
+    private void setUpTopSocialSection(Table table, LabelStyle defaultStyle) {
         Label socialLabel = new Label("SOCIAL SECTION",defaultStyle);
 
         table.add(socialLabel).width(VIEWPORT_WIDTH).height((VIEWPORT_HEIGHT - getMenuOffSet()) * .3f);
         table.row();
     }
 
-    private void setUpTopBodySection(Table table, Label.LabelStyle defaultStyle) {
+    private void setUpTopBodySection(Table table, LabelStyle defaultStyle) {
         Label bodyLabel = new Label("BODY SECTION",defaultStyle);
 
         table.add(bodyLabel).width(VIEWPORT_WIDTH).height((VIEWPORT_HEIGHT - getMenuOffSet()) * .7f);
@@ -107,10 +115,23 @@ public class HomeStage extends Stage {
         return HOMESTAGE_TOP_MENU_HEIGHT + HOMESTAGE_BOTTOM_MENU_HEIGHT;
     }
 
-    private void setUpTopRowButtons(Table table, Label.LabelStyle defaultStyle) {
+    private void setUpTopRowButtons(Table table, LabelStyle defaultStyle) {
         Label headingLabel = new Label("TOP SECTION",defaultStyle);
 
-        table.add(headingLabel).width(VIEWPORT_WIDTH).height(HOMESTAGE_TOP_MENU_HEIGHT);
+        //final ImageButton settingsGameButton = new ImageButton(imageProvider.getConfigShadeButtonStyle());
+        final TextButton settingsGameButton = new TextButton("config", homeScreenSkin);
+
+        settingsGameButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //event.stop();
+                //game.gotoSettingsScreen();
+                System.out.println("Settings Button Pressed");
+            }
+        });
+        table.add(settingsGameButton).fillX().uniformX();
+
+        //table.add(headingLabel).width(VIEWPORT_WIDTH).height(HOMESTAGE_TOP_MENU_HEIGHT);
         table.row();
     }
 
@@ -120,7 +141,7 @@ public class HomeStage extends Stage {
 
     public boolean keyDown(int keyCode){
         if (keyCode == Input.Keys.BACK || keyCode == Input.Keys.BACKSPACE) {
-            app.getResolver().backButton(this);
+            app.getGameEvenListener().backButton(this);
         }
         return true;
     }

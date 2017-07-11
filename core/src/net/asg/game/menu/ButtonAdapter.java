@@ -12,8 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public abstract class ButtonAdapter extends Button {
 
-    protected Rectangle bounds;
-    private Skin skin;
+    protected final Rectangle bounds;
+    private final Skin skin;
 
 
     public ButtonAdapter(Rectangle bounds, Skin skin) {

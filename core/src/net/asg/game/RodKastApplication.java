@@ -11,9 +11,9 @@ import net.asg.game.screens.HomeScreen;
 import net.asg.game.screens.PlayListScreen;
 import net.asg.game.screens.PodPlayerScreen;
 import net.asg.game.utils.GameEventListener;
+import net.asg.game.utils.Util;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class RodKastApplication extends Game {
@@ -51,29 +51,13 @@ public class RodKastApplication extends Game {
 	@Override
 	public void dispose() {
 		super.dispose();
-		assetsManager.dispose();
-		imageProvider.dispose();
 
-		//disposed all screen that were used this session
-		disposeScreens(screens);
+		//disposed all objects that are Disposable
+		Util.disposeObjects(homeScreen, playListScreen, podPlayerScreen, assetsManager, imageProvider, soundProvider);
 
 		fpsLog = null;
 		gameEventListener = null;
 		screens = null;
-	}
-
-	private void disposeScreens(List<Screen> screens) {
-		if(screens != null){
-			Iterator<Screen> iter = screens.iterator();
-			if(iter != null){
-				while(iter.hasNext()){
-					Screen screen = iter.next();
-					if(screen != null){
-						screen.dispose();
-					}
-				}
-			}
-		}
 	}
 
 	public void render() {
@@ -83,24 +67,24 @@ public class RodKastApplication extends Game {
 
     public void gotoHomeScreen() {
 		if(homeScreen == null){
-			screens.add(homeScreen);
 			homeScreen = new HomeScreen(this);
+			screens.add(homeScreen);
 		}
         setScreen(homeScreen);
     }
 
     public void gotoPlayListScreen() {
 		if(playListScreen == null){
-			screens.add(playListScreen);
 			playListScreen = new PlayListScreen(this);
+			screens.add(playListScreen);
 		}
         setScreen(playListScreen);
     }
 
     public void gotoPodPlayerScreen() {
 		if(podPlayerScreen == null){
-			screens.add(podPlayerScreen);
 			podPlayerScreen = new PodPlayerScreen(this);
+			screens.add(podPlayerScreen);
 		}
         setScreen(podPlayerScreen);
 	}
@@ -117,7 +101,7 @@ public class RodKastApplication extends Game {
 		return soundProvider;
 	}
 
-	public GameEventListener getResolver() {
+	public GameEventListener getGameEvenListener() {
 		return gameEventListener;
 	}
 }

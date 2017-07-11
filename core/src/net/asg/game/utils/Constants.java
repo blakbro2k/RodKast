@@ -13,8 +13,12 @@ public class Constants {
     public static final String BAD_LOGIC_IMAGE_PATH = "data/badlogic.jpg";
     public static final String DEFAULT_FONT_PATH = "data/default.fnt";
     public static final String DEFAULT_FONT_IMAGE_PATH = "data/default.png";
-    public static final String DEFAULT_UISKIN_PATH = "data/uiskin.json";
+    public static final String DEFAULT_UISKIN_ATLAS = "data/uiskin.atlas";
+    public static final String DEFAULT_UISKIN_JSON = "data/uiskin.json";
     public static final String DEFAULT_ATLAS_PATH = "data/imageAssets.atlas";
+    public static final String SHADE_UISKIN_ATLAS = "data/shade/uiskin.atlas";
+    public static final String SHADE_UISKIN_JSON = "data/shade/uiskin.json";
+    public static final String SHADE_ATLAS_PATH = "data/shade/imageAssets.atlas";
 
     public static final String GAME_TITLE = "RodKast App";
     public static final String SOURCE_ASSETS_FOLDER_PATH = "desktop/";
