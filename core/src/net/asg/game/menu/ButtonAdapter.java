@@ -11,6 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
  */
 
 public abstract class ButtonAdapter extends Button {
+    public static final String SHOP_REGION_NAME = "shop";
+    public static final String SETTINGS_REGION_NAME = "settings";
+    public static final String CALL_REGION_NAME = "call";
+    public static final String RODKAST_REGION_NAME = "rodkast_icon";
 
     protected final Rectangle bounds;
     private final Skin skin;
@@ -23,8 +27,8 @@ public abstract class ButtonAdapter extends Button {
         setWidth(bounds.width);
         setHeight(bounds.height);
         setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
-        //skin = new Skin();
         //skin.addRegions(AssetsManager.getTextureAtlas());
+
         loadTextureRegion();
         addListener(new ClickListener() {
             @Override

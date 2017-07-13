@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Disposable;
 
 import net.asg.game.utils.Constants;
@@ -18,6 +19,20 @@ import net.asg.game.utils.Util;
  */
 
 public class ImageProvider implements Disposable{
+    public final String SHOP_UP_ATLAS = "shop";
+    public final String SHOP_DOWN_ATLAS = "shop";
+    public final String SHOP_OVER_ATLAS = "shop";
+    public final String SETTINGS_UP_ATLAS = "settings";
+    public final String SETTINGS_DOWN_ATLAS = "settings";
+    public final String SETTINGS_OVER_ATLAS = "settings";
+    public final String CALL_UP_ATLAS = "call";
+    public final String CALL_DOWN_ATLAS = "call";
+    public final String CALL_OVER_ATLAS = "call";
+    public final String RODKAST_UP_ATLAS = "rodkast_icon";
+    public final String RODKAST_DOWN_ATLAS = "rodkast_icon";
+    public final String RODKAST_OVER_ATLAS = "rodkast_icon";
+
+
     private AssetsManager assetsManager;
     private Skin defaultSkin;
     private Skin shadeSkin;
@@ -99,25 +114,66 @@ public class ImageProvider implements Disposable{
         Util.disposeObjects(assetsManager,defaultSkin,atlas,shadeSkin);
     }
 
-    public ImageButtonStyle getConfigButtonStyle() {
+    public ImageButtonStyle getSettingsButtonStyle() {
         ImageButtonStyle tempButtonStyle = new ImageButtonStyle();  //Instantiate
-        Skin tempSkin = getDefaultUISkin();
+        //Skin tempSkin = getDefaultUISkin();
+        TextureAtlas temp = getAtlas();
 
-        tempButtonStyle.up = tempSkin.getDrawable("default-round");  //Set image for not pressed button
-        tempButtonStyle.down = tempSkin.getDrawable("default-round-down");  //Set image for pressed
-        tempButtonStyle.over = tempSkin.getDrawable("default-select");  //set image for mouse over
+        Skin tempSkin = new Skin(temp);
+
+        //temp.findRegion()
+
+        tempButtonStyle.up = tempSkin.getDrawable(SETTINGS_UP_ATLAS);  //Set image for not pressed button
+        tempButtonStyle.down = tempSkin.getDrawable(SETTINGS_DOWN_ATLAS);  //Set image for pressed
+        tempButtonStyle.over = tempSkin.getDrawable(SETTINGS_OVER_ATLAS);  //set image for mouse over
         tempButtonStyle.pressedOffsetX = 1;
         tempButtonStyle.pressedOffsetY = -1;
         return tempButtonStyle;
     }
 
-    public ImageButtonStyle getConfigShadeButtonStyle() {
+    public ImageButtonStyle getCallButtonStyle() {
         ImageButtonStyle tempButtonStyle = new ImageButtonStyle();  //Instantiate
-        Skin tempSkin = getShadeUISkin();
+        TextureAtlas temp = getAtlas();
 
-        tempButtonStyle.up = tempSkin.getDrawable("button");  //Set image for not pressed button
-        tempButtonStyle.down = tempSkin.getDrawable("button-down");  //Set image for pressed
-        tempButtonStyle.over = tempSkin.getDrawable("button");  //set image for mouse over
+        Skin tempSkin = new Skin(temp);
+
+        tempButtonStyle.up = tempSkin.getDrawable(CALL_UP_ATLAS);  //Set image for not pressed button
+        tempButtonStyle.down = tempSkin.getDrawable(CALL_DOWN_ATLAS);  //Set image for pressed
+        tempButtonStyle.over = tempSkin.getDrawable(CALL_OVER_ATLAS);  //set image for mouse over
+        tempButtonStyle.pressedOffsetX = 1;
+        tempButtonStyle.pressedOffsetY = -1;
+        return tempButtonStyle;
+    }
+
+    public ImageButtonStyle getShopButtonStyle() {
+        ImageButtonStyle tempButtonStyle = new ImageButtonStyle();  //Instantiate
+        //Skin tempSkin = getDefaultUISkin();
+
+        TextureAtlas temp = getAtlas();
+        Skin tempSkin = new Skin(temp);
+
+        //temp.findRegion()
+
+        tempButtonStyle.up = tempSkin.getDrawable(SHOP_UP_ATLAS);  //Set image for not pressed button
+        tempButtonStyle.down = tempSkin.getDrawable(SHOP_DOWN_ATLAS);  //Set image for pressed
+        tempButtonStyle.over = tempSkin.getDrawable(SHOP_OVER_ATLAS);  //set image for mouse over
+        tempButtonStyle.pressedOffsetX = 1;
+        tempButtonStyle.pressedOffsetY = -1;
+        return tempButtonStyle;
+    }
+
+    public ImageButtonStyle getRodKastButtonStyle() {
+        ImageButtonStyle tempButtonStyle = new ImageButtonStyle();  //Instantiate
+        //Skin tempSkin = getDefaultUISkin();
+
+        TextureAtlas temp = getAtlas();
+        Skin tempSkin = new Skin(temp);
+
+        //temp.findRegion()
+
+        tempButtonStyle.up = tempSkin.getDrawable(RODKAST_UP_ATLAS);  //Set image for not pressed button
+        tempButtonStyle.down = tempSkin.getDrawable(RODKAST_DOWN_ATLAS);  //Set image for pressed
+        tempButtonStyle.over = tempSkin.getDrawable(RODKAST_OVER_ATLAS);  //set image for mouse over
         tempButtonStyle.pressedOffsetX = 1;
         tempButtonStyle.pressedOffsetY = -1;
         return tempButtonStyle;
