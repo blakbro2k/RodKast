@@ -11,8 +11,16 @@ import net.asg.game.utils.Constants;
 import net.asg.game.utils.GameEventListener;
 import net.asg.game.utils.Util;
 
+import org.xmlpull.v1.XmlPullParser;
+
 public class DesktopLauncher{
 	public static void main (String[] args) {
+		try{
+			//XmlP
+		} catch (Exception e){
+
+		}
+
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
 		if (args.length == 1 && args[0].equals("texturepacker")) {
