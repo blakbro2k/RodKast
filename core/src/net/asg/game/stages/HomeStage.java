@@ -71,7 +71,7 @@ public class HomeStage extends Stage {
         tempSkin = new Skin(imageProvider.getAtlas());
 
         try {
-            handler.parseFeed();
+            handler.getTotalRssFeed();
         } catch (IOException e) {
             e.printStackTrace();
         }

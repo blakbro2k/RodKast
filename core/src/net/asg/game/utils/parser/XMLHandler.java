@@ -39,7 +39,7 @@ public class XMLHandler implements Disposable{
         }
     }
 
-    public void parseFeed() throws IOException {
+    public void getTotalRssFeed() throws IOException {
         InputStream inputStream = getXMLstream();
         if(inputStream != null){
             try {

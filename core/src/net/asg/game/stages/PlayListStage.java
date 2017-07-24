@@ -32,7 +32,7 @@ public class PlayListStage extends Stage{
     private SoundProvider soundProvider;
     private OrthographicCamera camera;
     private RodKastApplication app;
-    private XMLHandler handler;
+    private XMLHandler xmlHandler;
 
 
     private ExitDialog exitDialog;
@@ -48,7 +48,7 @@ public class PlayListStage extends Stage{
 
         this.imageProvider = app.getImageProvider();
         this.soundProvider = app.getSoundProvider();
-        this.handler = app.getXMLHandler();
+        this.xmlHandler = app.getXMLHandler();
 
 
         imageProvider.pauseUntilLoaded();
@@ -57,7 +57,7 @@ public class PlayListStage extends Stage{
         playListSkin = new Skin(imageProvider.getAtlas());
 
         try {
-            handler.parseFeed();
+            xmlHandler.getTotalRssFeed();
         } catch (IOException e) {
             e.printStackTrace();
         }
