@@ -44,10 +44,6 @@ public class ImageProvider implements Disposable{
         setUpImageLoaders();
     }
 
-    private void update(){
-        assetsManager.getManager().update();
-    }
-
     public void setUpImageLoaders(){
         SkinParameter skinParams = new SkinParameter(Constants.DEFAULT_UISKIN_ATLAS);
         SkinParameter shadeSkinParams = new SkinParameter(Constants.SHADE_UISKIN_ATLAS);
@@ -57,13 +53,18 @@ public class ImageProvider implements Disposable{
         assetsManager.getManager().load(Constants.DEFAULT_FONT_PATH, BitmapFont.class);
         assetsManager.getManager().load(Constants.DEFAULT_ATLAS_PATH, TextureAtlas.class);
         assetsManager.getManager().load(Constants.DEFAULT_UISKIN_JSON, Skin.class, skinParams);
-        assetsManager.getManager().load(Constants.SHADE_UISKIN_JSON, Skin.class, shadeSkinParams);
 
+        //assetsManage
+        assetsManager.getManager().load(Constants.SHADE_UISKIN_JSON, Skin.class, shadeSkinParams);
         //getDefaultFont = new BitmapFont(Gdx.files.internal("data/default.fnt"), Gdx.files.internal("data/default.png"), false);
     }
 
-    public void pauseUntilLoadedImages(){
+    public void pauseUntilLoaded(){
         assetsManager.getManager().finishLoading();
+    }
+
+    private void update(){
+        assetsManager.getManager().update();
     }
 
     public BitmapFont getDefaultFont() {

@@ -6,12 +6,9 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 
 import net.asg.game.RodKastApplication;
-import net.asg.game.stages.HomeStage;
 import net.asg.game.utils.Constants;
-import net.asg.game.utils.GameEventListener;
-import net.asg.game.utils.Util;
 
-import org.xmlpull.v1.XmlPullParser;
+
 
 public class DesktopLauncher{
 	public static void main (String[] args) {

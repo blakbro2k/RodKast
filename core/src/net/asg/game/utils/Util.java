@@ -1,6 +1,7 @@
 package net.asg.game.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Disposable;
 
 import net.asg.game.menu.ExitDialog;
@@ -46,5 +47,16 @@ public class Util {
                 }
             }
         }
+    }
+
+
+
+    public static void setUpCamera(OrthographicCamera camera) {
+        if(camera == null){
+            camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
+        }
+
+        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0f);
+        camera.update();
     }
 }

@@ -12,6 +12,7 @@ import net.asg.game.screens.PlayListScreen;
 import net.asg.game.screens.PodPlayerScreen;
 import net.asg.game.utils.GameEventListener;
 import net.asg.game.utils.Util;
+import net.asg.game.utils.parser.XMLHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +21,14 @@ public class RodKastApplication extends Game {
 	private AssetsManager assetsManager;
 	private ImageProvider imageProvider;
 	private SoundProvider soundProvider;
+
+	private XMLHandler xmlHandler;
+
 	private FPSLogger fpsLog;
 
 	private HomeScreen homeScreen;
 	private PlayListScreen playListScreen;
 	private PodPlayerScreen podPlayerScreen;
-
-	private List<Screen> screens;
 
 	private GameEventListener gameEventListener;
 
@@ -39,11 +41,10 @@ public class RodKastApplication extends Game {
 		assetsManager = new AssetsManager();
 		imageProvider = new ImageProvider(assetsManager);
 		soundProvider = new SoundProvider(assetsManager);
+		xmlHandler = new XMLHandler();
 
 		fpsLog = new FPSLogger();
 		fpsLog.log();
-
-		screens = new ArrayList<Screen>();
 
 		gotoHomeScreen();
 	}
@@ -53,11 +54,16 @@ public class RodKastApplication extends Game {
 		super.dispose();
 
 		//disposed all objects that are Disposable
-		Util.disposeObjects(homeScreen, playListScreen, podPlayerScreen, assetsManager, imageProvider, soundProvider);
+		Util.disposeObjects(homeScreen,
+				playListScreen,
+				podPlayerScreen,
+				assetsManager,
+				imageProvider,
+				soundProvider,
+				xmlHandler);
 
 		fpsLog = null;
 		gameEventListener = null;
-		screens = null;
 	}
 
 	public void render() {
@@ -68,7 +74,6 @@ public class RodKastApplication extends Game {
     public void gotoHomeScreen() {
 		if(homeScreen == null){
 			homeScreen = new HomeScreen(this);
-			screens.add(homeScreen);
 		}
         setScreen(homeScreen);
     }
@@ -76,7 +81,6 @@ public class RodKastApplication extends Game {
     public void gotoPlayListScreen() {
 		if(playListScreen == null){
 			playListScreen = new PlayListScreen(this);
-			screens.add(playListScreen);
 		}
         setScreen(playListScreen);
     }
@@ -84,7 +88,6 @@ public class RodKastApplication extends Game {
     public void gotoPodPlayerScreen() {
 		if(podPlayerScreen == null){
 			podPlayerScreen = new PodPlayerScreen(this);
-			screens.add(podPlayerScreen);
 		}
         setScreen(podPlayerScreen);
 	}
@@ -104,4 +107,6 @@ public class RodKastApplication extends Game {
 	public GameEventListener getGameEvenListener() {
 		return gameEventListener;
 	}
+
+	public XMLHandler getXMLHandler() {return xmlHandler;}
 }

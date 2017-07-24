@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
@@ -22,6 +21,10 @@ import net.asg.game.menu.SettingsButton;
 import net.asg.game.providers.ImageProvider;
 import net.asg.game.providers.SoundProvider;
 import net.asg.game.utils.Constants;
+import net.asg.game.utils.Util;
+import net.asg.game.utils.parser.XMLHandler;
+
+import java.io.IOException;
 
 /**
  * Created by Blakbro2k on 6/21/2017.
@@ -37,6 +40,8 @@ public class HomeStage extends Stage {
     private SoundProvider soundProvider;
     private OrthographicCamera camera;
     private RodKastApplication app;
+    private XMLHandler handler;
+
 
     private ExitDialog exitDialog;
     private Skin homeScreenSkin;
@@ -58,13 +63,20 @@ public class HomeStage extends Stage {
 
         this.imageProvider = app.getImageProvider();
         this.soundProvider = app.getSoundProvider();
+        this.handler = app.getXMLHandler();
 
-        imageProvider.pauseUntilLoadedImages();
+        imageProvider.pauseUntilLoaded();
         homeScreenSkin = imageProvider.getShadeUISkin();
         homeScreenLabelStyle = imageProvider.getDefaultLableStyle();
         tempSkin = new Skin(imageProvider.getAtlas());
 
-        setUpCamera();
+        try {
+            handler.parseFeed();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Util.setUpCamera(camera);
         //setUpStageTable();
         setUpSettings();
         setUpMenuItems();
@@ -151,6 +163,7 @@ public class HomeStage extends Stage {
             public void clicked(InputEvent event, float x, float y) {
                 //event.stop();
                 //game.gotoSettingsScreen();
+                //handler.getEpisode(0);
                 System.out.println("Settings Button Pressed");
             }
         });

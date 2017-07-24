@@ -1,22 +1,30 @@
 package net.asg.game.utils.parser;
 
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.XmlReader;
+import com.badlogic.gdx.utils.XmlReader.Element;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by eboateng on 7/19/2017.
  */
 
-public class XMLHandler {
-    private URL urlLink;
-    private InputStream inputStream;
+public class XMLHandler implements Disposable{
+    protected URL urlLink;
+    protected Element xmlElements;
+    protected boolean isFeedFetched;
 
     public XMLHandler(){
         try {
-            this.urlLink = new URL(RodkastFeedModel.RODKAST_URL_STRING);
+            this.urlLink = new URL(RodkastItemModel.RODKAST_URL_STRING);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -24,85 +32,61 @@ public class XMLHandler {
 
     private InputStream getXMLstream(){
         try {
-            return inputStream = urlLink.openConnection().getInputStream();
+            return urlLink.openConnection().getInputStream();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    /*
-    public List<RssFeedModel> parseFeed() throws XmlPullParserException, IOException {
-        return parseFeed(getXMLstream());
-    }*/
-/*
-    public List<RssFeedModel> parseFeed(InputStream inputStream) throws XmlPullParserException, IOException {
+    public void parseFeed() throws IOException {
+        InputStream inputStream = getXMLstream();
         if(inputStream != null){
             try {
-                XmlPullParser xmlPullParser = Xml.newPullParser();
-                xmlPullParser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-                xmlPullParser.setInput(inputStream, null);
-
-                xmlPullParser.nextTag();
-                while (xmlPullParser.next() != XmlPullParser.END_DOCUMENT) {
-                    int eventType = xmlPullParser.getEventType();
-
-                    String name = xmlPullParser.getName();
-                    if(name == null)
-                        continue;
-
-                    if(eventType == XmlPullParser.END_TAG) {
-                        if(name.equalsIgnoreCase("item")) {
-                            isItem = false;
-                        }
-                        continue;
-                    }
-
-                    if (eventType == XmlPullParser.START_TAG) {
-                        if(name.equalsIgnoreCase("item")) {
-                            isItem = true;
-                            continue;
-                        }
-                    }
-
-                    Log.d("MainActivity", "Parsing name ==> " + name);
-                    String result = "";
-                    if (xmlPullParser.next() == XmlPullParser.TEXT) {
-                        result = xmlPullParser.getText();
-                        xmlPullParser.nextTag();
-                    }
-
-                    if (name.equalsIgnoreCase(RodkastFeedModel.RSS_TITLE)) {
-                        title = result;
-                    } else if (name.equalsIgnoreCase(RodkastFeedModel.RSS_LINK)) {
-                        link = result;
-                    } else if (name.equalsIgnoreCase(RodkastFeedModel.RSS_DESCRIPTION)) {
-                        description = result;
-                    }
-
-                    if (title != null && link != null && description != null) {
-                        if(isItem) {
-                            RssFeedModel item = new RssFeedModel(title, link, description);
-                            items.add(item);
-                        }
-                        else {
-                            mFeedTitle = title;
-                            mFeedLink = link;
-                            mFeedDescription = description;
-                        }
-
-                        title = null;
-                        link = null;
-                        description = null;
-                        isItem = false;
-                    }
-                }
-
-                return items;
+                XmlReader reader = new XmlReader();
+                xmlElements = reader.parse(inputStream);
+                isFeedFetched = true;
+            } catch (IOException e) {
+                e.printStackTrace();
             } finally {
                 inputStream.close();
             }
         }
+    }
+
+    public RodkastChannel buildChannel(){
         return null;
-    }*/
+    }
+
+    public List<RodkastEpisode> getEpisodes() throws MalformedURLException {
+        Element elem;
+
+        if(isFeedFetched){
+            elem = xmlElements.getChildByName(RodkastItemModel.RSS_CHANNEL);
+            if(elem != null){
+                Array<Element> items = elem.getChildrenByName(RodkastItemModel.RSS_ITEM);
+                return buildRodkestEpisodes(items);
+            }
+        }
+        return null;
+    }
+
+    private List<RodkastEpisode> buildRodkestEpisodes(Array<Element> items) throws MalformedURLException {
+        List<RodkastEpisode> episodes = null;
+
+        if(items != null){
+            episodes = new ArrayList<>();
+            for(Element item : items){
+                if(item != null){
+                    episodes.add(new RodkastEpisode(item));
+                }
+            }
+        }
+        return episodes;
+    }
+
+    @Override
+    public void dispose() {
+        xmlElements.remove();
+    }
 }

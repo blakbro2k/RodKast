@@ -1,0 +1,66 @@
+{
+  "project_info": {
+    "project_number": "707458432259",
+    "firebase_url": "https://rodkast-f922b.firebaseio.com",
+    "project_id": "rodkast-f922b",
+    "storage_bucket": "rodkast-f922b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:707458432259:android:5059ae85c3bd6d2e",
+        "android_client_info": {
+          "package_name": "net.asg.game"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "707458432259-3iq7rjmm8ua9bkcskm633sikget9nkm3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.asg.game",
+            "certificate_hash": "7c8d7925d2a19f4019cb1db0f51e7ffa8b11fa6d"
+          }
+        },
+        {
+          "client_id": "707458432259-hopi4vib74tk0o6lmg9pvn8i6lbcrbbf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.asg.game",
+            "certificate_hash": "ea1c5a35c1bce9367fb819a28961a072d3db1210"
+          }
+        },
+        {
+          "client_id": "707458432259-34ors17obu2siv81bqsa2s0rital3mc9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQU6j72T6BPh4dBhFVx7KWw8MorcG63Lw"
+        },
+        {
+          "current_key": "AIzaSyAAjHp4cyT3gULV83zKBKol0cO9ww_v8p8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "707458432259-34ors17obu2siv81bqsa2s0rital3mc9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
