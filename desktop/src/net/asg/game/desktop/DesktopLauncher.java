@@ -12,11 +12,6 @@ import net.asg.game.utils.Constants;
 
 public class DesktopLauncher{
 	public static void main (String[] args) {
-		try{
-			//XmlP
-		} catch (Exception e){
-
-		}
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 

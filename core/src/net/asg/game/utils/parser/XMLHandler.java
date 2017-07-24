@@ -87,6 +87,8 @@ public class XMLHandler implements Disposable{
 
     @Override
     public void dispose() {
-        xmlElements.remove();
+        //xmlElements.remove();
+        urlLink = null;
+        xmlElements = null;
     }
 }

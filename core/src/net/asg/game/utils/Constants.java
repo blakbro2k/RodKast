@@ -25,7 +25,7 @@ public class Constants {
     public static final String SHADE_UISKIN_JSON = "data/shade/uiskin.json";
     public static final String SHADE_ATLAS_PATH = "data/shade/imageAssets.atlas";
 
-    public static final String GAME_TITLE = "RodKast App";
+    public static final String GAME_TITLE = "RodKast";
     public static final String SOURCE_ASSETS_FOLDER_PATH = "desktop/";
     public static final String TARGET_ASSETS_FOLDER_PATH = "android/assets/data";
     public static final String IMAGES_FOLDER_NAME = "images";

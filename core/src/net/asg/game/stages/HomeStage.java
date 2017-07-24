@@ -31,17 +31,11 @@ import java.io.IOException;
  */
 
 public class HomeStage extends Stage {
-    private static final int VIEWPORT_WIDTH = Constants.APP_WIDTH;
-    private static final int VIEWPORT_HEIGHT = Constants.APP_HEIGHT;
-    private static final int HOMESTAGE_TOP_MENU_HEIGHT = 100;
-    private static final int HOMESTAGE_BOTTOM_MENU_HEIGHT = 100;
-
     private ImageProvider imageProvider;
     private SoundProvider soundProvider;
     private OrthographicCamera camera;
     private RodKastApplication app;
-    private XMLHandler handler;
-
+    private XMLHandler xmlHandler;
 
     private ExitDialog exitDialog;
     private Skin homeScreenSkin;
@@ -57,13 +51,12 @@ public class HomeStage extends Stage {
     //TODO: SettingButton
 
     public HomeStage(RodKastApplication app){
-        super(new ScalingViewport(Scaling.stretch, VIEWPORT_WIDTH, VIEWPORT_HEIGHT,
-                new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
+        super(new ScalingViewport(Scaling.stretch, Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT,
+                new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT)));
         this.app = app;
-
         this.imageProvider = app.getImageProvider();
         this.soundProvider = app.getSoundProvider();
-        this.handler = app.getXMLHandler();
+        this.xmlHandler = app.getXMLHandler();
 
         imageProvider.pauseUntilLoaded();
         homeScreenSkin = imageProvider.getShadeUISkin();
@@ -71,12 +64,13 @@ public class HomeStage extends Stage {
         tempSkin = new Skin(imageProvider.getAtlas());
 
         try {
-            handler.getTotalRssFeed();
+            xmlHandler.getTotalRssFeed();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         Util.setUpCamera(camera);
+
         //setUpStageTable();
         setUpSettings();
         setUpMenuItems();
@@ -89,17 +83,11 @@ public class HomeStage extends Stage {
         exitDialog = new ExitDialog("Do you really want to exit?", homeScreenSkin);
     }
 
-    private void setUpCamera() {
-        camera = new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0f);
-        camera.update();
-    }
-
     private void setUpStageTable(){
         Table mainScreenTable = new Table();
         mainScreenTable.debug();
-        mainScreenTable.setBounds(0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-        mainScreenTable.setWidth(VIEWPORT_WIDTH);
+        mainScreenTable.setBounds(0, 0, Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
+        mainScreenTable.setWidth(Constants.VIEWPORT_WIDTH);
         mainScreenTable.setPosition(0,0);
 
         setUpTopRowButtons(mainScreenTable, homeScreenLabelStyle);
@@ -113,25 +101,25 @@ public class HomeStage extends Stage {
     private void setUpTopAdSection(Table table, LabelStyle defaultStyle) {
         Label adLabel = new Label("AD SECTION",defaultStyle);
 
-        table.add(adLabel).height(HOMESTAGE_BOTTOM_MENU_HEIGHT);
+        table.add(adLabel).height(Constants.HOMESTAGE_BOTTOM_MENU_HEIGHT);
     }
 
     private void setUpTopSocialSection(Table table, LabelStyle defaultStyle) {
         Label socialLabel = new Label("SOCIAL SECTION",defaultStyle);
 
-        table.add(socialLabel).width(VIEWPORT_WIDTH).height((VIEWPORT_HEIGHT - getMenuOffSet()) * .3f).colspan(4);
+        table.add(socialLabel).width(Constants.VIEWPORT_WIDTH).height((Constants.VIEWPORT_HEIGHT - getMenuOffSet()) * .3f).colspan(4);
         table.row();
     }
 
     private void setUpTopBodySection(Table table, LabelStyle defaultStyle) {
         Label bodyLabel = new Label("BODY SECTION",defaultStyle);
 
-        table.add(bodyLabel).width(VIEWPORT_WIDTH).height((VIEWPORT_HEIGHT - getMenuOffSet()) * .7f).colspan(4);
+        table.add(bodyLabel).width(Constants.VIEWPORT_WIDTH).height((Constants.VIEWPORT_HEIGHT - getMenuOffSet()) * .7f).colspan(4);
         table.row();
     }
 
     private int getMenuOffSet(){
-        return HOMESTAGE_TOP_MENU_HEIGHT + HOMESTAGE_BOTTOM_MENU_HEIGHT;
+        return Constants.HOMESTAGE_TOP_MENU_HEIGHT + Constants.HOMESTAGE_BOTTOM_MENU_HEIGHT;
     }
 
     private void setUpSettings() {
@@ -153,10 +141,10 @@ public class HomeStage extends Stage {
 
         //final ImageButton settingsGameButton = new ImageButton(imageProvider.getConfigShadeButtonStyle());
         //final TextButton settingsGameButton = new TextButton("config", homeScreenSkin);
-        final ImageButton settingsButton = new ImageButton(app.getImageProvider().getSettingsButtonStyle());
-        final ImageButton callButton = new ImageButton(app.getImageProvider().getCallButtonStyle());
-        final ImageButton rodKastButton = new ImageButton(app.getImageProvider().getRodKastButtonStyle());
-        final ImageButton shopButton = new ImageButton(app.getImageProvider().getShopButtonStyle());
+        final ImageButton settingsButton = new ImageButton(imageProvider.getSettingsButtonStyle());
+        final ImageButton callButton = new ImageButton(imageProvider.getCallButtonStyle());
+        final ImageButton rodKastButton = new ImageButton(imageProvider.getRodKastButtonStyle());
+        final ImageButton shopButton = new ImageButton(imageProvider.getShopButtonStyle());
 
         settingsButton.addListener(new ClickListener() {
             @Override
@@ -165,6 +153,7 @@ public class HomeStage extends Stage {
                 //game.gotoSettingsScreen();
                 //handler.getEpisode(0);
                 System.out.println("Settings Button Pressed");
+                app.gotoPlayListScreen();
             }
         });
 

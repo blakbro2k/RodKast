@@ -16,7 +16,7 @@
   -->
 <resources>
 
-    <string name="app_name">RodKast App</string>
+    <string name="app_name">RodKast</string>
 
     <!-- GameHelper strings -->
     <string name="gamehelper_sign_in_failed">Failed to sign in. Please check your network connection and try again.</string>

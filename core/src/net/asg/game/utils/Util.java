@@ -49,8 +49,6 @@ public class Util {
         }
     }
 
-
-
     public static void setUpCamera(OrthographicCamera camera) {
         if(camera == null){
             camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
