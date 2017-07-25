@@ -12,6 +12,8 @@ import net.asg.game.stages.PlayListStage;
 
 public class PlayListScreen extends RodKastScreenAdapter{
     public PlayListScreen(RodKastApplication app) {
+        super();
+
         if(this.app == null) {
             this.app = app;
         }
@@ -20,7 +22,19 @@ public class PlayListScreen extends RodKastScreenAdapter{
     }
 
     @Override
+    public void show(){
+        super.show();
+    }
+
+    @Override
+    public void hide(){
+        super.hide();
+    }
+
+    @Override
     public void render(float delta) {
+        super.render(delta);
+
         //Clear the screen
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 

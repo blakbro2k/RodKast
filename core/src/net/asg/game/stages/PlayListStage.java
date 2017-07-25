@@ -71,6 +71,7 @@ public class PlayListStage extends Stage{
 
         Gdx.input.setCatchBackKey(true);
         Gdx.input.setInputProcessor(this);
+
     }
 
     private void setUpStageTitle(Table main){

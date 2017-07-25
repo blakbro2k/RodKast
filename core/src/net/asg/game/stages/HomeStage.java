@@ -153,7 +153,9 @@ public class HomeStage extends Stage {
                 //game.gotoSettingsScreen();
                 //handler.getEpisode(0);
                 System.out.println("Settings Button Pressed");
+
                 app.gotoPlayListScreen();
+                Gdx.app.exit();
             }
         });
 

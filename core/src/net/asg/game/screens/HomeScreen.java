@@ -12,6 +12,8 @@ import net.asg.game.stages.HomeStage;
 
 public class HomeScreen extends RodKastScreenAdapter {
     public HomeScreen(RodKastApplication app) {
+        super();
+
         if(this.app == null) {
             this.app = app;
         }
@@ -19,7 +21,18 @@ public class HomeScreen extends RodKastScreenAdapter {
     }
 
     @Override
+    public void show(){
+        super.show();
+    }
+
+    @Override
+    public void hide(){
+        super.hide();
+    }
+
+    @Override
     public void render(float delta) {
+        super.render(delta);
         //Clear the screen
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
