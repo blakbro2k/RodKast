@@ -11,49 +11,9 @@ import net.asg.game.RodKastApplication;
  * Created by Blakbro2k on 6/21/2017.
  */
 
-public class RodKastScreenAdapter implements Screen, InputProcessor, Disposable{
+public class RodKastScreenAdapter implements Screen, Disposable{
     protected Stage stage;
     protected RodKastApplication app;
-
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
-    }
 
     @Override
     public void show() {
@@ -90,5 +50,9 @@ public class RodKastScreenAdapter implements Screen, InputProcessor, Disposable{
         if(stage != null){
             stage.dispose();
         }
+    }
+
+    public Stage getStage(){
+        return stage;
     }
 }

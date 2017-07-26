@@ -1,36 +1,45 @@
 package net.asg.game.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Disposable;
 
+import net.asg.game.RodKastApplication;
 import net.asg.game.menu.ExitDialog;
+import net.asg.game.screens.RodKastScreenAdapter;
 import net.asg.game.stages.HomeStage;
 
 /**
  * Created by Blakbro2k on 6/25/2017.
  */
 
-public class Util {
+public class Utils {
     //prevent instantiation
-    private Util(){}
+    private Utils(){}
 
     /**
      * Takes exit Dialog from a HomeStage and executes app exit only on second confirm from user
-     * @param stage
+     * @param
      */
-    public static void backButtonUtil(HomeStage stage) {
-        if(stage != null){
-            ExitDialog exitDialog = stage.getExitDialog();
+    public static void backButtonUtil(RodKastApplication app) {
+        if(app != null){
+            RodKastScreenAdapter screen = app.popScreen();
 
-            if(exitDialog != null){
-                if(exitDialog.isVisible()){
-                    if(exitDialog.getCount() > 0){
-                        Gdx.app.exit();
+            if (app.isLastScreen()){
+                ExitDialog exitDialog = app.getExitDialog();
+
+                //System.out.println(exitDialog);
+
+                if(exitDialog != null){
+                    if(exitDialog.isVisible()){
+                        if(exitDialog.getCount() > 0){
+                            Gdx.app.exit();
+                        }
                     }
+                    exitDialog.show(screen.getStage());
+                    exitDialog.increment();
                 }
-                exitDialog.show(stage);
-                exitDialog.increment();
             }
         }
     }

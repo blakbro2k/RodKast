@@ -17,17 +17,8 @@ public class HomeScreen extends RodKastScreenAdapter {
         if(this.app == null) {
             this.app = app;
         }
+
         stage = new HomeStage(app);
-    }
-
-    @Override
-    public void show(){
-        super.show();
-    }
-
-    @Override
-    public void hide(){
-        super.hide();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package net.asg.game.utils;
 
+import net.asg.game.RodKastApplication;
 import net.asg.game.stages.HomeStage;
 
 /**
@@ -10,7 +11,7 @@ public interface GameEventListener {
     /**
      * Interface for back button
      */
-    void backButton(HomeStage stage);
+    void backButton(RodKastApplication app);
 
     void showBannerAd();
 

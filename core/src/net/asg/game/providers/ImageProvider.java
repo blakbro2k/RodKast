@@ -8,11 +8,10 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Disposable;
 
 import net.asg.game.utils.Constants;
-import net.asg.game.utils.Util;
+import net.asg.game.utils.Utils;
 
 /**
  * Created by Blakbro2k on 6/21/2017.
@@ -112,7 +111,7 @@ public class ImageProvider implements Disposable{
 
     @Override
     public void dispose(){
-        Util.disposeObjects(assetsManager,defaultSkin,atlas,shadeSkin);
+        Utils.disposeObjects(assetsManager,defaultSkin,atlas,shadeSkin);
     }
 
     public ImageButtonStyle getSettingsButtonStyle() {

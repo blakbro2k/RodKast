@@ -1,48 +1,23 @@
 package net.asg.game.stages;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.viewport.ScalingViewport;
 
 import net.asg.game.RodKastApplication;
-import net.asg.game.menu.ExitDialog;
 import net.asg.game.menu.SettingsButton;
-import net.asg.game.providers.ImageProvider;
-import net.asg.game.providers.SoundProvider;
 import net.asg.game.utils.Constants;
-import net.asg.game.utils.Util;
-import net.asg.game.utils.parser.XMLHandler;
-
-import java.io.IOException;
 
 /**
  * Created by Blakbro2k on 6/21/2017.
  */
 
-public class HomeStage extends Stage {
-    private ImageProvider imageProvider;
-    private SoundProvider soundProvider;
-    private OrthographicCamera camera;
-    private RodKastApplication app;
-    private XMLHandler xmlHandler;
-
-    private ExitDialog exitDialog;
-    private Skin homeScreenSkin;
-    private Skin tempSkin;
-
-    private LabelStyle homeScreenLabelStyle;
-
+public class HomeStage extends RodkastStageAdapter {
     //TODO: callButton
     //TODO: shopButton
     //TODO: AD Resolver
@@ -51,36 +26,17 @@ public class HomeStage extends Stage {
     //TODO: SettingButton
 
     public HomeStage(RodKastApplication app){
-        super(new ScalingViewport(Scaling.stretch, Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT,
-                new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT)));
-        this.app = app;
-        this.imageProvider = app.getImageProvider();
-        this.soundProvider = app.getSoundProvider();
-        this.xmlHandler = app.getXMLHandler();
-
-        imageProvider.pauseUntilLoaded();
-        homeScreenSkin = imageProvider.getShadeUISkin();
-        homeScreenLabelStyle = imageProvider.getDefaultLableStyle();
-        tempSkin = new Skin(imageProvider.getAtlas());
-
-        try {
-            xmlHandler.getTotalRssFeed();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Util.setUpCamera(camera);
+        super(app);
 
         //setUpStageTable();
         setUpSettings();
         setUpMenuItems();
 
-        Gdx.input.setCatchBackKey(true);
         Gdx.input.setInputProcessor(this);
     }
 
     private void setUpMenuItems() {
-        exitDialog = new ExitDialog("Do you really want to exit?", homeScreenSkin);
+        //exitDialog = new ExitDialog("Do you really want to exit?", homeScreenSkin);
     }
 
     private void setUpStageTable(){
@@ -130,8 +86,10 @@ public class HomeStage extends Stage {
                 getCamera().viewportHeight * 4/ 8, getCamera().viewportWidth / 8,
                 getCamera().viewportHeight / 8);
 
-        SettingsButton settingsButton = new SettingsButton(settingsButtonSound, tempSkin, new SettingsButtonListener());
+        SettingsButton settingsButton = new SettingsButton(settingsButtonSound, defaultSkin, new SettingsButtonListener());
         settingsButton.debug();
+        System.out.println("addActor(settingsButton)");
+
         addActor(settingsButton);
     }
 
@@ -149,13 +107,14 @@ public class HomeStage extends Stage {
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //event.stop();
-                //game.gotoSettingsScreen();
-                //handler.getEpisode(0);
+
                 System.out.println("Settings Button Pressed");
 
+                //System.out.println(episodes.get((int) Math.floor(Math.random() * 40)));
+                //event.handle();
                 app.gotoPlayListScreen();
-                Gdx.app.exit();
+                //Gdx.app.exit();
+
             }
         });
 
@@ -195,23 +154,12 @@ public class HomeStage extends Stage {
         table.row();
     }
 
-    public ExitDialog getExitDialog(){
-        return exitDialog;
-    }
-
-    public boolean keyDown(int keyCode){
-        if (keyCode == Input.Keys.BACK || keyCode == Input.Keys.BACKSPACE) {
-            app.getGameEvenListener().backButton(this);
-        }
-        return true;
-    }
-
     // Set up button listeners
     private class SettingsButtonListener implements SettingsButton.SettingsButtonListener{
-
         @Override
-        public void onShare() {
-            System.out.println("Settings Button Pressed");
+        public void onSettings() {
+            System.out.println("Settings dfsfds Button Pressed");
+            app.gotoPlayListScreen();
         }
     }
 }

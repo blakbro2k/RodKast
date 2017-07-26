@@ -22,16 +22,6 @@ public class PlayListScreen extends RodKastScreenAdapter{
     }
 
     @Override
-    public void show(){
-        super.show();
-    }
-
-    @Override
-    public void hide(){
-        super.hide();
-    }
-
-    @Override
     public void render(float delta) {
         super.render(delta);
 

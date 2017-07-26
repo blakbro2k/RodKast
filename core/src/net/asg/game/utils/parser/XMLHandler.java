@@ -71,6 +71,8 @@ public class XMLHandler implements Disposable{
         return null;
     }
 
+
+
     private List<RodkastEpisode> buildRodkestEpisodes(Array<Element> items) throws MalformedURLException {
         List<RodkastEpisode> episodes = null;
 

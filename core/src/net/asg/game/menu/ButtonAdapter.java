@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public abstract class ButtonAdapter extends Button {
     public static final String SHOP_REGION_NAME = "shop";
-    public static final String SETTINGS_REGION_NAME = "settings";
+    public static final String SETTINGS_REGION_NAME = "music";
     public static final String CALL_REGION_NAME = "call";
     public static final String RODKAST_REGION_NAME = "rodkast_icon";
 

@@ -1,8 +1,8 @@
 package net.asg.game.desktop;
 
-import net.asg.game.stages.HomeStage;
+import net.asg.game.RodKastApplication;
 import net.asg.game.utils.GameEventListener;
-import net.asg.game.utils.Util;
+import net.asg.game.utils.Utils;
 
 /**
  * Created by Blakbro2k on 6/25/2017.
@@ -10,8 +10,8 @@ import net.asg.game.utils.Util;
 
 public class DesktopEventListener implements GameEventListener {
     @Override
-    public void backButton(HomeStage stage) {
-        Util.backButtonUtil(stage);
+    public void backButton(RodKastApplication app) {
+        Utils.backButtonUtil(app);
     }
 
     @Override

@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 public class SettingsButton extends ButtonAdapter {
 
     public interface SettingsButtonListener {
-        public void onShare();
+        public void onSettings();
     }
 
     private SettingsButtonListener listener;
@@ -27,6 +27,6 @@ public class SettingsButton extends ButtonAdapter {
 
     @Override
     public void touched() {
-        listener.onShare();
+        listener.onSettings();
     }
 }
