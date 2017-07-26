@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
@@ -25,8 +26,15 @@ public class HomeStage extends RodkastStageAdapter {
     //TODO: Social Medial
     //TODO: SettingButton
 
+    protected Skin defaultSkin;
+    protected Label.LabelStyle homeScreenLabelStyle;
+
     public HomeStage(RodKastApplication app){
         super(app);
+        loadAssets();
+
+        defaultSkin = imageProvider.getShadeUISkin();
+        homeScreenLabelStyle = imageProvider.getDefaultLableStyle();
 
         //setUpStageTable();
         setUpSettings();

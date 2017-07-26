@@ -76,7 +76,7 @@ public class RodKastApplication extends Game {
 	public void render() {
 		super.render();
 		fpsLog.log();
-		System.out.println("Screen Stack size: " + screenStack.size());
+		//System.out.println("Screen Stack size: " + screenStack.size());
 	}
 
     public void gotoHomeScreen() {
@@ -122,12 +122,11 @@ public class RodKastApplication extends Game {
 	}
 
 	public boolean isLastScreen(){
-		return screenStack.size() == 1;
+		return screenStack.size() == 0;
 	}
 
 	public ExitDialog getExitDialog(){
 		if(exitDialog == null){
-			System.out.println("homeScreenSkin:" + homeScreenSkin);
 			homeScreenSkin = imageProvider.getDefaultUISkin();
 			exitDialog = new ExitDialog("Do you really want to exit?", homeScreenSkin);
 		}

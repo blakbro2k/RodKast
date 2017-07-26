@@ -3,6 +3,7 @@ package net.asg.game.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import net.asg.game.RodKastApplication;
@@ -17,18 +18,14 @@ import java.io.IOException;
  */
 
 public class PlayListStage extends RodkastStageAdapter{
-    private XMLHandler xmlHandler;
+    protected Skin defaultSkin;
+    protected Label.LabelStyle homeScreenLabelStyle;
 
     public PlayListStage(RodKastApplication app){
         super(app);
 
-        this.xmlHandler = app.getXMLHandler();
-
-        try {
-            xmlHandler.getTotalRssFeed();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        defaultSkin = imageProvider.getShadeUISkin();
+        homeScreenLabelStyle = imageProvider.getDefaultLableStyle();
 
         Table main = new Table();
         main.setWidth(Constants.VIEWPORT_WIDTH);
