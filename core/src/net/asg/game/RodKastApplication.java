@@ -33,7 +33,7 @@ public class RodKastApplication extends Game {
 
 	private GameEventListener gameEventListener;
 
-	public Stack<RodKastScreenAdapter> screenStack;
+    private Stack<RodKastScreenAdapter> screenStack;
     private ExitDialog exitDialog;
 	private RodKastScreenAdapter currentScreen = null;
 
