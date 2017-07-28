@@ -35,8 +35,6 @@ public class PlayListScreen extends RodKastScreenAdapter{
 
     @Override
     public void gotoScreen() {
-        app.pushScreen(this);
-        app.setCurrentScreen(this);
         app.gotoPlayListScreen();
     }
 }

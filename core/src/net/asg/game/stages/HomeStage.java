@@ -40,7 +40,7 @@ public class HomeStage extends RodkastStageAdapter {
         setUpSettings();
         setUpMenuItems();
 
-        Gdx.input.setInputProcessor(this);
+        setInputProcessor();
     }
 
     private void setUpMenuItems() {
@@ -168,6 +168,7 @@ public class HomeStage extends RodkastStageAdapter {
         public void onSettings() {
             System.out.println("Settings dfsfds Button Pressed");
 
+            app.pushScreen(app.getCurrentScreen());
             app.gotoPlayListScreen();
         }
     }

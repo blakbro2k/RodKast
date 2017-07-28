@@ -6,18 +6,21 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 
 import net.asg.game.RodKastApplication;
+import net.asg.game.stages.RodkastStageAdapter;
 
 /**
  * Created by Blakbro2k on 6/21/2017.
  */
 
 public abstract class RodKastScreenAdapter implements Screen, Disposable{
-    protected Stage stage;
+    protected RodkastStageAdapter stage;
     protected RodKastApplication app;
 
     @Override
     public void show() {
-
+        if(stage != null){
+            stage.setInputProcessor();
+        }
     }
 
     @Override

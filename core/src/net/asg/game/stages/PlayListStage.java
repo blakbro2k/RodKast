@@ -34,7 +34,7 @@ public class PlayListStage extends RodkastStageAdapter{
         setUpStageTitle(main);
         addActor(main);
 
-        Gdx.input.setInputProcessor(this);
+        setInputProcessor();
     }
 
     private void setUpStageTitle(Table main){

@@ -24,13 +24,10 @@ public class Utils {
      */
     public static void backButtonUtil(RodKastApplication app) {
         if(app != null){
-            System.out.println("stack  " + app.screenStack);
-
             if (app.isLastScreen()){
                 processExit(app);
             } else {
                 RodKastScreenAdapter screen = app.popScreen();
-                System.out.println("popping screen = " + screen);
                 screen.gotoScreen();
             }
         }
@@ -40,9 +37,7 @@ public class Utils {
         ExitDialog exitDialog = app.getExitDialog();
         RodKastScreenAdapter screen = app.getCurrentScreen();
 
-        System.out.println("(Exit?) screen = " + screen);
-
-        if(exitDialog != null) {
+        if(exitDialog != null && screen != null) {
             if (exitDialog.isVisible()) {
                 if (exitDialog.getCount() > 0) {
                     Gdx.app.exit();

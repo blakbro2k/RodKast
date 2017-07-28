@@ -59,6 +59,10 @@ public class RodkastStageAdapter extends Stage {
         loadingDialog.hide();
     }
 
+    public void setInputProcessor(){
+        Gdx.input.setInputProcessor(this);
+    }
+
     public boolean keyDown(int keyCode){
         if (keyCode == Input.Keys.BACK || keyCode == Input.Keys.BACKSPACE) {
             app.getGameEvenListener().backButton(app);

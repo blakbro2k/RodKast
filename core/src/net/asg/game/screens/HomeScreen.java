@@ -34,8 +34,6 @@ public class HomeScreen extends RodKastScreenAdapter {
 
     @Override
     public void gotoScreen() {
-        app.pushScreen(this);
-        app.setCurrentScreen(this);
         app.gotoHomeScreen();
     }
 }

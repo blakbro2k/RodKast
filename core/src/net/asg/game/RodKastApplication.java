@@ -34,11 +34,10 @@ public class RodKastApplication extends Game {
 	private GameEventListener gameEventListener;
 
 	public Stack<RodKastScreenAdapter> screenStack;
-	private Skin homeScreenSkin;
-	private ExitDialog exitDialog;
+    private ExitDialog exitDialog;
 	private RodKastScreenAdapter currentScreen = null;
 
-	public RodKastApplication(GameEventListener gameEventListener){
+    public RodKastApplication(GameEventListener gameEventListener){
 		this.gameEventListener = gameEventListener;
 	}
 
@@ -52,9 +51,7 @@ public class RodKastApplication extends Game {
 		fpsLog = new FPSLogger();
 		fpsLog.log();
 
-
 		gotoHomeScreen();
-		setCurrentScreen(homeScreen);
 	}
 
 	@Override
@@ -72,6 +69,9 @@ public class RodKastApplication extends Game {
 
 		fpsLog = null;
 		gameEventListener = null;
+        currentScreen = null;
+        screenStack = null;
+        exitDialog = null;
 	}
 
 	public void render() {
@@ -83,31 +83,44 @@ public class RodKastApplication extends Game {
 		if(homeScreen == null){
 			homeScreen = new HomeScreen(this);
 		}
+
         setScreen(homeScreen);
-    }
+		setCurrentScreen(homeScreen);
+	}
 
 	public void gotoPlayListScreen() {
 		if(playListScreen == null){
 			playListScreen = new PlayListScreen(this);
 		}
-		setScreen(playListScreen);
+
+        setScreen(playListScreen);
+		setCurrentScreen(playListScreen);
 	}
 
     public void gotoPodPlayerScreen() {
 		if(podPlayerScreen == null){
 			podPlayerScreen = new PodPlayerScreen(this);
 		}
-		setScreen(podPlayerScreen);
+
+        setScreen(podPlayerScreen);
+		setCurrentScreen(podPlayerScreen);
 	}
 
 	public void pushScreen(RodKastScreenAdapter screen){
 		if(screenStack == null){
 			screenStack = new Stack<>();
 		}
-		screenStack.push(screen);
+
+		if(!isSameScreen(screen)){
+			screenStack.push(screen);
+		}
 	}
 
-	public void setCurrentScreen(RodKastScreenAdapter screen) {
+	private boolean isSameScreen(RodKastScreenAdapter screen) {
+		return screenStack != null && !screenStack.isEmpty() && screen.equals(screenStack.peek());
+	}
+
+	private void setCurrentScreen(RodKastScreenAdapter screen) {
 			currentScreen = screen;
 	}
 
@@ -129,7 +142,7 @@ public class RodKastApplication extends Game {
 
 	public ExitDialog getExitDialog(){
 		if(exitDialog == null){
-			homeScreenSkin = imageProvider.getDefaultUISkin();
+            Skin homeScreenSkin = imageProvider.getDefaultUISkin();
 			exitDialog = new ExitDialog("Do you really want to exit?", homeScreenSkin);
 		}
 		return exitDialog;
