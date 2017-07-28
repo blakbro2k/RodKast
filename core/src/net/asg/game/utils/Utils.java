@@ -24,23 +24,32 @@ public class Utils {
      */
     public static void backButtonUtil(RodKastApplication app) {
         if(app != null){
-            RodKastScreenAdapter screen = app.popScreen();
+            System.out.println("stack  " + app.screenStack);
 
             if (app.isLastScreen()){
-                ExitDialog exitDialog = app.getExitDialog();
+                processExit(app);
+            } else {
+                RodKastScreenAdapter screen = app.popScreen();
+                System.out.println("popping screen = " + screen);
+                screen.gotoScreen();
+            }
+        }
+    }
 
-                //System.out.println(exitDialog);
+    private static void processExit(RodKastApplication app){
+        ExitDialog exitDialog = app.getExitDialog();
+        RodKastScreenAdapter screen = app.getCurrentScreen();
 
-                if(exitDialog != null){
-                    if(exitDialog.isVisible()){
-                        if(exitDialog.getCount() > 0){
-                            Gdx.app.exit();
-                        }
-                    }
-                    exitDialog.show(screen.getStage());
-                    exitDialog.increment();
+        System.out.println("(Exit?) screen = " + screen);
+
+        if(exitDialog != null) {
+            if (exitDialog.isVisible()) {
+                if (exitDialog.getCount() > 0) {
+                    Gdx.app.exit();
                 }
             }
+            exitDialog.show(screen.getStage());
+            exitDialog.increment();
         }
     }
 
@@ -58,6 +67,10 @@ public class Utils {
         }
     }
 
+    /**
+     *
+     * @param camera
+     */
     public static void setUpCamera(OrthographicCamera camera) {
         if(camera == null){
             camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);

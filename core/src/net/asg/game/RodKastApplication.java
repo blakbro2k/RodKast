@@ -33,10 +33,10 @@ public class RodKastApplication extends Game {
 
 	private GameEventListener gameEventListener;
 
-	private Stack<RodKastScreenAdapter> screenStack;
+	public Stack<RodKastScreenAdapter> screenStack;
 	private Skin homeScreenSkin;
 	private ExitDialog exitDialog;
-	private RodKastScreenAdapter lastScreen;
+	private RodKastScreenAdapter currentScreen = null;
 
 	public RodKastApplication(GameEventListener gameEventListener){
 		this.gameEventListener = gameEventListener;
@@ -48,12 +48,13 @@ public class RodKastApplication extends Game {
 		imageProvider = new ImageProvider(assetsManager);
 		soundProvider = new SoundProvider(assetsManager);
 		xmlHandler = new XMLHandler();
-		screenStack = new Stack<>();
 
 		fpsLog = new FPSLogger();
 		fpsLog.log();
 
+
 		gotoHomeScreen();
+		setCurrentScreen(homeScreen);
 	}
 
 	@Override
@@ -76,22 +77,19 @@ public class RodKastApplication extends Game {
 	public void render() {
 		super.render();
 		fpsLog.log();
-		//System.out.println("Screen Stack size: " + screenStack.size());
 	}
 
     public void gotoHomeScreen() {
 		if(homeScreen == null){
 			homeScreen = new HomeScreen(this);
 		}
-		pushScreen(homeScreen);
         setScreen(homeScreen);
     }
 
-    public void gotoPlayListScreen() {
+	public void gotoPlayListScreen() {
 		if(playListScreen == null){
 			playListScreen = new PlayListScreen(this);
 		}
-		pushScreen(playListScreen);
 		setScreen(playListScreen);
 	}
 
@@ -99,30 +97,34 @@ public class RodKastApplication extends Game {
 		if(podPlayerScreen == null){
 			podPlayerScreen = new PodPlayerScreen(this);
 		}
-		pushScreen(podPlayerScreen);
 		setScreen(podPlayerScreen);
 	}
 
 	public void pushScreen(RodKastScreenAdapter screen){
-		if(lastScreen == null){
-			lastScreen = screen;
+		if(screenStack == null){
+			screenStack = new Stack<>();
 		}
 		screenStack.push(screen);
 	}
 
+	public void setCurrentScreen(RodKastScreenAdapter screen) {
+			currentScreen = screen;
+	}
+
+	public RodKastScreenAdapter getCurrentScreen(){
+		return currentScreen;
+	}
+
 	public RodKastScreenAdapter popScreen(){
-		if(isLastScreen()){
-			setScreen(lastScreen);
-			return lastScreen;
-		} else {
-			lastScreen = screenStack.pop();
-			setScreen(lastScreen);
-			return lastScreen;
+		RodKastScreenAdapter returnScreen = currentScreen;
+		if(!isLastScreen()){
+			returnScreen = screenStack.pop();
 		}
+		return returnScreen;
 	}
 
 	public boolean isLastScreen(){
-		return screenStack.size() == 0;
+		return (screenStack == null) || screenStack.size() == 0;
 	}
 
 	public ExitDialog getExitDialog(){

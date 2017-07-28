@@ -167,6 +167,7 @@ public class HomeStage extends RodkastStageAdapter {
         @Override
         public void onSettings() {
             System.out.println("Settings dfsfds Button Pressed");
+
             app.gotoPlayListScreen();
         }
     }

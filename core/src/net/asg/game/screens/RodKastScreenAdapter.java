@@ -11,7 +11,7 @@ import net.asg.game.RodKastApplication;
  * Created by Blakbro2k on 6/21/2017.
  */
 
-public class RodKastScreenAdapter implements Screen, Disposable{
+public abstract class RodKastScreenAdapter implements Screen, Disposable{
     protected Stage stage;
     protected RodKastApplication app;
 
@@ -55,4 +55,6 @@ public class RodKastScreenAdapter implements Screen, Disposable{
     public Stage getStage(){
         return stage;
     }
+
+    public abstract void gotoScreen();
 }

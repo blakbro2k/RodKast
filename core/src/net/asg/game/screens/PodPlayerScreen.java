@@ -28,4 +28,11 @@ public class PodPlayerScreen extends RodKastScreenAdapter {
         //Update the stage
         stage.draw();
     }
+
+    @Override
+    public void gotoScreen() {
+        app.pushScreen(this);
+        app.setCurrentScreen(this);
+        app.gotoPodPlayerScreen();
+    }
 }
