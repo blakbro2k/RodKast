@@ -7,6 +7,7 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by eboateng on 7/18/2017.
@@ -114,7 +115,7 @@ public class RodkastItemModel{
 
     public static Date parseDate(String date) {
         try {
-            return new SimpleDateFormat(RSS_DATE_PATTERN).parse(date);
+            return new SimpleDateFormat(RSS_DATE_PATTERN, Locale.US).parse(date);
         } catch (ParseException e) {
             return null;
         }

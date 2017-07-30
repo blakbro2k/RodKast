@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Disposable;
 
-import net.asg.game.utils.Constants;
+import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.Utils;
 
 /**
@@ -38,23 +38,22 @@ public class ImageProvider implements Disposable{
     private TextureAtlas atlas;
 
 
-    public ImageProvider(AssetsManager assetsManager) {
+    ImageProvider(AssetsManager assetsManager) {
         this.assetsManager = assetsManager;
-        setUpImageLoaders();
     }
 
-    public void setUpImageLoaders(){
-        SkinParameter skinParams = new SkinParameter(Constants.DEFAULT_UISKIN_ATLAS);
-        SkinParameter shadeSkinParams = new SkinParameter(Constants.SHADE_UISKIN_ATLAS);
+    void setUpImageLoaders(){
+        SkinParameter skinParams = new SkinParameter(GlobalConstants.DEFAULT_UISKIN_ATLAS);
+        SkinParameter shadeSkinParams = new SkinParameter(GlobalConstants.SHADE_UISKIN_ATLAS);
 
-        assetsManager.getManager().load(Constants.BAD_LOGIC_IMAGE_PATH, Texture.class);
-        assetsManager.getManager().load(Constants.DEFAULT_FONT_IMAGE_PATH, Texture.class);
-        assetsManager.getManager().load(Constants.DEFAULT_FONT_PATH, BitmapFont.class);
-        assetsManager.getManager().load(Constants.DEFAULT_ATLAS_PATH, TextureAtlas.class);
-        assetsManager.getManager().load(Constants.DEFAULT_UISKIN_JSON, Skin.class, skinParams);
+        assetsManager.getManager().load(GlobalConstants.BAD_LOGIC_IMAGE_PATH, Texture.class);
+        assetsManager.getManager().load(GlobalConstants.DEFAULT_FONT_IMAGE_PATH, Texture.class);
+        assetsManager.getManager().load(GlobalConstants.DEFAULT_FONT_PATH, BitmapFont.class);
+        assetsManager.getManager().load(GlobalConstants.DEFAULT_ATLAS_PATH, TextureAtlas.class);
+        assetsManager.getManager().load(GlobalConstants.DEFAULT_UISKIN_JSON, Skin.class, skinParams);
 
         //assetsManage
-        assetsManager.getManager().load(Constants.SHADE_UISKIN_JSON, Skin.class, shadeSkinParams);
+        assetsManager.getManager().load(GlobalConstants.SHADE_UISKIN_JSON, Skin.class, shadeSkinParams);
         //getDefaultFont = new BitmapFont(Gdx.files.internal("data/default.fnt"), Gdx.files.internal("data/default.png"), false);
     }
 
@@ -67,22 +66,22 @@ public class ImageProvider implements Disposable{
     }
 
     public BitmapFont getDefaultFont() {
-        if(assetsManager.getManager().isLoaded(Constants.DEFAULT_FONT_PATH)) {
-            return assetsManager.getManager().get(Constants.DEFAULT_FONT_PATH);
+        if(assetsManager.getManager().isLoaded(GlobalConstants.DEFAULT_FONT_PATH)) {
+            return assetsManager.getManager().get(GlobalConstants.DEFAULT_FONT_PATH);
         }
         return null;
     }
 
     public Texture getBadLogicImage() {
-        if(assetsManager.getManager().isLoaded(Constants.BAD_LOGIC_IMAGE_PATH)) {
-            return assetsManager.getManager().get(Constants.BAD_LOGIC_IMAGE_PATH);
+        if(assetsManager.getManager().isLoaded(GlobalConstants.BAD_LOGIC_IMAGE_PATH)) {
+            return assetsManager.getManager().get(GlobalConstants.BAD_LOGIC_IMAGE_PATH);
         }
         return null;
     }
 
     public TextureAtlas getAtlas(){
-        if(assetsManager.getManager().isLoaded(Constants.DEFAULT_ATLAS_PATH)) {
-            atlas = assetsManager.getManager().get(Constants.DEFAULT_ATLAS_PATH);
+        if(assetsManager.getManager().isLoaded(GlobalConstants.DEFAULT_ATLAS_PATH)) {
+            atlas = assetsManager.getManager().get(GlobalConstants.DEFAULT_ATLAS_PATH);
         }
         return atlas;
     }
@@ -96,15 +95,15 @@ public class ImageProvider implements Disposable{
     }
 
     public Skin getDefaultUISkin() {
-        if(assetsManager.getManager().isLoaded(Constants.DEFAULT_UISKIN_JSON)) {
-            defaultSkin = assetsManager.getManager().get(Constants.DEFAULT_UISKIN_JSON);
+        if(assetsManager.getManager().isLoaded(GlobalConstants.DEFAULT_UISKIN_JSON)) {
+            defaultSkin = assetsManager.getManager().get(GlobalConstants.DEFAULT_UISKIN_JSON);
         }
         return defaultSkin;
     }
 
     public Skin getShadeUISkin() {
-        if(assetsManager.getManager().isLoaded(Constants.SHADE_UISKIN_JSON)) {
-            shadeSkin = assetsManager.getManager().get(Constants.SHADE_UISKIN_JSON);
+        if(assetsManager.getManager().isLoaded(GlobalConstants.SHADE_UISKIN_JSON)) {
+            shadeSkin = assetsManager.getManager().get(GlobalConstants.SHADE_UISKIN_JSON);
         }
         return shadeSkin;
     }

@@ -6,7 +6,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 
 import net.asg.game.RodKastApplication;
-import net.asg.game.utils.Constants;
+import net.asg.game.utils.GlobalConstants;
 
 
 
@@ -21,18 +21,18 @@ public class DesktopLauncher{
 			//    as working directory
 			// 2. For playing game with android/assets as working directory
 			TexturePacker.Settings settings = new TexturePacker.Settings();
-			settings.maxWidth = Constants.MAX_WIDTH;
-			settings.maxHeight = Constants.MAX_HEIGHT;
-			TexturePacker.process(settings, Constants.SOURCE_ASSETS_FOLDER_PATH + Constants.IMAGES_FOLDER_NAME,
-					Constants.TARGET_ASSETS_FOLDER_PATH, Constants.GAME_ATLAS_NAME);
+			settings.maxWidth = GlobalConstants.MAX_WIDTH;
+			settings.maxHeight = GlobalConstants.MAX_HEIGHT;
+			TexturePacker.process(settings, GlobalConstants.SOURCE_ASSETS_FOLDER_PATH + GlobalConstants.IMAGES_FOLDER_NAME,
+					GlobalConstants.TARGET_ASSETS_FOLDER_PATH, GlobalConstants.GAME_ATLAS_NAME);
 
 			Gdx.app.exit();
 		}
 
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-		cfg.title = Constants.GAME_TITLE;
-		cfg.width = Constants.APP_WIDTH;
-		cfg.height = Constants.APP_HEIGHT;
+		cfg.title = GlobalConstants.GAME_TITLE;
+		cfg.width = GlobalConstants.APP_WIDTH;
+		cfg.height = GlobalConstants.APP_HEIGHT;
 
 		new LwjglApplication(new RodKastApplication(new DesktopEventListener()), config);
 	}

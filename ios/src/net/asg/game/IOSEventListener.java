@@ -1,6 +1,5 @@
 package net.asg.game;
 
-import net.asg.game.stages.HomeStage;
 import net.asg.game.utils.GameEventListener;
 import net.asg.game.utils.Utils;
 
@@ -11,7 +10,7 @@ import net.asg.game.utils.Utils;
 public class IOSEventListener implements GameEventListener {
     @Override
     public void backButton(RodKastApplication app) {
-        Utils.backButtonUtil(app);
+        Utils.backButton(app);
     }
 
     @Override

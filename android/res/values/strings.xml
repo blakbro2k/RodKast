@@ -14,9 +14,10 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
+
 <resources>
 
-    <string name="app_name">RodKast</string>
+    <string name="app_name">RodKast Beta</string>
 
     <!-- GameHelper strings -->
     <string name="gamehelper_sign_in_failed">Failed to sign in. Please check your network connection and try again.</string>
@@ -34,5 +35,5 @@
     <string name="ios_app_id">XXXXXXXXXXX</string>
 
     <!-- Google AdMob Unit ID. Place your ad unit ID here -->
-    <string name="ad_unit_id"></string>
+    <string name="ad_unit_id">ca-app-pub-3940256099942544~3347511713</string>
 </resources>

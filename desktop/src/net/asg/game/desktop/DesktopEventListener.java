@@ -11,7 +11,7 @@ import net.asg.game.utils.Utils;
 public class DesktopEventListener implements GameEventListener {
     @Override
     public void backButton(RodKastApplication app) {
-        Utils.backButtonUtil(app);
+        Utils.backButton(app);
     }
 
     @Override

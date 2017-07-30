@@ -1,6 +1,5 @@
 package net.asg.game.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -12,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.asg.game.RodKastApplication;
 import net.asg.game.menu.SettingsButton;
-import net.asg.game.utils.Constants;
+import net.asg.game.utils.GlobalConstants;
 
 /**
  * Created by Blakbro2k on 6/21/2017.
@@ -50,8 +49,8 @@ public class HomeStage extends RodkastStageAdapter {
     private void setUpStageTable(){
         Table mainScreenTable = new Table();
         mainScreenTable.debug();
-        mainScreenTable.setBounds(0, 0, Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
-        mainScreenTable.setWidth(Constants.VIEWPORT_WIDTH);
+        mainScreenTable.setBounds(0, 0, GlobalConstants.VIEWPORT_WIDTH, GlobalConstants.VIEWPORT_HEIGHT);
+        mainScreenTable.setWidth(GlobalConstants.VIEWPORT_WIDTH);
         mainScreenTable.setPosition(0,0);
 
         setUpTopRowButtons(mainScreenTable, homeScreenLabelStyle);
@@ -65,25 +64,25 @@ public class HomeStage extends RodkastStageAdapter {
     private void setUpTopAdSection(Table table, LabelStyle defaultStyle) {
         Label adLabel = new Label("AD SECTION",defaultStyle);
 
-        table.add(adLabel).height(Constants.HOMESTAGE_BOTTOM_MENU_HEIGHT);
+        table.add(adLabel).height(GlobalConstants.HOMESTAGE_BOTTOM_MENU_HEIGHT);
     }
 
     private void setUpTopSocialSection(Table table, LabelStyle defaultStyle) {
         Label socialLabel = new Label("SOCIAL SECTION",defaultStyle);
 
-        table.add(socialLabel).width(Constants.VIEWPORT_WIDTH).height((Constants.VIEWPORT_HEIGHT - getMenuOffSet()) * .3f).colspan(4);
+        table.add(socialLabel).width(GlobalConstants.VIEWPORT_WIDTH).height((GlobalConstants.VIEWPORT_HEIGHT - getMenuOffSet()) * .3f).colspan(4);
         table.row();
     }
 
     private void setUpTopBodySection(Table table, LabelStyle defaultStyle) {
         Label bodyLabel = new Label("BODY SECTION",defaultStyle);
 
-        table.add(bodyLabel).width(Constants.VIEWPORT_WIDTH).height((Constants.VIEWPORT_HEIGHT - getMenuOffSet()) * .7f).colspan(4);
+        table.add(bodyLabel).width(GlobalConstants.VIEWPORT_WIDTH).height((GlobalConstants.VIEWPORT_HEIGHT - getMenuOffSet()) * .7f).colspan(4);
         table.row();
     }
 
     private int getMenuOffSet(){
-        return Constants.HOMESTAGE_TOP_MENU_HEIGHT + Constants.HOMESTAGE_BOTTOM_MENU_HEIGHT;
+        return GlobalConstants.HOMESTAGE_TOP_MENU_HEIGHT + GlobalConstants.HOMESTAGE_BOTTOM_MENU_HEIGHT;
     }
 
     private void setUpSettings() {

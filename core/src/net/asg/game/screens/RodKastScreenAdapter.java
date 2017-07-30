@@ -1,7 +1,9 @@
 package net.asg.game.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 
@@ -25,7 +27,12 @@ public abstract class RodKastScreenAdapter implements Screen, Disposable{
 
     @Override
     public void render(float delta) {
+        //Clear the screen
+        Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
+        stage.act(delta);
+        //Update the stage
+        stage.draw();
     }
 
     @Override

@@ -1,14 +1,13 @@
 package net.asg.game.utils;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 
 import net.asg.game.RodKastApplication;
 import net.asg.game.menu.ExitDialog;
 import net.asg.game.screens.RodKastScreenAdapter;
-import net.asg.game.stages.HomeStage;
 
 /**
  * Created by Blakbro2k on 6/25/2017.
@@ -22,13 +21,15 @@ public class Utils {
      * Takes exit Dialog from a HomeStage and executes app exit only on second confirm from user
      * @param
      */
-    public static void backButtonUtil(RodKastApplication app) {
+    public static void backButton(RodKastApplication app) {
         if(app != null){
             if (app.isLastScreen()){
                 processExit(app);
             } else {
                 RodKastScreenAdapter screen = app.popScreen();
-                screen.gotoScreen();
+                if(screen != null){
+                    screen.gotoScreen();
+                }
             }
         }
     }
@@ -43,7 +44,10 @@ public class Utils {
                     Gdx.app.exit();
                 }
             }
-            exitDialog.show(screen.getStage());
+            Stage stage = screen.getStage();
+            if(stage != null){
+                exitDialog.show(stage);
+            }
             exitDialog.increment();
         }
     }
@@ -66,9 +70,10 @@ public class Utils {
      *
      * @param camera
      */
+    //TODO: further abstract class by passing x, y, z, and setting defaults if null as constants
     public static void setUpCamera(OrthographicCamera camera) {
         if(camera == null){
-            camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
+            camera = new OrthographicCamera(GlobalConstants.VIEWPORT_WIDTH, GlobalConstants.VIEWPORT_HEIGHT);
         }
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0f);

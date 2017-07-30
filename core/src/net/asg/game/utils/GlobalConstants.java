@@ -4,14 +4,17 @@ package net.asg.game.utils;
  * Created by Blakbro2k on 6/21/2017.
  */
 
-public class Constants {
+public class GlobalConstants {
+    //prevent instantation
+    private GlobalConstants(){}
+
     public static final int MAX_WIDTH = 1024;
     public static final int MAX_HEIGHT = 1024;
     public static final int APP_WIDTH = 480;
     public static final int APP_HEIGHT = 800;
 
-    public static final int VIEWPORT_WIDTH = Constants.APP_WIDTH;
-    public static final int VIEWPORT_HEIGHT = Constants.APP_HEIGHT;
+    public static final int VIEWPORT_WIDTH = APP_WIDTH;
+    public static final int VIEWPORT_HEIGHT = APP_HEIGHT;
     public static final int HOMESTAGE_TOP_MENU_HEIGHT = 100;
     public static final int HOMESTAGE_BOTTOM_MENU_HEIGHT = 100;
 
@@ -25,7 +28,7 @@ public class Constants {
     public static final String SHADE_UISKIN_JSON = "data/shade/uiskin.json";
     public static final String SHADE_ATLAS_PATH = "data/shade/imageAssets.atlas";
 
-    public static final String GAME_TITLE = "RodKast";
+    public static final String GAME_TITLE = "RodKast Beta";
     public static final String SOURCE_ASSETS_FOLDER_PATH = "desktop/";
     public static final String TARGET_ASSETS_FOLDER_PATH = "android/assets/data";
     public static final String IMAGES_FOLDER_NAME = "images";

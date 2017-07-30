@@ -6,8 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import net.asg.game.menu.ExitDialog;
 import net.asg.game.providers.AssetsManager;
-import net.asg.game.providers.ImageProvider;
-import net.asg.game.providers.SoundProvider;
 import net.asg.game.screens.HomeScreen;
 import net.asg.game.screens.PlayListScreen;
 import net.asg.game.screens.PodPlayerScreen;
@@ -20,8 +18,6 @@ import java.util.Stack;
 
 public class RodKastApplication extends Game {
 	private AssetsManager assetsManager;
-	private ImageProvider imageProvider;
-	private SoundProvider soundProvider;
 
 	private XMLHandler xmlHandler;
 
@@ -44,8 +40,6 @@ public class RodKastApplication extends Game {
 	@Override
 	public void create() {
 		assetsManager = new AssetsManager();
-		imageProvider = new ImageProvider(assetsManager);
-		soundProvider = new SoundProvider(assetsManager);
 		xmlHandler = new XMLHandler();
 
 		fpsLog = new FPSLogger();
@@ -63,8 +57,6 @@ public class RodKastApplication extends Game {
 				playListScreen,
 				podPlayerScreen,
 				assetsManager,
-				imageProvider,
-				soundProvider,
 				xmlHandler);
 
 		fpsLog = null;
@@ -83,28 +75,27 @@ public class RodKastApplication extends Game {
 		if(homeScreen == null){
 			homeScreen = new HomeScreen(this);
 		}
-
-        setScreen(homeScreen);
-		setCurrentScreen(homeScreen);
+        setRodKastScreen(homeScreen);
 	}
 
 	public void gotoPlayListScreen() {
 		if(playListScreen == null){
 			playListScreen = new PlayListScreen(this);
 		}
-
-        setScreen(playListScreen);
-		setCurrentScreen(playListScreen);
+        setRodKastScreen(playListScreen);
 	}
 
     public void gotoPodPlayerScreen() {
 		if(podPlayerScreen == null){
 			podPlayerScreen = new PodPlayerScreen(this);
 		}
-
-        setScreen(podPlayerScreen);
-		setCurrentScreen(podPlayerScreen);
+        setRodKastScreen(podPlayerScreen);
 	}
+
+	private void setRodKastScreen(RodKastScreenAdapter screen){
+        setScreen(screen);
+        setCurrentScreen(screen);
+    }
 
 	public void pushScreen(RodKastScreenAdapter screen){
 		if(screenStack == null){
@@ -142,7 +133,7 @@ public class RodKastApplication extends Game {
 
 	public ExitDialog getExitDialog(){
 		if(exitDialog == null){
-            Skin homeScreenSkin = imageProvider.getDefaultUISkin();
+            Skin homeScreenSkin = getAssetsManager().getImageProvider().getDefaultUISkin();
 			exitDialog = new ExitDialog("Do you really want to exit?", homeScreenSkin);
 		}
 		return exitDialog;
@@ -150,14 +141,6 @@ public class RodKastApplication extends Game {
 
 	public AssetsManager getAssetsManager(){
 		return assetsManager;
-	}
-
-	public ImageProvider getImageProvider(){
-		return imageProvider;
-	}
-
-	public SoundProvider getSoundProvider() {
-		return soundProvider;
 	}
 
 	public GameEventListener getGameEvenListener() {

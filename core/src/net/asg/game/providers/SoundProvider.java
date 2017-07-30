@@ -3,8 +3,6 @@ package net.asg.game.providers;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.utils.Disposable;
 
-import net.asg.game.utils.Constants;
-
 /**
  * Created by Blakbro2k on 6/21/2017.
  */
