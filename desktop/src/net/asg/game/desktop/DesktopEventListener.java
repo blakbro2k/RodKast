@@ -33,9 +33,4 @@ public class DesktopEventListener implements GameEventListener {
     public void share() {
         System.out.println("share called");
     }
-
-    @Override
-    public void getDebugSetting() {
-        System.out.println("getDebugSetting called");
-    }
 }

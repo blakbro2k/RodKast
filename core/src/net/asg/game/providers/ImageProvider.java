@@ -33,8 +33,6 @@ public class ImageProvider implements Disposable{
 
 
     private AssetsManager assetsManager;
-    private Skin defaultSkin;
-    private Skin shadeSkin;
     private TextureAtlas atlas;
 
 
@@ -43,26 +41,10 @@ public class ImageProvider implements Disposable{
     }
 
     void setUpImageLoaders(){
-        SkinParameter skinParams = new SkinParameter(GlobalConstants.DEFAULT_UISKIN_ATLAS);
-        SkinParameter shadeSkinParams = new SkinParameter(GlobalConstants.SHADE_UISKIN_ATLAS);
-
         assetsManager.getManager().load(GlobalConstants.BAD_LOGIC_IMAGE_PATH, Texture.class);
         assetsManager.getManager().load(GlobalConstants.DEFAULT_FONT_IMAGE_PATH, Texture.class);
         assetsManager.getManager().load(GlobalConstants.DEFAULT_FONT_PATH, BitmapFont.class);
         assetsManager.getManager().load(GlobalConstants.DEFAULT_ATLAS_PATH, TextureAtlas.class);
-        assetsManager.getManager().load(GlobalConstants.DEFAULT_UISKIN_JSON, Skin.class, skinParams);
-
-        //assetsManage
-        assetsManager.getManager().load(GlobalConstants.SHADE_UISKIN_JSON, Skin.class, shadeSkinParams);
-        //getDefaultFont = new BitmapFont(Gdx.files.internal("data/default.fnt"), Gdx.files.internal("data/default.png"), false);
-    }
-
-    public void pauseUntilLoaded(){
-        assetsManager.getManager().finishLoading();
-    }
-
-    private void update(){
-        assetsManager.getManager().update();
     }
 
     public BitmapFont getDefaultFont() {
@@ -94,23 +76,9 @@ public class ImageProvider implements Disposable{
         return null;
     }
 
-    public Skin getDefaultUISkin() {
-        if(assetsManager.getManager().isLoaded(GlobalConstants.DEFAULT_UISKIN_JSON)) {
-            defaultSkin = assetsManager.getManager().get(GlobalConstants.DEFAULT_UISKIN_JSON);
-        }
-        return defaultSkin;
-    }
-
-    public Skin getShadeUISkin() {
-        if(assetsManager.getManager().isLoaded(GlobalConstants.SHADE_UISKIN_JSON)) {
-            shadeSkin = assetsManager.getManager().get(GlobalConstants.SHADE_UISKIN_JSON);
-        }
-        return shadeSkin;
-    }
-
     @Override
     public void dispose(){
-        Utils.disposeObjects(assetsManager,defaultSkin,atlas,shadeSkin);
+        Utils.disposeObjects(assetsManager,atlas);
     }
 
     public ImageButtonStyle getSettingsButtonStyle() {

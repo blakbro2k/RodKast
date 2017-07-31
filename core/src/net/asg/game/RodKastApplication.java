@@ -121,6 +121,7 @@ public class RodKastApplication extends Game {
 
 	public RodKastScreenAdapter popScreen(){
 		RodKastScreenAdapter returnScreen = currentScreen;
+
 		if(!isLastScreen()){
 			returnScreen = screenStack.pop();
 		}
@@ -133,7 +134,7 @@ public class RodKastApplication extends Game {
 
 	public ExitDialog getExitDialog(){
 		if(exitDialog == null){
-            Skin homeScreenSkin = getAssetsManager().getImageProvider().getDefaultUISkin();
+            Skin homeScreenSkin = getAssetsManager().getSkinProvider().getDefaultUISkin();
 			exitDialog = new ExitDialog("Do you really want to exit?", homeScreenSkin);
 		}
 		return exitDialog;
@@ -148,4 +149,6 @@ public class RodKastApplication extends Game {
 	}
 
 	public XMLHandler getXMLHandler() {return xmlHandler;}
+
+	//public void getDebug(){	}
 }

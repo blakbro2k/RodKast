@@ -5,11 +5,14 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 
 import net.asg.game.RodKastApplication;
+import net.asg.game.providers.AssetsManager;
 import net.asg.game.providers.ImageProvider;
+import net.asg.game.providers.SkinProvider;
 import net.asg.game.providers.SoundProvider;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.Utils;
@@ -22,11 +25,15 @@ import java.io.IOException;
  */
 
 public class RodkastStageAdapter extends Stage {
-    protected ImageProvider imageProvider;
-    protected SoundProvider soundProvider;
+    ImageProvider imageProvider;
+    SoundProvider soundProvider;
+    SkinProvider skinProvider;
+    AssetsManager manager;
+
     protected OrthographicCamera camera;
     protected RodKastApplication app;
     private XMLHandler xmlHandler;
+    Skin defaultSkin;
 
     public RodkastStageAdapter(RodKastApplication app) {
         super(new ScalingViewport(Scaling.stretch, GlobalConstants.VIEWPORT_WIDTH, GlobalConstants.VIEWPORT_HEIGHT,
@@ -35,17 +42,26 @@ public class RodkastStageAdapter extends Stage {
         this.imageProvider = app.getAssetsManager().getImageProvider();
         this.soundProvider = app.getAssetsManager().getSoundProvider();
         this.xmlHandler = app.getXMLHandler();
+        this.manager = app.getAssetsManager();
+
+        initialStage();
 
         Utils.setUpCamera(camera);
         Gdx.input.setCatchBackKey(true);
     }
 
-    protected void loadAssets(){
-        imageProvider.pauseUntilLoaded();
+    private void initialStage() {
+        manager.loadPreAssets();
 
-        Dialog loadingDialog = new Dialog("Loading...", imageProvider.getShadeUISkin());
+        defaultSkin = skinProvider.getDefaultUISkin();
+    }
+
+    void loadAssets(){
+
+        Dialog loadingDialog = new Dialog("Loading...", defaultSkin);
         loadingDialog.show(this);
 
+        manager.loadPostAssets();
         xmlHandler = new XMLHandler();
 
         try {

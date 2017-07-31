@@ -20,6 +20,4 @@ public interface GameEventListener {
     void showOrLoadInterstital();
 
     void share();
-
-    void getDebugSetting();
 }

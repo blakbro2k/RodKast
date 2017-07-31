@@ -18,13 +18,12 @@ public class SoundProvider implements Disposable {
         assetsManager.getManager().load(path, Music.class);
     }
 
-    public void pauseUntilLoaded(){
-        assetsManager.getManager().finishLoading();
-    }
-
-
     @Override
     public void dispose() {
+
+    }
+
+    public void setUpSoundLoaders() {
 
     }
 }

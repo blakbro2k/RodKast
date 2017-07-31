@@ -25,14 +25,14 @@ public class HomeStage extends RodkastStageAdapter {
     //TODO: Social Medial
     //TODO: SettingButton
 
-    protected Skin defaultSkin;
+    //protected Skin defaultSkin;
     protected Label.LabelStyle homeScreenLabelStyle;
 
     public HomeStage(RodKastApplication app){
         super(app);
         loadAssets();
 
-        defaultSkin = imageProvider.getShadeUISkin();
+        //defaultSkin = imageProvider.getShadeUISkin();
         homeScreenLabelStyle = imageProvider.getDefaultLableStyle();
 
         //setUpStageTable();

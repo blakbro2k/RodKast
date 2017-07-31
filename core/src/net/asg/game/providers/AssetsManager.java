@@ -37,8 +37,14 @@ public class AssetsManager implements Disposable{
                 skinProvider);
     }
 
-    public void loadAllAssets(){
-        queueAllAssets();
+    public void loadPostAssets(){
+        queueImages();
+        queueSounds();
+        manager.finishLoading();
+    }
+
+    public void loadPreAssets(){
+        queueSkins();
         manager.finishLoading();
     }
 
@@ -47,14 +53,8 @@ public class AssetsManager implements Disposable{
         return percentLoaded;
     }
 
-    private void queueAllAssets(){
-        queueSkins();
-        queueImages();
-        queueSounds();
-    }
-
     private void queueSounds() {
-
+        soundProvider.setUpSoundLoaders();
     }
 
     private void queueImages() {
@@ -62,6 +62,7 @@ public class AssetsManager implements Disposable{
     }
 
     private void queueSkins() {
+        skinProvider.setUpSkinLoaders();
     }
 
     public ImageProvider getImageProvider(){
