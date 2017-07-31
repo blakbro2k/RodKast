@@ -42,8 +42,8 @@ public class SkinProvider implements Disposable {
     }
 
     public Skin getRodKastUISkin() {
-        if(assetsManager.getManager().isLoaded(GlobalConstants.DEFAULT_UISKIN_JSON)) {
-            shadeSkin = assetsManager.getManager().get(GlobalConstants.DEFAULT_UISKIN_JSON);
+        if(assetsManager.getManager().isLoaded(GlobalConstants.SHADE_UISKIN_JSON)) {
+            shadeSkin = assetsManager.getManager().get(GlobalConstants.SHADE_UISKIN_JSON);
         }
         return shadeSkin;
     }

@@ -1,6 +1,5 @@
 package net.asg.game.providers;
 
-import com.badlogic.gdx.assets.loaders.SkinLoader.SkinParameter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -78,7 +77,7 @@ public class ImageProvider implements Disposable{
 
     @Override
     public void dispose(){
-        Utils.disposeObjects(assetsManager,atlas);
+        Utils.disposeObjects(atlas);
     }
 
     public ImageButtonStyle getSettingsButtonStyle() {

@@ -9,5 +9,7 @@ import net.asg.game.RodKastApplication;
 public class PodPlayerStage extends RodkastStageAdapter {
     public PodPlayerStage(RodKastApplication app) {
         super(app);
+
+        setInputProcessor();
     }
 }

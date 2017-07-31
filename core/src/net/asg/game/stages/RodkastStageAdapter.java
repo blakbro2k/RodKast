@@ -41,19 +41,20 @@ public class RodkastStageAdapter extends Stage {
         this.app = app;
         this.imageProvider = app.getAssetsManager().getImageProvider();
         this.soundProvider = app.getAssetsManager().getSoundProvider();
+        this.skinProvider = app.getAssetsManager().getSkinProvider();
         this.xmlHandler = app.getXMLHandler();
         this.manager = app.getAssetsManager();
 
-        initialStage();
+        initializeStage();
 
         Utils.setUpCamera(camera);
         Gdx.input.setCatchBackKey(true);
     }
 
-    private void initialStage() {
+    private void initializeStage() {
         manager.loadPreAssets();
 
-        defaultSkin = skinProvider.getDefaultUISkin();
+        defaultSkin = skinProvider.getRodKastUISkin();
     }
 
     void loadAssets(){
