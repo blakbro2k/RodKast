@@ -28,6 +28,7 @@ public class AndroidLauncher extends AndroidApplication implements GameEventList
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useAccelerometer = false;
+
 		config.useCompass = false;
 
 		initializeRodkastApp(new RodKastApplication(this), config);
