@@ -16,9 +16,11 @@ import net.asg.game.providers.SkinProvider;
 import net.asg.game.providers.SoundProvider;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.Utils;
+import net.asg.game.utils.parser.RodkastEpisode;
 import net.asg.game.utils.parser.XMLHandler;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Blakbro2k on 7/26/2017.
@@ -27,14 +29,17 @@ import java.io.IOException;
 public class RodkastStageAdapter extends Stage {
     protected static final int BANNER_SIZE = 50;
     //protected static final String BANNER_SIZE = ghvc   bhgn
-            ImageProvider imageProvider;
+    ImageProvider imageProvider;
     SoundProvider soundProvider;
     SkinProvider skinProvider;
     AssetsManager manager;
 
-    protected OrthographicCamera camera;
+    private Dialog loadingDialog;
+
     protected RodKastApplication app;
     private XMLHandler xmlHandler;
+    private List<RodkastEpisode> episodeList;
+
     Skin defaultSkin;
 
     public RodkastStageAdapter(RodKastApplication app) {
@@ -49,6 +54,7 @@ public class RodkastStageAdapter extends Stage {
 
         initializeStage();
 
+        OrthographicCamera camera = null;
         Utils.setUpCamera(camera);
         Gdx.input.setCatchBackKey(true);
     }
@@ -60,20 +66,22 @@ public class RodkastStageAdapter extends Stage {
     }
 
     void loadAssets(){
+        System.out.println("enter load Assets");
+        if(loadingDialog == null){
+            loadingDialog = new Dialog("Loading...", defaultSkin);
+        }
 
-        Dialog loadingDialog = new Dialog("Loading...", defaultSkin);
+        if(xmlHandler == null){
+            xmlHandler = new XMLHandler();
+        }
+
         loadingDialog.show(this);
 
         manager.loadPostAssets();
-        xmlHandler = new XMLHandler();
-
-        try {
-            xmlHandler.getTotalRssFeed();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        episodeList = xmlHandler.getCompleteEpisodesList();
 
         loadingDialog.hide();
+        System.out.println("exit load Assets");
     }
 
     public void setInputProcessor(){
@@ -86,6 +94,19 @@ public class RodkastStageAdapter extends Stage {
         }
         return true;
     }
+
+    List<RodkastEpisode> getEpisodelist(){
+        System.out.println("enter getEpisodelist");
+        System.out.println("episodeList: " + episodeList);
+
+        if(episodeList == null){
+            loadAssets();
+        }
+        System.out.println("exit getEpisodelist");
+
+        return episodeList;
+    }
+
 
     public int getBannerOffSet(){
         return (GlobalConstants.VIEWPORT_HEIGHT - BANNER_SIZE * 2);

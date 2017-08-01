@@ -1,6 +1,8 @@
 package net.asg.game;
 
 import android.app.Application;
+import android.os.Bundle;
+import android.util.Log;
 
 //import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -9,16 +11,18 @@ import com.google.firebase.analytics.FirebaseAnalytics;
  */
 
 public class MainApplication extends Application {
-    private FirebaseAnalytics mFirebaseAnalytics;
+    public FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        //GoogleAnalytics.getInstance(this).newTracker(R.xml.app_tracker_config);
 
-
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "net.asg.game.android.AndroidLauncher");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "HomeScreen");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "screen");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 }

@@ -14,6 +14,7 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import net.asg.game.R;
 import net.asg.game.RodKastApplication;
@@ -26,7 +27,9 @@ public class AndroidLauncher extends AndroidApplication implements GameEventList
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
+		Log.d("ANDROID", "onCreate() called");
 		super.onCreate(savedInstanceState);
+		//this.getApplicationInfo().m
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useAccelerometer = false;
 		config.useCompass = false;
@@ -88,10 +91,6 @@ public class AndroidLauncher extends AndroidApplication implements GameEventList
 	private String getAdMobUnitId() {
 		return getString(R.string.ad_unit_id);
 	}
-
-	/*private String getAppId() {
-		return get(R.string.ad_unit_id);
-	}*/
 
 	@Override
 	public void backButton(RodKastApplication app) {

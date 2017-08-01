@@ -28,7 +28,8 @@ allprojects {
         gdxFacebook = '1.3.0'
         gdxDialogs = '1.2.0'
         visuiVersion = '1.3.0'
-        firebaseVersion = '10.0.0'
+        firebaseVersion = '11.0.4'
+        gpsVerstion = '11.0.4'
     }
 
     repositories {
@@ -71,6 +72,7 @@ project(":android") {
         compile "com.google.firebase:firebase-core:$firebaseVersion"
         compile "com.google.firebase:firebase-ads:$firebaseVersion"
         compile "com.kotcrab.vis:vis-ui:$visuiVersion"
+        compile "com.google.android.gms:play-services:$gpsVerstion"
     }
 }
 

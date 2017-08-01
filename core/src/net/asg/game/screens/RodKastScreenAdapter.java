@@ -1,7 +1,6 @@
 package net.asg.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.scenes.scene2d.Stage;

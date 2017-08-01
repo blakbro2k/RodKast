@@ -15,7 +15,7 @@ import java.util.Date;
 public class RodkastEpisode implements Disposable{
     private String title;
     private URL webLink;
-    private Date pubishedDate;
+    private long pubishedDate;
     private String guid;
     private String description;
     private String category;
@@ -42,7 +42,7 @@ public class RodkastEpisode implements Disposable{
         return webLink;
     }
 
-    public Date getPubishedDate() {
+    public long getPubishedDate() {
         return pubishedDate;
     }
 
@@ -78,7 +78,7 @@ public class RodkastEpisode implements Disposable{
     public void dispose() {
         title = null;
         webLink = null;
-        pubishedDate = null;
+        //pubishedDate = null;
         guid = null;
         description = null;
         category = null;

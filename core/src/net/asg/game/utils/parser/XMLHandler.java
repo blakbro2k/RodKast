@@ -58,20 +58,24 @@ public class XMLHandler implements Disposable{
         return null;
     }
 
-    public List<RodkastEpisode> getEpisodes() throws MalformedURLException {
-        Element elem;
-
-        if(isFeedFetched){
-            elem = xmlElements.getChildByName(RodkastItemModel.RSS_CHANNEL);
-            if(elem != null){
-                Array<Element> items = elem.getChildrenByName(RodkastItemModel.RSS_ITEM);
-                return buildRodkestEpisodes(items);
+    public List<RodkastEpisode> getCompleteEpisodesList() {
+        try {
+            if(!isFeedFetched){
+                getTotalRssFeed();
             }
-        }
-        return null;
+
+            Element elem = xmlElements.getChildByName(RodkastItemModel.RSS_CHANNEL);
+                if(elem != null){
+                    Array<Element> items = elem.getChildrenByName(RodkastItemModel.RSS_ITEM);
+                    return buildRodkestEpisodes(items);
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
     }
-
-
 
     private List<RodkastEpisode> buildRodkestEpisodes(Array<Element> items) throws MalformedURLException {
         List<RodkastEpisode> episodes = null;

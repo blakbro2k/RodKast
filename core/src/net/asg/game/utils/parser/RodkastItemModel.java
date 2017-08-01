@@ -49,14 +49,14 @@ public class RodkastItemModel{
         return new URL(elem.getText());
     }
 
-    public static Date getRssPubDate(Element item) throws IllegalArgumentException{
+    public static long getRssPubDate(Element item) throws IllegalArgumentException{
         checkNullElement(item);
 
         Element elem = item.getChildByName(RSS_PUBLISHED_DATE);
         if(elem == null){
             throwArgumentException(RSS_PUBLISHED_DATE);
         }
-        return parseDate(elem.getText());
+        return parseDate(elem.getText()).getTime();
     }
 
     public static String getRssGUID(Element item) throws IllegalArgumentException{
