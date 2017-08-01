@@ -34,7 +34,7 @@ public class IOSEventListener implements GameEventListener {
     }
 
     @Override
-    public void getDebugSetting() {
+    public void appLog(String tag, String message) {
 
     }
 }

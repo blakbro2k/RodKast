@@ -2,6 +2,7 @@ package net.asg.game.android;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -28,7 +29,6 @@ public class AndroidLauncher extends AndroidApplication implements GameEventList
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useAccelerometer = false;
-
 		config.useCompass = false;
 
 		initializeRodkastApp(new RodKastApplication(this), config);
@@ -44,12 +44,12 @@ public class AndroidLauncher extends AndroidApplication implements GameEventList
 				RelativeLayout.LayoutParams.MATCH_PARENT);
 		layout.setLayoutParams(params);
 
-		mAdView = createAdView();
-		mAdView.loadAd(getAdRequest());
 
-		layout.addView(mAdView);
 		mAppView = createAppView(rodKastApplication,config);
 		layout.addView(mAppView);
+
+		mAdView = createAdView();
+		layout.addView(mAdView);
 
 		setContentView(layout);
 	}
@@ -64,7 +64,7 @@ public class AndroidLauncher extends AndroidApplication implements GameEventList
 				ViewGroup.LayoutParams.WRAP_CONTENT);
 		params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
 		params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-		params.addRule(RelativeLayout.BELOW, mAdView.getId());
+
 		mAppView.setLayoutParams(params);
 		return mAppView;
 	}
@@ -73,13 +73,15 @@ public class AndroidLauncher extends AndroidApplication implements GameEventList
 		mAdView = new AdView(this);
 		mAdView.setAdSize(AdSize.SMART_BANNER);
 		mAdView.setAdUnitId(getAdMobUnitId());
-		//mAdView.setId(getAdMobUnitId());
+		mAdView.loadAd(getAdRequest());
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
 		params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
 		params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+		params.addRule(RelativeLayout.BELOW, mAdView.getId());
+
 		mAdView.setLayoutParams(params);
-		mAppView.setBackgroundColor(Color.BLACK);
+		mAdView.setBackgroundColor(Color.BLACK);
 		return mAdView;
 	}
 
@@ -108,7 +110,6 @@ public class AndroidLauncher extends AndroidApplication implements GameEventList
 
 	@Override
 	public void showOrLoadInterstital() {
-
 	}
 
 	@Override
@@ -116,5 +117,8 @@ public class AndroidLauncher extends AndroidApplication implements GameEventList
 
 	}
 
-
+	@Override
+	public void appLog(String tag, String message){
+		Log.d(tag,message);
+	}
 }

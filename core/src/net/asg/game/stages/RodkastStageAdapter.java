@@ -25,7 +25,9 @@ import java.io.IOException;
  */
 
 public class RodkastStageAdapter extends Stage {
-    ImageProvider imageProvider;
+    protected static final int BANNER_SIZE = 50;
+    //protected static final String BANNER_SIZE = ghvc   bhgn
+            ImageProvider imageProvider;
     SoundProvider soundProvider;
     SkinProvider skinProvider;
     AssetsManager manager;
@@ -83,5 +85,9 @@ public class RodkastStageAdapter extends Stage {
             app.getGameEvenListener().backButton(app);
         }
         return true;
+    }
+
+    public int getBannerOffSet(){
+        return (GlobalConstants.VIEWPORT_HEIGHT - BANNER_SIZE * 2);
     }
 }

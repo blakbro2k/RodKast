@@ -22,7 +22,6 @@ public class PlayListStage extends RodkastStageAdapter{
     public PlayListStage(RodKastApplication app){
         super(app);
 
-        //defaultSkin = imageProvider.getShadeUISkin();
         homeScreenLabelStyle = imageProvider.getDefaultLableStyle();
 
         Table main = new Table();
@@ -43,19 +42,19 @@ public class PlayListStage extends RodkastStageAdapter{
         Label nameLabel = new Label("Admob Window Section", homeScreenLabelStyle);
         app.getGameEvenListener().showBannerAd();
         main.row();
-        main.add(nameLabel).expandX().height(GlobalConstants.VIEWPORT_WIDTH * .2f).colspan(4);
+        main.add(nameLabel).expandX().height(BANNER_SIZE).colspan(4);
     }
 
     private void setUpPlayListWindow(Table main) {
         Label nameLabel = new Label("Playlist Window Section", homeScreenLabelStyle);
         main.row();
-        main.add(nameLabel).expandX().height(GlobalConstants.VIEWPORT_WIDTH * .4f).colspan(4);
+        main.add(nameLabel).expandX().height(getBannerOffSet() * .6f).colspan(4);
     }
 
     private void setUpPlayerWindow(Table main) {
         Label nameLabel = new Label("Player Window Section", homeScreenLabelStyle);
         main.row();
-        main.add(nameLabel).expandX().height(GlobalConstants.VIEWPORT_WIDTH * .2f).colspan(4);
+        main.add(nameLabel).expandX().height(getBannerOffSet() * .4f).colspan(4);
     }
 
     private void setUpStageTitleWindow(Table main){
@@ -65,7 +64,7 @@ public class PlayListStage extends RodkastStageAdapter{
         BackButton backButton = new BackButton(settingsButtonSound, defaultSkin, new BackButtonListener());
         //BackButton.debug();
         main.add(backButton);
-        main.add(nameLabel).expandX().height(GlobalConstants.VIEWPORT_WIDTH * .2f);
+        main.add(nameLabel).expandX().height(BANNER_SIZE);
     }
 
     // Set up button listeners

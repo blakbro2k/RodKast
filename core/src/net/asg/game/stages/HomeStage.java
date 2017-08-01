@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.asg.game.RodKastApplication;
+import net.asg.game.menu.BackButton;
 import net.asg.game.menu.SettingsButton;
 import net.asg.game.utils.GlobalConstants;
 
@@ -32,143 +33,58 @@ public class HomeStage extends RodkastStageAdapter {
         super(app);
         loadAssets();
 
-        //defaultSkin = imageProvider.getShadeUISkin();
         homeScreenLabelStyle = imageProvider.getDefaultLableStyle();
 
-        //setUpStageTable();
-        setUpSettings();
-        setUpMenuItems();
+        Table main = new Table();
+        main.setWidth(GlobalConstants.VIEWPORT_WIDTH);
+        main.setHeight(GlobalConstants.VIEWPORT_HEIGHT);
+        main.debug();
 
+        setUpStageTitleWindow(main);
+        setUpPlayerWindow(main);
+        setUpSocialWindow(main);
+        setUpAdMobWindow(main);
+
+        addActor(main);
         setInputProcessor();
     }
 
-    private void setUpMenuItems() {
-        //exitDialog = new ExitDialog("Do you really want to exit?", homeScreenSkin);
+    private void setUpStageTitleWindow(Table main){
+        Label nameLabel = new Label(GlobalConstants.GAME_TITLE, homeScreenLabelStyle);
+
+        main.add(nameLabel).expandX().height(BANNER_SIZE);
     }
 
-    private void setUpStageTable(){
-        Table mainScreenTable = new Table();
-        mainScreenTable.debug();
-        mainScreenTable.setBounds(0, 0, GlobalConstants.VIEWPORT_WIDTH, GlobalConstants.VIEWPORT_HEIGHT);
-        mainScreenTable.setWidth(GlobalConstants.VIEWPORT_WIDTH);
-        mainScreenTable.setPosition(0,0);
-
-        setUpTopRowButtons(mainScreenTable, homeScreenLabelStyle);
-        setUpTopBodySection(mainScreenTable, homeScreenLabelStyle);
-        setUpTopSocialSection(mainScreenTable, homeScreenLabelStyle);
-        setUpTopAdSection(mainScreenTable, homeScreenLabelStyle);
-
-        addActor(mainScreenTable);
+    private void setUpAdMobWindow(Table main) {
+        Label nameLabel = new Label("Admob Window Section", homeScreenLabelStyle);
+        app.getGameEvenListener().showBannerAd();
+        main.row();
+        main.add(nameLabel).expandX().height(BANNER_SIZE).colspan(4);
     }
 
-    private void setUpTopAdSection(Table table, LabelStyle defaultStyle) {
-        Label adLabel = new Label("AD SECTION",defaultStyle);
+    private void setUpPlayerWindow(Table main) {
+        Label nameLabel = new Label("Player Window Section", homeScreenLabelStyle);
 
-        table.add(adLabel).height(GlobalConstants.HOMESTAGE_BOTTOM_MENU_HEIGHT);
-    }
-
-    private void setUpTopSocialSection(Table table, LabelStyle defaultStyle) {
-        Label socialLabel = new Label("SOCIAL SECTION",defaultStyle);
-
-        table.add(socialLabel).width(GlobalConstants.VIEWPORT_WIDTH).height((GlobalConstants.VIEWPORT_HEIGHT - getMenuOffSet()) * .3f).colspan(4);
-        table.row();
-    }
-
-    private void setUpTopBodySection(Table table, LabelStyle defaultStyle) {
-        Label bodyLabel = new Label("BODY SECTION",defaultStyle);
-
-        table.add(bodyLabel).width(GlobalConstants.VIEWPORT_WIDTH).height((GlobalConstants.VIEWPORT_HEIGHT - getMenuOffSet()) * .7f).colspan(4);
-        table.row();
-    }
-
-    private int getMenuOffSet(){
-        return GlobalConstants.HOMESTAGE_TOP_MENU_HEIGHT + GlobalConstants.HOMESTAGE_BOTTOM_MENU_HEIGHT;
-    }
-
-    private void setUpSettings() {
-        /*Rectangle settingsButtonSound = new Rectangle(getCamera().viewportWidth / 64,
-                getCamera().viewportHeight * 13 / 20, getCamera().viewportHeight / 10,
-                getCamera().viewportHeight / 10);*/
-        Rectangle settingsButtonSound = new Rectangle(getCamera().viewportWidth / 8,
-                getCamera().viewportHeight * 4/ 8, getCamera().viewportWidth / 8,
-                getCamera().viewportHeight / 8);
-
-        SettingsButton settingsButton = new SettingsButton(settingsButtonSound, defaultSkin, new SettingsButtonListener());
-        settingsButton.debug();
-        System.out.println("addActor(settingsButton)");
-
-        addActor(settingsButton);
-    }
-
-    private void setUpTopRowButtons(Table table, LabelStyle defaultStyle) {
-        setUpSettings();
-        Label headingLabel = new Label("TOP SECTION",defaultStyle);
-
-        //final ImageButton settingsGameButton = new ImageButton(imageProvider.getConfigShadeButtonStyle());
-        //final TextButton settingsGameButton = new TextButton("config", homeScreenSkin);
-        final ImageButton settingsButton = new ImageButton(imageProvider.getSettingsButtonStyle());
-        final ImageButton callButton = new ImageButton(imageProvider.getCallButtonStyle());
-        final ImageButton rodKastButton = new ImageButton(imageProvider.getRodKastButtonStyle());
-        final ImageButton shopButton = new ImageButton(imageProvider.getShopButtonStyle());
-
-        settingsButton.addListener(new ClickListener() {
+        ImageButton playerButton = new ImageButton(imageProvider.getRodKastButtonStyle());
+        playerButton.addListener(new ClickListener()
+        {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-                System.out.println("Settings Button Pressed");
-
-                //System.out.println(episodes.get((int) Math.floor(Math.random() * 40)));
-                //event.handle();
+            public void clicked (InputEvent event, float x, float y) {
+                app.pushScreen(app.getCurrentScreen());
                 app.gotoPlayListScreen();
-                //Gdx.app.exit();
-
+                //app.getGameEvenListener().appLog("HOMESCREEN", event + "");
             }
         });
 
-        callButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                //event.stop();
-                //game.gotoSettingsScreen();
-                System.out.println("call Button Pressed");
-            }
-        });
-
-        rodKastButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                //event.stop();
-                //game.gotoSettingsScreen();
-                System.out.println("rodKast Button Pressed");
-            }
-        });
-
-        shopButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                //event.stop();
-                //game.gotoSettingsScreen();
-                System.out.println("shop Button Pressed");
-            }
-        });
-
-        table.add(callButton);
-        table.add(shopButton);
-        table.add(rodKastButton);
-        table.add(settingsButton);
-
-        //table.add(headingLabel).width(VIEWPORT_WIDTH).height(HOMESTAGE_TOP_MENU_HEIGHT);
-        table.row();
+        main.row();
+        playerButton.setWidth(200);
+        playerButton.setHeight(100);
+        main.add(playerButton).height(getBannerOffSet() * .6f).colspan(4).expandX().expandY();
     }
 
-    // Set up button listeners
-    private class SettingsButtonListener implements SettingsButton.SettingsButtonListener{
-        @Override
-        public void onSettings() {
-            System.out.println("Settings dfsfds Button Pressed");
-
-            app.pushScreen(app.getCurrentScreen());
-            app.gotoPlayListScreen();
-        }
+    private void setUpSocialWindow(Table main) {
+        Label nameLabel = new Label("Social Window Section", homeScreenLabelStyle);
+        main.row();
+        main.add(nameLabel).expandX().height(getBannerOffSet() * .4f).colspan(4);
     }
 }

@@ -1,7 +1,6 @@
 package net.asg.game.utils;
 
 import net.asg.game.RodKastApplication;
-import net.asg.game.stages.HomeStage;
 
 /**
  * Created by Blakbro2k on 6/25/2017.
@@ -20,4 +19,6 @@ public interface GameEventListener {
     void showOrLoadInterstital();
 
     void share();
+
+    void appLog(String tag, String message);
 }

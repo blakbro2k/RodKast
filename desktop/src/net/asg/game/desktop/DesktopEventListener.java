@@ -33,4 +33,9 @@ public class DesktopEventListener implements GameEventListener {
     public void share() {
         System.out.println("share called");
     }
+
+    @Override
+    public void appLog(String tag, String message) {
+        System.out.println(tag + ": " + message);
+    }
 }

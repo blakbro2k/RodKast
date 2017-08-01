@@ -33,24 +33,26 @@ public class RodKastApplication extends Game {
     private ExitDialog exitDialog;
 	private RodKastScreenAdapter currentScreen = null;
 
+    private String TAG = "RodKastApplication";
+
     public RodKastApplication(GameEventListener gameEventListener){
 		this.gameEventListener = gameEventListener;
 	}
 
 	@Override
 	public void create() {
-		assetsManager = new AssetsManager();
+        assetsManager = new AssetsManager();
 		xmlHandler = new XMLHandler();
 
 		fpsLog = new FPSLogger();
 		fpsLog.log();
 
 		gotoHomeScreen();
-	}
+    }
 
 	@Override
 	public void dispose() {
-		super.dispose();
+        super.dispose();
 
 		//disposed all objects that are Disposable
 		Utils.disposeObjects(homeScreen,
@@ -60,33 +62,33 @@ public class RodKastApplication extends Game {
 				xmlHandler);
 
 		fpsLog = null;
-		gameEventListener = null;
         currentScreen = null;
         screenStack = null;
         exitDialog = null;
-	}
+        gameEventListener = null;
+    }
 
 	public void render() {
-		super.render();
+        super.render();
 		fpsLog.log();
-	}
+    }
 
     public void gotoHomeScreen() {
-		if(homeScreen == null){
+        if(homeScreen == null){
 			homeScreen = new HomeScreen(this);
 		}
         setRodKastScreen(homeScreen);
-	}
+    }
 
 	public void gotoPlayListScreen() {
-		if(playListScreen == null){
+        if(playListScreen == null){
 			playListScreen = new PlayListScreen(this);
 		}
         setRodKastScreen(playListScreen);
-	}
+    }
 
     public void gotoPodPlayerScreen() {
-		if(podPlayerScreen == null){
+        if(podPlayerScreen == null){
 			podPlayerScreen = new PodPlayerScreen(this);
 		}
         setRodKastScreen(podPlayerScreen);
@@ -98,7 +100,7 @@ public class RodKastApplication extends Game {
     }
 
 	public void pushScreen(RodKastScreenAdapter screen){
-		if(screenStack == null){
+        if(screenStack == null){
 			screenStack = new Stack<>();
 		}
 
@@ -108,7 +110,7 @@ public class RodKastApplication extends Game {
 	}
 
 	private boolean isSameScreen(RodKastScreenAdapter screen) {
-		return screenStack != null && !screenStack.isEmpty() && screen.equals(screenStack.peek());
+        return screenStack != null && !screenStack.isEmpty() && screen.equals(screenStack.peek());
 	}
 
 	private void setCurrentScreen(RodKastScreenAdapter screen) {
@@ -135,7 +137,7 @@ public class RodKastApplication extends Game {
 	public ExitDialog getExitDialog(){
 		if(exitDialog == null){
             Skin homeScreenSkin = getAssetsManager().getSkinProvider().getDefaultUISkin();
-			exitDialog = new ExitDialog("Do you really want to exit?", homeScreenSkin);
+			exitDialog = new ExitDialog("Press Back Again to Exit", homeScreenSkin);
 		}
 		return exitDialog;
 	}
