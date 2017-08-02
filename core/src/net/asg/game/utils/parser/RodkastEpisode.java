@@ -4,9 +4,11 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.XmlReader;
 
+import net.asg.game.utils.Utils;
+
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  * Created by Blakbro2k on 7/22/2017.
@@ -15,7 +17,7 @@ import java.util.Date;
 public class RodkastEpisode implements Disposable{
     private String title;
     private URL webLink;
-    private long pubishedDate;
+    private Calendar pubishedDate;
     private String guid;
     private String description;
     private String category;
@@ -42,7 +44,7 @@ public class RodkastEpisode implements Disposable{
         return webLink;
     }
 
-    public long getPubishedDate() {
+    public Calendar getPubishedDate() {
         return pubishedDate;
     }
 
@@ -78,7 +80,8 @@ public class RodkastEpisode implements Disposable{
     public void dispose() {
         title = null;
         webLink = null;
-        //pubishedDate = null;
+        pubishedDate.clear();
+        pubishedDate = null;
         guid = null;
         description = null;
         category = null;
@@ -88,6 +91,7 @@ public class RodkastEpisode implements Disposable{
 
     @Override
     public String toString(){
-        return "[\"" + title + "\" - " + pubishedDate + "]";
+        return "[\"" + title + "\" - " + Utils.getThreeLetterMonth(pubishedDate.get(Calendar.MONTH))
+                + "-" + pubishedDate.get(Calendar.DAY_OF_WEEK) + "]";
     }
 }

@@ -69,8 +69,6 @@ public class XMLHandler implements Disposable{
                     Array<Element> items = elem.getChildrenByName(RodkastItemModel.RSS_ITEM);
                     return buildRodkestEpisodes(items);
                 }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }

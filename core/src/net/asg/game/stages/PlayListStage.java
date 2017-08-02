@@ -2,7 +2,7 @@ package net.asg.game.stages;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -12,15 +12,9 @@ import net.asg.game.menu.BackButton;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.Utils;
 import net.asg.game.utils.parser.RodkastEpisode;
-import net.asg.game.utils.parser.XMLHandler;
 
-import java.net.MalformedURLException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by Blakbro2k on 7/23/2017.
@@ -59,16 +53,12 @@ public class PlayListStage extends RodkastStageAdapter{
     }
 
     private void setUpPlayListWindow(Table main) {
-        Label nameLabel = new Label("Playlist Window Section", homeScreenLabelStyle);
-
+        //Label nameLabel = new Label("Playlist Window Section", homeScreenLabelStyle);
         Actor playList = setUpPlayListActor(getEpisodelist());
 
         ScrollPane pane = new ScrollPane(playList);
         main.row();
         main.add(pane).expandX().height(getBannerOffSet() * PLAYLIST_WINDOW_SIZE).colspan(4);
-
-        //main.row();
-        //main.add(nameLabel).expandX().height(getBannerOffSet() * PLAYLIST_WINDOW_SIZE).colspan(4);
     }
 
     private void setUpPlayerWindow(Table main) {
@@ -79,46 +69,49 @@ public class PlayListStage extends RodkastStageAdapter{
 
     private Actor setUpPlayListActor(List<RodkastEpisode> episodes) {
         Table playList = new Table();
-        playList.debug();
-
-        //List<Actor> actors = new ArrayList<>();
+        //playList.debug();
 
         for(RodkastEpisode episode : episodes){
             if(episode != null){
-                Actor actor = setUpPlayListGroup(episode);
-                if(actor != null){
-                    playList.add(actor).expandX();
-                    playList.row();
-                }
+                Rectangle settingsButtonSound = new Rectangle(0, 0, 20, 20);
+
+                BackButton backButton = new BackButton(settingsButtonSound, defaultSkin, new BackButtonListener());
+
+                playList.add(createDateActor(episode)).center().pad(2f);
+                playList.add(createTitleActor(episode)).left().pad(2f);
+                playList.add(backButton).left();
+                playList.row();
             }
         }
 
         return playList;
     }
 
-    private Actor setUpPlayListGroup(RodkastEpisode episode) {
+    private Actor createTitleActor(RodkastEpisode episode) {
         if(episode == null){
             return null;
         }
 
-        long pubDate = episode.getPubishedDate();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(pubDate);
-        //date = new SimpleDateFormat("MMM DD", Locale.US).parse(pubDate);
+        System.out.println(episode.getTitle());
+        Label titleLabel = new Label(Utils.cleanTitle(episode.getTitle()), homeScreenLabelStyle);
+        return new Container<Label>(titleLabel).fill();
+    }
 
-        //pubDate.getTime();
-        Label dateLabel = new Label(Utils.getThreeLetterMonth(calendar.get(Calendar.MONTH)) + "\n" + calendar.get(Calendar.DAY_OF_WEEK), homeScreenLabelStyle);
-        //Label dateLabel = new Label(calendar.get(Calendar.MONTH) + "", homeScreenLabelStyle);
-        Label titleLabel = new Label(episode.getTitle(), homeScreenLabelStyle);
+    private Actor createDateActor(RodkastEpisode episode) {
+        if(episode == null){
+            return null;
+        }
 
-        HorizontalGroup hGroup = new HorizontalGroup();
-        //hGroup.debug();
-        hGroup.addActor(dateLabel);
-        hGroup.addActor(titleLabel);
-        ///hGroup.addActor(new Label("H", homeScreenLabelStyle));
-        System.out.println(episode);
-        return hGroup;
-        //episodes.add(hGroup);
+        Calendar pubDate = episode.getPubishedDate();
+
+        Table table = new Table();
+        Label monthLabel = new Label(Utils.getThreeLetterMonth(pubDate.get(Calendar.MONTH)), homeScreenLabelStyle);
+        Label dayLabel = new Label(pubDate.get(Calendar.DAY_OF_MONTH) + "", homeScreenLabelStyle);
+
+        table.add(monthLabel).center();
+        table.row();
+        table.add(dayLabel).center();
+        return new Container<Table>(table);
     }
 
     private void setUpStageTitleWindow(Table main){
@@ -126,14 +119,13 @@ public class PlayListStage extends RodkastStageAdapter{
         Rectangle settingsButtonSound = new Rectangle(0, 0, BANNER_SIZE, BANNER_SIZE);
 
         BackButton backButton = new BackButton(settingsButtonSound, defaultSkin, new BackButtonListener());
-        //BackButton.debug();
+
         main.add(backButton);
         main.add(nameLabel).expandX().height(BANNER_SIZE);
     }
 
     // Set up button listeners
     private class BackButtonListener implements BackButton.BackButtonListener{
-
         @Override
         public void onBackPress() {
             Utils.backButton(app);

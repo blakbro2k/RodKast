@@ -124,4 +124,12 @@ public class Utils {
         }
         return ret;
     }
+
+    public static String cleanTitle(String title) {
+        String ret = "";
+        if (title != null){
+            ret = title.replace("#8211","-").replace("#8217","'").replace("#8220","\"").replace("#8221","\"").replace("#038","&");
+        }
+        return ret;
+    }
 }

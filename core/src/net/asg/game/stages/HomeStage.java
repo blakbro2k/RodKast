@@ -16,10 +16,7 @@ import net.asg.game.utils.GlobalConstants;
 public class HomeStage extends RodkastStageAdapter {
     //TODO: callButton
     //TODO: shopButton
-    //TODO: AD Resolver
-    //TODO: Podcast Scroller
     //TODO: Social Medial
-    //TODO: SettingButton
 
     //protected Skin defaultSkin;
     protected Label.LabelStyle homeScreenLabelStyle;
@@ -72,9 +69,9 @@ public class HomeStage extends RodkastStageAdapter {
         });
 
         main.row();
-        playerButton.setWidth(200);
-        playerButton.setHeight(100);
-        main.add(playerButton).height(getBannerOffSet() * .6f).colspan(4).expandX().expandY();
+        //playerButton;
+        //playerButton.setHeight(100);
+        main.add(playerButton).fill().height(getBannerOffSet() * .6f).colspan(4).expandX().expandY();
     }
 
     private void setUpSocialWindow(Table main) {

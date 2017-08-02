@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 
 import net.asg.game.RodKastApplication;
+import net.asg.game.menu.ExitDialog;
 import net.asg.game.providers.AssetsManager;
 import net.asg.game.providers.ImageProvider;
 import net.asg.game.providers.SkinProvider;
@@ -88,6 +89,7 @@ public class RodkastStageAdapter extends Stage {
         Gdx.input.setInputProcessor(this);
     }
 
+    @Override
     public boolean keyDown(int keyCode){
         if (keyCode == Input.Keys.BACK || keyCode == Input.Keys.BACKSPACE) {
             app.getGameEvenListener().backButton(app);
@@ -95,14 +97,22 @@ public class RodkastStageAdapter extends Stage {
         return true;
     }
 
-    List<RodkastEpisode> getEpisodelist(){
-        System.out.println("enter getEpisodelist");
-        System.out.println("episodeList: " + episodeList);
+    @Override
+    public boolean touchUp (int screenX, int screenY, int pointer, int button) {
+        super.touchUp(screenX, screenY, pointer, button);
 
+        ExitDialog exitDialog = app.getExitDialog();
+        if(exitDialog != null && exitDialog.isVisible()){
+            exitDialog.resetCount();
+        }
+        return true;
+    }
+
+
+    List<RodkastEpisode> getEpisodelist(){
         if(episodeList == null){
             loadAssets();
         }
-        System.out.println("exit getEpisodelist");
 
         return episodeList;
     }

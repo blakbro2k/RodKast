@@ -6,7 +6,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 /**
@@ -49,14 +51,15 @@ public class RodkastItemModel{
         return new URL(elem.getText());
     }
 
-    public static long getRssPubDate(Element item) throws IllegalArgumentException{
+    public static Calendar getRssPubDate(Element item) throws IllegalArgumentException{
         checkNullElement(item);
 
         Element elem = item.getChildByName(RSS_PUBLISHED_DATE);
         if(elem == null){
             throwArgumentException(RSS_PUBLISHED_DATE);
         }
-        return parseDate(elem.getText()).getTime();
+
+        return parseDate(elem.getText());
     }
 
     public static String getRssGUID(Element item) throws IllegalArgumentException{
@@ -113,9 +116,12 @@ public class RodkastItemModel{
         }
     }
 
-    public static Date parseDate(String date) {
+    public static Calendar parseDate(String date) {
         try {
-            return new SimpleDateFormat(RSS_DATE_PATTERN, Locale.US).parse(date);
+            GregorianCalendar calendar = new GregorianCalendar();
+            Date parsedDate = new SimpleDateFormat(RSS_DATE_PATTERN, Locale.US).parse(date);
+            calendar.setTime(parsedDate);
+            return calendar;
         } catch (ParseException e) {
             return null;
         }
