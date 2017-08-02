@@ -103,7 +103,7 @@ public class RodkastStageAdapter extends Stage {
 
         ExitDialog exitDialog = app.getExitDialog();
         if(exitDialog != null && exitDialog.isVisible()){
-            exitDialog.resetCount();
+            exitDialog.resetCount() ;
         }
         return true;
     }
