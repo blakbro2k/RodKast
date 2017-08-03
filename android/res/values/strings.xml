@@ -34,6 +34,7 @@
     <string name="google_app_id">1:707458432259:android:5059ae85c3bd6d2e</string>
     <string name="android_app_id">ca-app-pub-2759645736293529~4103187114</string>
     <string name="ios_app_id">XXXXXXXXXXX</string>
+    <string name="test_s7">712D5CA7D48BB511B478EAFB18166B22</string>
 
     <!-- Google AdMob Unit ID. Place your ad unit ID here -->
     <string name="ad_unit_id">ca-app-pub-2759645736293529/7876934689</string>
