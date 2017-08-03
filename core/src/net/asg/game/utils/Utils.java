@@ -142,8 +142,24 @@ public class Utils {
     public static String cleanTitle(String title) {
         String ret = "";
         if (title != null){
-            ret = title.replace("#8211","-").replace("#8217","'").replace("#8220","\"").replace("#8221","\"").replace("#038","&");
+            ret = title.replace("#8211","-")
+                    .replace("#8217","'")
+                    .replace("#8220","\"")
+                    .replace("#8221","\"")
+                    .replace("#038","&");
         }
         return ret;
+    }
+
+    /**
+     *
+     * @param attribute
+     * @return
+     */
+    public static float atof(String attribute) {
+        if (attribute != null){
+            return Float.parseFloat(attribute);
+        }
+        return 0;
     }
 }

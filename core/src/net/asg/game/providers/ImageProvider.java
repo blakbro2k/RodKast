@@ -86,7 +86,7 @@ public class ImageProvider implements Disposable{
         TextureAtlas temp = getAtlas();
 
         Skin tempSkin = new Skin(temp);
-
+        //empSkin.get
         //temp.findRegion()
 
         tempButtonStyle.up = tempSkin.getDrawable(SETTINGS_UP_ATLAS);  //Set image for not pressed button

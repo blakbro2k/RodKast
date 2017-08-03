@@ -21,14 +21,12 @@ public class HomeStage extends RodkastStageAdapter {
     private static final float SOCIAL_WINDOW_SIZE = .4f;
     private static final float PLAYER_WINDOW_SIZE = .6f;
 
-    //protected Skin defaultSkin;
     protected Label.LabelStyle homeScreenLabelStyle;
 
     public HomeStage(RodKastApplication app){
         super(app);
-        loadAssets();
 
-        homeScreenLabelStyle = imageProvider.getDefaultLableStyle();
+        homeScreenLabelStyle = menuProvider.getTitleLableStyle();
 
         Table main = new Table();
         main.setWidth(GlobalConstants.VIEWPORT_WIDTH);
@@ -36,12 +34,15 @@ public class HomeStage extends RodkastStageAdapter {
         //main.debug();
 
         setUpStageTitleWindow(main);
+        loadAssets();
+
         setUpPlayerWindow(main);
         setUpSocialWindow(main);
         setUpAdMobWindow(main);
 
         addActor(main);
         setInputProcessor();
+
     }
 
     private void setUpStageTitleWindow(Table main){

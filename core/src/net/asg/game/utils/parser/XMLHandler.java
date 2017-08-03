@@ -55,38 +55,22 @@ public class XMLHandler implements Disposable{
     }
 
     public RodkastChannel buildChannel(){
-        return null;
-    }
-
-    public List<RodkastEpisode> getCompleteEpisodesList() {
         try {
             if(!isFeedFetched){
                 getTotalRssFeed();
             }
 
             Element elem = xmlElements.getChildByName(RodkastItemModel.RSS_CHANNEL);
-                if(elem != null){
-                    Array<Element> items = elem.getChildrenByName(RodkastItemModel.RSS_ITEM);
-                    return buildRodkestEpisodes(items);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-    }
+            if(elem != null){
+                //System.out.println(elem);
+                //System.out.println(elem.getChildrenByName(RodkastItemModel.RSS_IMAGE));
 
-    private List<RodkastEpisode> buildRodkestEpisodes(Array<Element> items) throws MalformedURLException {
-        List<RodkastEpisode> episodes = null;
-
-        if(items != null){
-            episodes = new ArrayList<>();
-            for(Element item : items){
-                if(item != null){
-                    episodes.add(new RodkastEpisode(item));
-                }
+                return new RodkastChannel(elem);
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return episodes;
+        return null;
     }
 
     @Override

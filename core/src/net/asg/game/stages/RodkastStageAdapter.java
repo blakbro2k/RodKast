@@ -13,10 +13,12 @@ import net.asg.game.RodKastApplication;
 import net.asg.game.menu.ExitDialog;
 import net.asg.game.providers.AssetsManager;
 import net.asg.game.providers.ImageProvider;
+import net.asg.game.providers.MenuProvider;
 import net.asg.game.providers.SkinProvider;
 import net.asg.game.providers.SoundProvider;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.Utils;
+import net.asg.game.utils.parser.RodkastChannel;
 import net.asg.game.utils.parser.RodkastEpisode;
 import net.asg.game.utils.parser.XMLHandler;
 
@@ -31,15 +33,17 @@ public class RodkastStageAdapter extends Stage {
     protected static final int BANNER_SIZE = 50;
     //protected static final String BANNER_SIZE = ghvc   bhgn
     ImageProvider imageProvider;
-    SoundProvider soundProvider;
-    SkinProvider skinProvider;
-    AssetsManager manager;
+    private SoundProvider soundProvider;
+    private SkinProvider skinProvider;
+    private AssetsManager manager;
+    private OrthographicCamera camera;
+    MenuProvider menuProvider;
 
     private Dialog loadingDialog;
 
     protected RodKastApplication app;
     private XMLHandler xmlHandler;
-    private List<RodkastEpisode> episodeList;
+    private RodkastChannel rssChannel;
 
     Skin defaultSkin;
 
@@ -55,15 +59,16 @@ public class RodkastStageAdapter extends Stage {
 
         initializeStage();
 
-        OrthographicCamera camera = null;
         Utils.setUpCamera(camera);
         Gdx.input.setCatchBackKey(true);
     }
 
     private void initializeStage() {
         manager.loadPreAssets();
-
         defaultSkin = skinProvider.getRodKastUISkin();
+        menuProvider = new MenuProvider(defaultSkin);
+
+        System.out.println(menuProvider);
     }
 
     void loadAssets(){
@@ -79,10 +84,11 @@ public class RodkastStageAdapter extends Stage {
         loadingDialog.show(this);
 
         manager.loadPostAssets();
-        episodeList = xmlHandler.getCompleteEpisodesList();
+        rssChannel = xmlHandler.buildChannel();
 
         loadingDialog.hide();
-        System.out.println("exit load Assets");
+        //System.out.println(rssChannel + ": exit load Assets");
+        //Gdx.files.external()
     }
 
     public void setInputProcessor(){
@@ -110,11 +116,11 @@ public class RodkastStageAdapter extends Stage {
 
 
     List<RodkastEpisode> getEpisodelist(){
-        if(episodeList == null){
+        if(rssChannel == null){
             loadAssets();
         }
 
-        return episodeList;
+        return rssChannel.getEpisodes();
     }
 
     public int getBannerOffSet(){

@@ -6,7 +6,11 @@ import java.net.URL;
  * Created by Blakbro2k on 7/23/2017.
  */
 
-public class XMLEnclosure {
+class XMLEnclosure {
+    static final String LENGTH_ATTRIBUTE = "length";
+    static final String TYPE_ATTRIBUTE = "type";
+    static final String URL_ATTRIBUTE = "url";
+
     private float length;
     private String type;
     private URL url;

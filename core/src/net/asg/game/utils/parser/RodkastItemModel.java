@@ -1,15 +1,21 @@
 package net.asg.game.utils.parser;
 
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader.Element;
+
+import net.asg.game.utils.Utils;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by eboateng on 7/18/2017.
@@ -20,11 +26,13 @@ class RodkastItemModel{
     public static final String RSS_TITLE = "title";
     public static final String RSS_LINK = "link";
     public static final String RSS_PUBLISHED_DATE = "pubDate";
+    public static final String RSS_LAST_BUILD_DATE = "lastBuildDate";
     public static final String RSS_ITEM = "item";
     public static final String RSS_DESCRIPTION = "description";
     public static final String RSS_CATEGORY = "category";
     public static final String RSS_GUID = "guid";
-    public static final String RSS_COMMENTS = "comments";
+    public static final String RSS_LANGUAGE = "language";
+    public static final String RSS_IMAGE = "image";
     public static final String RSS_EPISODE = "enclosure";
     public static final String RSS_CHANNEL = "channel";
     public static final String RSS_DATE_PATTERN = "EEE, dd MMM yyyy HH:mm:ss Z";
@@ -54,9 +62,23 @@ class RodkastItemModel{
     public static Calendar getRssPubDate(Element item) throws IllegalArgumentException{
         checkNullElement(item);
 
-        Element elem = item.getChildByName(RSS_PUBLISHED_DATE);
+        return getXmlDateAttribute(RSS_PUBLISHED_DATE, item);
+    }
+
+    public static Calendar getLastBuildDate(Element item) throws IllegalArgumentException{
+        checkNullElement(item);
+
+        return getXmlDateAttribute(RSS_LAST_BUILD_DATE, item);
+    }
+
+    private static Calendar getXmlDateAttribute(String attr, Element element){
+        if(attr == null || element == null){
+            return null;
+        }
+
+        Element elem = element.getChildByName(attr);
         if(elem == null){
-            throwArgumentException(RSS_PUBLISHED_DATE);
+            throwArgumentException(attr);
         }
 
         return parseDate(elem.getText());
@@ -93,30 +115,85 @@ class RodkastItemModel{
         return elem.getText();
     }
 
-    public static XMLEnclosure getRssEnclosure(Element item) throws IllegalArgumentException{
-        checkNullElement(item);
+    public static XMLEnclosure getRssEnclosure(Element element) throws IllegalArgumentException{
+        checkNullElement(element);
 
-        Element elem = item.getChildByName(RSS_EPISODE);
+        Element elem = element.getChildByName(RSS_EPISODE);
         if(elem == null){
             throwArgumentException(RSS_EPISODE);
         }
 
-        return new XMLEnclosure(Float.parseFloat(elem.getAttribute("length")),
-                elem.getAttribute("type"),
-                elem.getAttribute("url"));
+        return new XMLEnclosure(Utils.atof(elem.getAttribute(XMLEnclosure.LENGTH_ATTRIBUTE)),
+                elem.getAttribute(XMLEnclosure.TYPE_ATTRIBUTE),
+                elem.getAttribute(XMLEnclosure.URL_ATTRIBUTE));
+    }
+
+    public static List<RodkastEpisode> getCompleteEpisodesList(Element element) {
+        if(element != null){
+            Array<Element> items = element.getChildrenByName(RodkastItemModel.RSS_ITEM);
+
+            try {
+                return buildRodkestEpisodes(items);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    private static List<RodkastEpisode> buildRodkestEpisodes(Array<Element> items) throws MalformedURLException {
+        List<RodkastEpisode> episodes = null;
+
+        if(items != null){
+            episodes = new ArrayList<>();
+            for(Element item : items){
+                if(item != null){
+                    episodes.add(new RodkastEpisode(item));
+                }
+            }
+        }
+        return episodes;
+    }
+
+   /* public static Map<String, XMLImage> getRssImages(Element item){
+        checkNullElement(item);
+        for()
+    }*/
+
+    public static String getRssLanguage(Element element) throws IllegalArgumentException{
+        checkNullElement(element);
+
+        Element elem = element.getChildByName(RSS_LANGUAGE);
+        if(elem == null){
+            throwArgumentException(RSS_LANGUAGE);
+        }
+        return elem.getText();
+    }
+
+    private static XMLImage getRssImage(Element element) throws IllegalArgumentException{
+        checkNullElement(element);
+
+        Element elem = element.getChildByName(RSS_IMAGE);
+        if(elem == null){
+            throwArgumentException(RSS_IMAGE);
+        }
+
+        return new XMLImage(elem.getAttribute(XMLImage.TITLE_ATTRIBUTE),
+                elem.getAttribute(XMLImage.LINK_ATTRIBUTE),
+                elem.getAttribute(XMLImage.URL_ATTRIBUTE));
     }
 
     private static void throwArgumentException(String name){
         throw new IllegalArgumentException(name + " attribute could not be found");
     }
 
-    private static void checkNullElement(Element item){
-        if(item == null){
+    private static void checkNullElement(Element element){
+        if(element == null){
             throw new IllegalArgumentException("Element item cannot be null");
         }
     }
 
-    public static Calendar parseDate(String date) {
+    private static Calendar parseDate(String date) {
         try {
             GregorianCalendar calendar = new GregorianCalendar();
             Date parsedDate = new SimpleDateFormat(RSS_DATE_PATTERN, Locale.US).parse(date);
@@ -126,4 +203,4 @@ class RodkastItemModel{
             return null;
         }
     }
- }
+}
