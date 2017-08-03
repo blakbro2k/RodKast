@@ -12,7 +12,6 @@ buildscript {
         classpath 'com.google.gms:google-services:3.1.0'
     }
 }
-
 allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
@@ -39,7 +38,6 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
 }
-
 project(":desktop") {
     apply plugin: "java"
 
@@ -53,7 +51,6 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
     }
 }
-
 project(":android") {
     apply plugin: "android"
 
@@ -75,7 +72,6 @@ project(":android") {
         compile "com.google.android.gms:play-services:$gpsVerstion"
     }
 }
-
 project(":ios") {
     apply plugin: "java"
     apply plugin: "robovm"
@@ -91,7 +87,6 @@ project(":ios") {
         compile "de.tomgrill.gdxdialogs:gdx-dialogs-ios:$gdxDialogs"
     }
 }
-
 project(":core") {
     apply plugin: "java"
 
@@ -110,7 +105,6 @@ project(":core") {
         testCompile "org.mockito:mockito-core:1.10.19"
     }
 }
-
 project(":ios-moe") {
     apply plugin: "moe"
 
@@ -123,7 +117,6 @@ project(":ios-moe") {
         compile "de.tomgrill.gdxdialogs:gdx-dialogs-ios-moe:$gdxDialogs"
     }
 }
-
 tasks.eclipse.doLast {
     delete ".project"
 }

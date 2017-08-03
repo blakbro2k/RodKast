@@ -3,6 +3,7 @@
     package="net.asg.game" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name="net.asg.game.MainApplication"
         android:allowBackup="true"

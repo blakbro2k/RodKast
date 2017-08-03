@@ -15,7 +15,7 @@ import java.util.Locale;
  * Created by eboateng on 7/18/2017.
  */
 
-public class RodkastItemModel{
+class RodkastItemModel{
     public static final String RODKAST_URL_STRING = "http://rodkast.com/feed/podcast/";
     public static final String RSS_TITLE = "title";
     public static final String RSS_LINK = "link";

@@ -33,7 +33,7 @@ public class HomeStage extends RodkastStageAdapter {
         Table main = new Table();
         main.setWidth(GlobalConstants.VIEWPORT_WIDTH);
         main.setHeight(GlobalConstants.VIEWPORT_HEIGHT);
-        main.debug();
+        //main.debug();
 
         setUpStageTitleWindow(main);
         setUpPlayerWindow(main);

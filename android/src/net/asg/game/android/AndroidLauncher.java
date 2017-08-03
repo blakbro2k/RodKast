@@ -59,6 +59,7 @@ public class AndroidLauncher extends AndroidApplication implements GameEventList
 
 	private AdRequest getAdRequest() {
 		return new AdRequest.Builder().build();
+		//return new AdRequest.Builder().addTestDevice("712D5CA7D48BB511B478EAFB18166B22").build();
 	}
 
 	private View createAppView(RodKastApplication rodKastApplication, AndroidApplicationConfiguration config) {

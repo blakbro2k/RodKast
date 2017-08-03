@@ -30,6 +30,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_6
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 }
 
 // called every time gradle gets executed, takes the native dependencies of
@@ -109,11 +113,8 @@ eclipse {
         buildCommand "com.android.ide.eclipse.adt.ApkBuilder"
     }
 }
-
 // sets up the Android Idea project, using the old Ant based build.
-idea {
-    module {
-        sourceDirs += file( "src" );scopes =[ COMPILE: [plus: [project.configurations.compile]]]        
+idea { module { sourceDirs+= file("src"); scopes = [COMPILE: [plus: [project.configurations.compile]]]
 
         iml {
             withXml {
@@ -122,7 +123,7 @@ idea {
                 builder.current = node;
                 builder.component(name: "FacetManager") {
                     facet(type: "android", name: "Android") {
-                        configuration { option(name:"UPDATE_PROPERTY_FILES" , value:"true")
+                            configuration { option(name: "UPDATE_PROPERTY_FILES" , value:"true")
                         }
                     }
                 }

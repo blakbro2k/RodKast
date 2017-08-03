@@ -22,7 +22,7 @@ public class BackButton extends ButtonAdapter {
 
     @Override
     protected String getRegionName() {
-        return ButtonAdapter.SETTINGS_REGION_NAME;
+        return ButtonAdapter.BACK_REGION_NAME;
     }
 
     @Override

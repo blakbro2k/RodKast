@@ -15,12 +15,15 @@ public abstract class ButtonAdapter extends Button {
     public static final String SETTINGS_REGION_NAME = "music";
     public static final String CALL_REGION_NAME = "call";
     public static final String RODKAST_REGION_NAME = "rodkast_icon";
+    public static final String DOWNLOAD_REGION_NAME = "sound";
+    public static final String BACK_REGION_NAME = "music";
 
     protected final Rectangle bounds;
     private final Skin skin;
 
 
     public ButtonAdapter(Rectangle bounds, Skin skin) {
+        super(skin);
         this.bounds = bounds;
         this.skin = skin;
 

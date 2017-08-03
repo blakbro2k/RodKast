@@ -2,13 +2,18 @@ package net.asg.game.stages;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.asg.game.RodKastApplication;
 import net.asg.game.menu.BackButton;
+import net.asg.game.menu.DownloadButton;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.Utils;
 import net.asg.game.utils.parser.RodkastEpisode;
@@ -23,6 +28,8 @@ import java.util.List;
 public class PlayListStage extends RodkastStageAdapter{
     private static final float PLAYER_WINDOW_SIZE = .2f;
     private static final float PLAYLIST_WINDOW_SIZE = .8f;
+    private static final float PLAYLIST_PADDING = 4f;
+
     //protected Skin defaultSkin;
     protected Label.LabelStyle homeScreenLabelStyle;
 
@@ -34,7 +41,7 @@ public class PlayListStage extends RodkastStageAdapter{
         Table main = new Table();
         main.setWidth(GlobalConstants.VIEWPORT_WIDTH);
         main.setHeight(GlobalConstants.VIEWPORT_HEIGHT);
-        main.debug();
+        //main.debug();
 
         setUpStageTitleWindow(main);
         setUpPlayerWindow(main);
@@ -68,16 +75,16 @@ public class PlayListStage extends RodkastStageAdapter{
 
     private Actor setUpPlayListActor(List<RodkastEpisode> episodes) {
         Table playList = new Table();
+        playList.setWidth(GlobalConstants.VIEWPORT_WIDTH - 20);
+        //playList.debug();
 
         for(RodkastEpisode episode : episodes){
             if(episode != null){
-                Rectangle settingsButtonSound = new Rectangle(0, 0, 20, 20);
+                Button downloadButton = new Button(defaultSkin, "right");
 
-                BackButton backButton = new BackButton(settingsButtonSound, defaultSkin, new BackButtonListener());
-
-                playList.add(createDateActor(episode)).center().pad(2f);
-                playList.add(createTitleActor(episode)).left().pad(2f);
-                playList.add(backButton).left();
+                playList.add(createDateActor(episode)).center().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);
+                playList.add(createTitleActor(episode)).left().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);
+                playList.add(downloadButton).left();
                 playList.row();
             }
         }
@@ -113,11 +120,20 @@ public class PlayListStage extends RodkastStageAdapter{
 
     private void setUpStageTitleWindow(Table main){
         Label nameLabel = new Label(GlobalConstants.GAME_TITLE, homeScreenLabelStyle);
-        Rectangle settingsButtonSound = new Rectangle(0, 0, BANNER_SIZE, BANNER_SIZE);
+        //Rectangle settingsButtonSound = new Rectangle(0, 0, BANNER_SIZE, BANNER_SIZE);
 
-        BackButton backButton = new BackButton(settingsButtonSound, defaultSkin, new BackButtonListener());
+        //BackButton backButton = new BackButton(settingsButtonSound, defaultSkin, new BackButtonListener());
 
-        main.add(backButton);
+        Button backButton = new Button(defaultSkin, "left");
+        backButton.addListener(new ClickListener()
+        {
+            @Override
+            public void clicked (InputEvent event, float x, float y) {
+                Utils.backButton(app);
+            }
+        });
+
+        main.add(backButton).padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);
         main.add(nameLabel).expandX().height(BANNER_SIZE);
     }
 
@@ -125,6 +141,14 @@ public class PlayListStage extends RodkastStageAdapter{
     private class BackButtonListener implements BackButton.BackButtonListener{
         @Override
         public void onBackPress() {
+            Utils.backButton(app);
+        }
+    }
+
+    // Set up button listeners
+    private class DownloadButtonListener implements DownloadButton.DownloadButtonListener{
+        @Override
+        public void onDownload() {
             Utils.backButton(app);
         }
     }

@@ -34,6 +34,10 @@ public class Utils {
         }
     }
 
+    /**
+     *
+     * @param app
+     */
     private static void processExit(RodKastApplication app){
         ExitDialog exitDialog = app.getExitDialog();
         RodKastScreenAdapter screen = app.getCurrentScreen();
@@ -80,6 +84,11 @@ public class Utils {
         camera.update();
     }
 
+    /**
+     *
+     * @param numMonth
+     * @return
+     */
     public static String getThreeLetterMonth(int numMonth){
         String ret = "";
         switch(numMonth){
@@ -125,6 +134,11 @@ public class Utils {
         return ret;
     }
 
+    /**
+     *
+     * @param title
+     * @return
+     */
     public static String cleanTitle(String title) {
         String ret = "";
         if (title != null){
