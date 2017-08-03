@@ -14,8 +14,6 @@ public class ExitDialog extends Dialog {
     public ExitDialog(String title, Skin skin) {
         super("", skin);
 
-        //button("Yes", true);
-       // button("No", false);
         text(title);
         resetCount();
     }
@@ -40,7 +38,6 @@ public class ExitDialog extends Dialog {
             hide();
         }
         count = 0;
-        //reset();
     }
 
     public int getCount(){

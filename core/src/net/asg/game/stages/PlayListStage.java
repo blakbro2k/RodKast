@@ -53,7 +53,6 @@ public class PlayListStage extends RodkastStageAdapter{
     }
 
     private void setUpPlayListWindow(Table main) {
-        //Label nameLabel = new Label("Playlist Window Section", homeScreenLabelStyle);
         Actor playList = setUpPlayListActor(getEpisodelist());
 
         ScrollPane pane = new ScrollPane(playList);
@@ -69,7 +68,6 @@ public class PlayListStage extends RodkastStageAdapter{
 
     private Actor setUpPlayListActor(List<RodkastEpisode> episodes) {
         Table playList = new Table();
-        //playList.debug();
 
         for(RodkastEpisode episode : episodes){
             if(episode != null){
@@ -92,7 +90,6 @@ public class PlayListStage extends RodkastStageAdapter{
             return null;
         }
 
-        System.out.println(episode.getTitle());
         Label titleLabel = new Label(Utils.cleanTitle(episode.getTitle()), homeScreenLabelStyle);
         return new Container<Label>(titleLabel).fill();
     }

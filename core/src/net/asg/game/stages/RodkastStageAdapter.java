@@ -103,7 +103,7 @@ public class RodkastStageAdapter extends Stage {
 
         ExitDialog exitDialog = app.getExitDialog();
         if(exitDialog != null && exitDialog.isVisible()){
-            exitDialog.resetCount() ;
+            exitDialog.resetCount();
         }
         return true;
     }
@@ -116,7 +116,6 @@ public class RodkastStageAdapter extends Stage {
 
         return episodeList;
     }
-
 
     public int getBannerOffSet(){
         return (GlobalConstants.VIEWPORT_HEIGHT - BANNER_SIZE * 2);

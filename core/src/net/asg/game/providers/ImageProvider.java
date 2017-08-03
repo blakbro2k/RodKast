@@ -26,9 +26,9 @@ public class ImageProvider implements Disposable{
     public final String CALL_UP_ATLAS = "call";
     public final String CALL_DOWN_ATLAS = "call";
     public final String CALL_OVER_ATLAS = "call";
-    public final String RODKAST_UP_ATLAS = "rodkast_icon";
-    public final String RODKAST_DOWN_ATLAS = "rodkast_icon";
-    public final String RODKAST_OVER_ATLAS = "rodkast_icon";
+    public final String RODKAST_UP_ATLAS = "RodKast_small";
+    public final String RODKAST_DOWN_ATLAS = "RodKast_small";
+    public final String RODKAST_OVER_ATLAS = "RodKast_small";
 
 
     private AssetsManager assetsManager;

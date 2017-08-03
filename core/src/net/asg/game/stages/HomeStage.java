@@ -18,6 +18,9 @@ public class HomeStage extends RodkastStageAdapter {
     //TODO: shopButton
     //TODO: Social Medial
 
+    private static final float SOCIAL_WINDOW_SIZE = .4f;
+    private static final float PLAYER_WINDOW_SIZE = .6f;
+
     //protected Skin defaultSkin;
     protected Label.LabelStyle homeScreenLabelStyle;
 
@@ -43,19 +46,18 @@ public class HomeStage extends RodkastStageAdapter {
 
     private void setUpStageTitleWindow(Table main){
         Label nameLabel = new Label(GlobalConstants.GAME_TITLE, homeScreenLabelStyle);
-
         main.add(nameLabel).expandX().height(BANNER_SIZE);
     }
 
     private void setUpAdMobWindow(Table main) {
-        Label nameLabel = new Label("Admob Window Section", homeScreenLabelStyle);
+        Label nameLabel = new Label("Admob Could not load", homeScreenLabelStyle);
         app.getGameEvenListener().showBannerAd();
         main.row();
-        main.add(nameLabel).expandX().height(BANNER_SIZE).colspan(4);
+        main.add(nameLabel).fill().height(BANNER_SIZE).colspan(4);
     }
 
     private void setUpPlayerWindow(Table main) {
-        Label nameLabel = new Label("Player Window Section", homeScreenLabelStyle);
+        //Label nameLabel = new Label("Player Window Section", homeScreenLabelStyle);
 
         ImageButton playerButton = new ImageButton(imageProvider.getRodKastButtonStyle());
         playerButton.addListener(new ClickListener()
@@ -64,19 +66,16 @@ public class HomeStage extends RodkastStageAdapter {
             public void clicked (InputEvent event, float x, float y) {
                 app.pushScreen(app.getCurrentScreen());
                 app.gotoPlayListScreen();
-                //app.getGameEvenListener().appLog("HOMESCREEN", event + "");
             }
         });
 
         main.row();
-        //playerButton;
-        //playerButton.setHeight(100);
-        main.add(playerButton).fill().height(getBannerOffSet() * .6f).colspan(4).expandX().expandY();
+        main.add(playerButton).fill().height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(4);
     }
 
     private void setUpSocialWindow(Table main) {
         Label nameLabel = new Label("Social Window Section", homeScreenLabelStyle);
         main.row();
-        main.add(nameLabel).expandX().height(getBannerOffSet() * .4f).colspan(4);
+        main.add(nameLabel).fill().height(getBannerOffSet() * SOCIAL_WINDOW_SIZE).colspan(4);
     }
 }
