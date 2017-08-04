@@ -22,21 +22,12 @@ public class XMLHandler implements Disposable{
     protected Element xmlElements;
     protected boolean isFeedFetched;
 
-    public XMLHandler(){
-        try {
+    public XMLHandler() throws MalformedURLException {
             this.urlLink = new URL(RodkastItemModel.RODKAST_URL_STRING);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
     }
 
-    private InputStream getXMLstream(){
-        try {
-            return urlLink.openConnection().getInputStream();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+    private InputStream getXMLstream() throws IOException {
+        return urlLink.openConnection().getInputStream();
     }
 
     public void getTotalRssFeed() throws IOException {
@@ -47,29 +38,22 @@ public class XMLHandler implements Disposable{
                 xmlElements = reader.parse(inputStream);
                 isFeedFetched = true;
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new IOException(e);
             } finally {
                 inputStream.close();
             }
         }
     }
 
-    public RodkastChannel buildChannel(){
-        try {
+    public RodkastChannel buildChannel() throws IOException {
             if(!isFeedFetched){
                 getTotalRssFeed();
             }
 
             Element elem = xmlElements.getChildByName(RodkastItemModel.RSS_CHANNEL);
             if(elem != null){
-                //System.out.println(elem);
-                //System.out.println(elem.getChildrenByName(RodkastItemModel.RSS_IMAGE));
-
                 return new RodkastChannel(elem);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return null;
     }
 

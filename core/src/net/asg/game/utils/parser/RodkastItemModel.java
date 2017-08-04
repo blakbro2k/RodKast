@@ -115,7 +115,7 @@ class RodkastItemModel{
         return elem.getText();
     }
 
-    public static XMLEnclosure getRssEnclosure(Element element) throws IllegalArgumentException{
+    public static XMLEnclosure getRssEnclosure(Element element) throws IllegalArgumentException, MalformedURLException {
         checkNullElement(element);
 
         Element elem = element.getChildByName(RSS_EPISODE);
@@ -170,7 +170,7 @@ class RodkastItemModel{
         return elem.getText();
     }
 
-    private static XMLImage getRssImage(Element element) throws IllegalArgumentException{
+    private static XMLImage getRssImage(Element element) throws IllegalArgumentException, MalformedURLException {
         checkNullElement(element);
 
         Element elem = element.getChildByName(RSS_IMAGE);

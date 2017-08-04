@@ -30,10 +30,8 @@ public class ImageProvider implements Disposable{
     public final String RODKAST_DOWN_ATLAS = "RodKast_small";
     public final String RODKAST_OVER_ATLAS = "RodKast_small";
 
-
     private AssetsManager assetsManager;
     private TextureAtlas atlas;
-
 
     ImageProvider(AssetsManager assetsManager) {
         this.assetsManager = assetsManager;

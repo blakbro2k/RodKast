@@ -23,6 +23,7 @@ import net.asg.game.utils.parser.RodkastEpisode;
 import net.asg.game.utils.parser.XMLHandler;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 
 /**
@@ -67,8 +68,6 @@ public class RodkastStageAdapter extends Stage {
         manager.loadPreAssets();
         defaultSkin = skinProvider.getRodKastUISkin();
         menuProvider = new MenuProvider(defaultSkin);
-
-        System.out.println(menuProvider);
     }
 
     void loadAssets(){
@@ -76,19 +75,21 @@ public class RodkastStageAdapter extends Stage {
         if(loadingDialog == null){
             loadingDialog = new Dialog("Loading...", defaultSkin);
         }
-
-        if(xmlHandler == null){
-            xmlHandler = new XMLHandler();
-        }
-
         loadingDialog.show(this);
 
         manager.loadPostAssets();
-        rssChannel = xmlHandler.buildChannel();
+        try{
+            if(xmlHandler == null){
+                xmlHandler = new XMLHandler();
+            }
+            rssChannel = xmlHandler.buildChannel();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         loadingDialog.hide();
-        //System.out.println(rssChannel + ": exit load Assets");
-        //Gdx.files.external()
     }
 
     public void setInputProcessor(){

@@ -14,6 +14,7 @@ import net.asg.game.utils.GameEventListener;
 import net.asg.game.utils.Utils;
 import net.asg.game.utils.parser.XMLHandler;
 
+import java.net.MalformedURLException;
 import java.util.Stack;
 
 public class RodKastApplication extends Game {
@@ -42,7 +43,11 @@ public class RodKastApplication extends Game {
 	@Override
 	public void create() {
         assetsManager = new AssetsManager();
-		xmlHandler = new XMLHandler();
+		try {
+			xmlHandler = new XMLHandler();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
 
 		fpsLog = new FPSLogger();
 		fpsLog.log();

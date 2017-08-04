@@ -1,5 +1,6 @@
 package net.asg.game.utils.parser;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -15,15 +16,10 @@ class XMLEnclosure {
     private String type;
     private URL url;
 
-    public XMLEnclosure(float length, String type, String url){
+    public XMLEnclosure(float length, String type, String url) throws MalformedURLException {
         this.length = length;
         this.type = type;
-
-        try{
-            this.url = new URL(url);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        this.url = new URL(url);
     }
 
     public float getLength() {

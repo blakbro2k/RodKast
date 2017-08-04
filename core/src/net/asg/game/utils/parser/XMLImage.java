@@ -1,5 +1,6 @@
 package net.asg.game.utils.parser;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -17,15 +18,10 @@ public class XMLImage {
     private URL link;
     private URL url;
 
-    public XMLImage(String title, String link, String url){
+    public XMLImage(String title, String link, String url) throws MalformedURLException{
         this.title = title;
-
-        try{
-            this.link = new URL(link);
-            this.url = new URL(url);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        this.link = new URL(link);
+        this.url = new URL(url);
     }
 
     public String getTitle() {
