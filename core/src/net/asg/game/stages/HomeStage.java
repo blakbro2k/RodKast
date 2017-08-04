@@ -14,19 +14,12 @@ import net.asg.game.utils.GlobalConstants;
  */
 
 public class HomeStage extends RodkastStageAdapter {
-    //TODO: callButton
-    //TODO: shopButton
     //TODO: Social Medial
-
     private static final float SOCIAL_WINDOW_SIZE = .4f;
     private static final float PLAYER_WINDOW_SIZE = .6f;
 
-    protected Label.LabelStyle homeScreenLabelStyle;
-
     public HomeStage(RodKastApplication app){
         super(app);
-
-        homeScreenLabelStyle = menuProvider.getTitleLableStyle();
 
         Table main = new Table();
         main.setWidth(GlobalConstants.VIEWPORT_WIDTH);
@@ -59,7 +52,6 @@ public class HomeStage extends RodkastStageAdapter {
 
     private void setUpPlayerWindow(Table main) {
         //Label nameLabel = new Label("Player Window Section", homeScreenLabelStyle);
-
         ImageButton playerButton = new ImageButton(imageProvider.getRodKastButtonStyle());
         playerButton.addListener(new ClickListener()
         {

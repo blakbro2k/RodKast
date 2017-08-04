@@ -1,5 +1,6 @@
 package net.asg.game.utils.parser;
 
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.XmlReader;
 
 import java.net.MalformedURLException;
@@ -12,7 +13,7 @@ import java.util.Map;
  * Created by Blakbro2k on 7/22/2017.
  */
 
-public class RodkastChannel {
+public class RodkastChannel implements Disposable{
     private String title;
     private URL link;
     private String description;
@@ -63,5 +64,18 @@ public class RodkastChannel {
                 + "Description: " + getDescription() + "\n"
                 + "episode: " + getEpisodes() + "\n"
                 + "</Title>";
+    }
+
+    @Override
+    public void dispose() {
+        title = null;
+        link  = null;
+        description = null;
+        lastBuildDate.clear();
+        lastBuildDate = null;
+        language = null;
+        episodes.clear();
+        episodes = null;
+        //private Map<String,XMLImage> images;
     }
 }

@@ -1,6 +1,5 @@
 package net.asg.game.providers;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -17,6 +16,7 @@ public class MenuProvider implements Disposable {
     private static final String RIGHT_BUTTON = "right";
     private static final String LEFT_BUTTON = "left";
     private static final String FONT_TITLE = "font-title";
+    private static final String LABEL_STYLE_DEFAULT = "default";
 
     private Skin skin;
     private BitmapFont defaultFont;
@@ -26,6 +26,7 @@ public class MenuProvider implements Disposable {
             throw new NullPointerException("Skin cannot be null");
         }
         this.skin = skin;
+        getTitleFont();
     }
 
     public Button getRightButton(){
@@ -44,7 +45,7 @@ public class MenuProvider implements Disposable {
     }
 
     public Label.LabelStyle getTitleLableStyle(){
-        return new Label.LabelStyle(getTitleFont(), Color.WHITE);
+        return skin.get(LABEL_STYLE_DEFAULT, Label.LabelStyle.class);
     }
 
     @Override

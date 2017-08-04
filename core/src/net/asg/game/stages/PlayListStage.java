@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -26,13 +27,8 @@ public class PlayListStage extends RodkastStageAdapter{
     private static final float PLAYLIST_WINDOW_SIZE = .8f;
     private static final float PLAYLIST_PADDING = 4f;
 
-    //protected Skin defaultSkin;
-    protected Label.LabelStyle homeScreenLabelStyle;
-
     public PlayListStage(RodKastApplication app){
         super(app);
-
-        homeScreenLabelStyle = imageProvider.getDefaultLableStyle();
 
         Table main = new Table();
         main.setWidth(GlobalConstants.VIEWPORT_WIDTH);
@@ -74,13 +70,15 @@ public class PlayListStage extends RodkastStageAdapter{
         playList.setWidth(GlobalConstants.VIEWPORT_WIDTH);
         //playList.debug();
 
+        //HorizontalGroup hGroup = new HorizontalGroup();
+
+
+        //TODO: Group date Actor and Title Actor into a button that changes episode in player
         for(RodkastEpisode episode : episodes){
             if(episode != null){
-                Button downloadButton = menuProvider.getRightButton();
-
                 playList.add(createDateActor(episode)).center().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);
                 playList.add(createTitleActor(episode)).left().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);
-                playList.add(downloadButton).left();
+                playList.add(menuProvider.getRightButton()).left();
                 playList.row();
             }
         }
@@ -102,7 +100,6 @@ public class PlayListStage extends RodkastStageAdapter{
             return null;
         }
         //TODO: add null checks
-
         Calendar pubDate = episode.getPubishedDate();
 
         Table table = new Table();

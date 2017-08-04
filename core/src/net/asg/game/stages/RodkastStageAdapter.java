@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
@@ -32,21 +33,24 @@ import java.util.List;
 
 public class RodkastStageAdapter extends Stage {
     protected static final int BANNER_SIZE = 50;
-    //protected static final String BANNER_SIZE = ghvc   bhgn
+
     ImageProvider imageProvider;
     private SoundProvider soundProvider;
     private SkinProvider skinProvider;
-    private AssetsManager manager;
-    private OrthographicCamera camera;
+    AssetsManager manager;
+    RodKastApplication app;
+    XMLHandler xmlHandler;
+
+    OrthographicCamera camera;
     MenuProvider menuProvider;
 
-    private Dialog loadingDialog;
-
-    protected RodKastApplication app;
-    private XMLHandler xmlHandler;
-    private RodkastChannel rssChannel;
+    Dialog loadingDialog;
+    RodkastChannel rssChannel;
 
     Skin defaultSkin;
+
+    //protected Skin defaultSkin;
+    protected Label.LabelStyle homeScreenLabelStyle;
 
     public RodkastStageAdapter(RodKastApplication app) {
         super(new ScalingViewport(Scaling.stretch, GlobalConstants.VIEWPORT_WIDTH, GlobalConstants.VIEWPORT_HEIGHT,
@@ -67,7 +71,9 @@ public class RodkastStageAdapter extends Stage {
     private void initializeStage() {
         manager.loadPreAssets();
         defaultSkin = skinProvider.getRodKastUISkin();
+
         menuProvider = new MenuProvider(defaultSkin);
+        homeScreenLabelStyle = menuProvider.getTitleLableStyle();
     }
 
     void loadAssets(){
@@ -124,5 +130,13 @@ public class RodkastStageAdapter extends Stage {
 
     public int getBannerOffSet(){
         return (GlobalConstants.VIEWPORT_HEIGHT - BANNER_SIZE * 2);
+    }
+
+    @Override
+    public void dispose(){
+        Utils.disposeObjects(menuProvider,
+                rssChannel,
+                defaultSkin);
+        camera = null;
     }
 }
