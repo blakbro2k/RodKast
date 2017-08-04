@@ -92,40 +92,40 @@ public class Utils {
     public static String getThreeLetterMonth(int numMonth){
         String ret = "";
         switch(numMonth){
-            case 1:
+            case 0:
                 ret = "JAN";
                 break;
-            case 2:
+            case 1:
                 ret = "FEB";
                 break;
-            case 3:
+            case 2:
                 ret = "MAR";
                 break;
-            case 4:
+            case 3:
                 ret = "APR";
                 break;
-            case 5:
+            case 4:
                 ret = "MAY";
                 break;
-            case 6:
+            case 5:
                 ret = "JUN";
                 break;
-            case 7:
+            case 6:
                 ret = "JUL";
                 break;
-            case 8:
+            case 7:
                 ret = "AUG";
                 break;
-            case 9:
+            case 8:
                 ret = "SEP";
                 break;
-            case 10:
+            case 9:
                 ret = "OCT";
                 break;
-            case 11:
+            case 10:
                 ret = "NOV";
                 break;
-            case 12:
+            case 11:
                 ret = "DEC";
                 break;
             default:

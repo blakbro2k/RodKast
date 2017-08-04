@@ -1,19 +1,15 @@
 package net.asg.game.stages;
 
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.asg.game.RodKastApplication;
-import net.asg.game.menu.BackButton;
-import net.asg.game.menu.DownloadButton;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.Utils;
 import net.asg.game.utils.parser.RodkastEpisode;
@@ -75,12 +71,12 @@ public class PlayListStage extends RodkastStageAdapter{
 
     private Actor setUpPlayListActor(List<RodkastEpisode> episodes) {
         Table playList = new Table();
-        playList.setWidth(GlobalConstants.VIEWPORT_WIDTH - 20);
+        playList.setWidth(GlobalConstants.VIEWPORT_WIDTH);
         //playList.debug();
 
         for(RodkastEpisode episode : episodes){
             if(episode != null){
-                Button downloadButton = new Button(defaultSkin, "right");
+                Button downloadButton = menuProvider.getRightButton();
 
                 playList.add(createDateActor(episode)).center().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);
                 playList.add(createTitleActor(episode)).left().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);
@@ -98,13 +94,14 @@ public class PlayListStage extends RodkastStageAdapter{
         }
 
         Label titleLabel = new Label(Utils.cleanTitle(episode.getTitle()), homeScreenLabelStyle);
-        return new Container<Label>(titleLabel).fill();
+        return new Container<>(titleLabel).fill();
     }
 
     private Actor createDateActor(RodkastEpisode episode) {
         if(episode == null){
             return null;
         }
+        //TODO: add null checks
 
         Calendar pubDate = episode.getPubishedDate();
 
@@ -115,16 +112,13 @@ public class PlayListStage extends RodkastStageAdapter{
         table.add(monthLabel).center();
         table.row();
         table.add(dayLabel).center();
-        return new Container<Table>(table);
+        return new Container<>(table);
     }
 
     private void setUpStageTitleWindow(Table main){
         Label nameLabel = new Label(GlobalConstants.GAME_TITLE, homeScreenLabelStyle);
-        //Rectangle settingsButtonSound = new Rectangle(0, 0, BANNER_SIZE, BANNER_SIZE);
 
-        //BackButton backButton = new BackButton(settingsButtonSound, defaultSkin, new BackButtonListener());
-
-        Button backButton = new Button(defaultSkin, "left");
+        Button backButton = menuProvider.getBackButton();
         backButton.addListener(new ClickListener()
         {
             @Override
@@ -135,21 +129,5 @@ public class PlayListStage extends RodkastStageAdapter{
 
         main.add(backButton).padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);
         main.add(nameLabel).expandX().height(BANNER_SIZE);
-    }
-
-    // Set up button listeners
-    private class BackButtonListener implements BackButton.BackButtonListener{
-        @Override
-        public void onBackPress() {
-            Utils.backButton(app);
-        }
-    }
-
-    // Set up button listeners
-    private class DownloadButtonListener implements DownloadButton.DownloadButtonListener{
-        @Override
-        public void onDownload() {
-            Utils.backButton(app);
-        }
     }
 }

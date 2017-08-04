@@ -15,9 +15,11 @@ import net.asg.game.utils.Utils;
 
 public class MenuProvider implements Disposable {
     private static final String RIGHT_BUTTON = "right";
+    private static final String LEFT_BUTTON = "left";
     private static final String FONT_TITLE = "font-title";
 
     private Skin skin;
+    private BitmapFont defaultFont;
 
     public MenuProvider(Skin skin){
         if(skin == null){
@@ -30,20 +32,23 @@ public class MenuProvider implements Disposable {
         return new Button(skin, RIGHT_BUTTON);
     }
 
+    public Button getBackButton(){
+        return new Button(skin, LEFT_BUTTON);
+    }
+
     private BitmapFont getTitleFont(){
-        return skin.getFont(FONT_TITLE);
+        if(defaultFont == null){
+            defaultFont = skin.getFont(FONT_TITLE);
+        }
+        return defaultFont;
     }
 
     public Label.LabelStyle getTitleLableStyle(){
-        BitmapFont font = getTitleFont();
-        if(font != null){
-            return new Label.LabelStyle(font, Color.WHITE);
-        }
-        return null;
+        return new Label.LabelStyle(getTitleFont(), Color.WHITE);
     }
 
     @Override
     public void dispose() {
-        Utils.disposeObjects(skin);
+        Utils.disposeObjects(skin,defaultFont);
     }
 }

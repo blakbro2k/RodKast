@@ -83,8 +83,6 @@ public class RodkastStageAdapter extends Stage {
                 xmlHandler = new XMLHandler();
             }
             rssChannel = xmlHandler.buildChannel();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

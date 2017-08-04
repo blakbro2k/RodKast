@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * Created by eboateng on 7/18/2017.
@@ -39,84 +38,40 @@ class RodkastItemModel{
 
     private RodkastItemModel(){}
 
-    protected static String getRssTitle(Element item) throws IllegalArgumentException{
-        checkNullElement(item);
-
-        Element elem = item.getChildByName(RSS_TITLE);
-        if(elem == null){
-            throwArgumentException(RSS_TITLE);
-        }
-        return elem.getText();
+    public static URL getRssUrl(Element element) throws MalformedURLException, IllegalArgumentException {
+        return getXmlURLAttribute(RSS_LINK, element);
     }
 
-    public static URL getRssUrl(Element item) throws MalformedURLException, IllegalArgumentException {
-        checkNullElement(item);
-
-        Element elem = item.getChildByName(RSS_LINK);
-        if(elem == null){
-            throwArgumentException(RSS_LINK);
-        }
-        return new URL(elem.getText());
+    public static Calendar getRssPubDate(Element element) throws IllegalArgumentException{
+        return getXmlDateAttribute(RSS_PUBLISHED_DATE, element);
     }
 
-    public static Calendar getRssPubDate(Element item) throws IllegalArgumentException{
-        checkNullElement(item);
-
-        return getXmlDateAttribute(RSS_PUBLISHED_DATE, item);
+    public static Calendar getLastBuildDate(Element element) throws IllegalArgumentException{
+        return getXmlDateAttribute(RSS_LAST_BUILD_DATE, element);
     }
 
-    public static Calendar getLastBuildDate(Element item) throws IllegalArgumentException{
-        checkNullElement(item);
-
-        return getXmlDateAttribute(RSS_LAST_BUILD_DATE, item);
+    public static String getRssTitle(Element element) throws IllegalArgumentException{
+        return getXmlStringAttribute(RSS_TITLE, element);
     }
 
-    private static Calendar getXmlDateAttribute(String attr, Element element){
-        if(attr == null || element == null){
-            return null;
-        }
-
-        Element elem = element.getChildByName(attr);
-        if(elem == null){
-            throwArgumentException(attr);
-        }
-
-        return parseDate(elem.getText());
+    public static String getRssGUID(Element element) throws IllegalArgumentException{
+        return getXmlStringAttribute(RSS_GUID, element);
     }
 
-    public static String getRssGUID(Element item) throws IllegalArgumentException{
-        checkNullElement(item);
-
-        Element elem = item.getChildByName(RSS_GUID);
-        if(elem == null){
-            throwArgumentException(RSS_GUID);
-        }
-        return elem.getText();
+    public static String getRssDescription(Element element) throws IllegalArgumentException{
+        return getXmlStringAttribute(RSS_DESCRIPTION, element);
     }
 
-    public static String getRssDescription(Element item) throws IllegalArgumentException{
-        checkNullElement(item);
-
-        Element elem = item.getChildByName(RSS_DESCRIPTION);
-        if(elem == null){
-            throwArgumentException(RSS_DESCRIPTION);
-        }
-        return elem.getText();
-
+    public static String getRssCategory(Element element) throws IllegalArgumentException{
+        return getXmlStringAttribute(RSS_CATEGORY, element);
     }
 
-    public static String getRssCategory(Element item) throws IllegalArgumentException{
-        checkNullElement(item);
-
-        Element elem = item.getChildByName(RSS_CATEGORY);
-        if(elem == null){
-            throwArgumentException(RSS_CATEGORY);
-        }
-        return elem.getText();
+    public static String getRssLanguage(Element element) throws IllegalArgumentException{
+        return getXmlStringAttribute(RSS_LANGUAGE, element);
     }
 
     public static XMLEnclosure getRssEnclosure(Element element) throws IllegalArgumentException, MalformedURLException {
-        checkNullElement(element);
+        //validateInput(element);
 
         Element elem = element.getChildByName(RSS_EPISODE);
         if(elem == null){
@@ -156,22 +111,13 @@ class RodkastItemModel{
     }
 
    /* public static Map<String, XMLImage> getRssImages(Element item){
-        checkNullElement(item);
+        validateInput(item);
         for()
     }*/
 
-    public static String getRssLanguage(Element element) throws IllegalArgumentException{
-        checkNullElement(element);
-
-        Element elem = element.getChildByName(RSS_LANGUAGE);
-        if(elem == null){
-            throwArgumentException(RSS_LANGUAGE);
-        }
-        return elem.getText();
-    }
 
     private static XMLImage getRssImage(Element element) throws IllegalArgumentException, MalformedURLException {
-        checkNullElement(element);
+        //validateInput(element);
 
         Element elem = element.getChildByName(RSS_IMAGE);
         if(elem == null){
@@ -183,14 +129,37 @@ class RodkastItemModel{
                 elem.getAttribute(XMLImage.URL_ATTRIBUTE));
     }
 
-    private static void throwArgumentException(String name){
+    private static void throwArgumentException(String name) throws IllegalArgumentException{
         throw new IllegalArgumentException(name + " attribute could not be found");
     }
 
-    private static void checkNullElement(Element element){
-        if(element == null){
-            throw new IllegalArgumentException("Element item cannot be null");
+    private static void validateInput(Object object, String key) throws IllegalArgumentException{
+        if(object == null){
+            throwArgumentException(key);
         }
+    }
+
+    private static Calendar getXmlDateAttribute(String attr, Element element) throws IllegalArgumentException{
+        return parseDate(getValidatedChildByName(attr,element).getText());
+    }
+
+    private static String getXmlStringAttribute(String attr, Element element) throws IllegalArgumentException{
+        return getValidatedChildByName(attr,element).getText();
+    }
+
+    private static URL getXmlURLAttribute(String attr, Element element) throws MalformedURLException {
+        return new URL(getValidatedChildByName(attr,element).getText());
+    }
+
+    private static Element getValidatedChildByName(String attr, Element element) throws IllegalArgumentException{
+        validateInput(element, "Element");
+        validateInput(attr, "Attribute");
+
+        Element elem = element.getChildByName(attr);
+        if(elem == null){
+            throwArgumentException(attr);
+        }
+        return elem;
     }
 
     private static Calendar parseDate(String date) {
