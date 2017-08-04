@@ -18,13 +18,13 @@ import net.asg.game.providers.MenuProvider;
 import net.asg.game.providers.SkinProvider;
 import net.asg.game.providers.SoundProvider;
 import net.asg.game.utils.GlobalConstants;
+import net.asg.game.utils.MessageCatalog;
 import net.asg.game.utils.Utils;
 import net.asg.game.utils.parser.RodkastChannel;
 import net.asg.game.utils.parser.RodkastEpisode;
 import net.asg.game.utils.parser.XMLHandler;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
 
 /**
@@ -50,7 +50,9 @@ public class RodkastStageAdapter extends Stage {
     Skin defaultSkin;
 
     //protected Skin defaultSkin;
-    protected Label.LabelStyle homeScreenLabelStyle;
+    Label.LabelStyle defaultScreenLabelStyle;
+    Label.LabelStyle titleScreenLabelStyle;
+    Label.LabelStyle titlePlainScreenLabelStyle;
 
     public RodkastStageAdapter(RodKastApplication app) {
         super(new ScalingViewport(Scaling.stretch, GlobalConstants.VIEWPORT_WIDTH, GlobalConstants.VIEWPORT_HEIGHT,
@@ -71,15 +73,16 @@ public class RodkastStageAdapter extends Stage {
     private void initializeStage() {
         manager.loadPreAssets();
         defaultSkin = skinProvider.getRodKastUISkin();
-
         menuProvider = new MenuProvider(defaultSkin);
-        homeScreenLabelStyle = menuProvider.getTitleLableStyle();
+
+        defaultScreenLabelStyle = menuProvider.getDefaultLabelStyle();
+        titleScreenLabelStyle = menuProvider.getTitleLableStyle();
+        titlePlainScreenLabelStyle = menuProvider.getTitlePlainLableStyle();
     }
 
     void loadAssets(){
-        System.out.println("enter load Assets");
         if(loadingDialog == null){
-            loadingDialog = new Dialog("Loading...", defaultSkin);
+            loadingDialog = new Dialog(MessageCatalog.LOADING_MSG, defaultSkin);
         }
         loadingDialog.show(this);
 
@@ -118,7 +121,6 @@ public class RodkastStageAdapter extends Stage {
         }
         return true;
     }
-
 
     List<RodkastEpisode> getEpisodelist(){
         if(rssChannel == null){

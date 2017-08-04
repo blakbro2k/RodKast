@@ -5,7 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Disposable;
+import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
 
+import net.asg.game.utils.MessageCatalog;
 import net.asg.game.utils.Utils;
 
 /**
@@ -17,18 +19,24 @@ public class MenuProvider implements Disposable {
     private static final String LEFT_BUTTON = "left";
     private static final String FONT_TITLE = "font-title";
     private static final String LABEL_STYLE_DEFAULT = "default";
+    private static final String LABEL_STYLE_OPTIONAL = "optional";
+    private static final String LABEL_STYLE_ERROR = "error";
+    private static final String LABEL_STYLE_TITLE_PLAIN = "title-plain";
+    private static final String LABEL_STYLE_SUBTITLE = "subtitle";
+    private static final String LABEL_STYLE_TITLE = "title";
 
     private Skin skin;
     private BitmapFont defaultFont;
 
     public MenuProvider(Skin skin){
         if(skin == null){
-            throw new NullPointerException("Skin cannot be null");
+            throw new NullPointerException(MessageCatalog.NULL_SKIN_OBJECT_MSG);
         }
         this.skin = skin;
         getTitleFont();
     }
 
+    //Buttons
     public Button getRightButton(){
         return new Button(skin, RIGHT_BUTTON);
     }
@@ -44,8 +52,29 @@ public class MenuProvider implements Disposable {
         return defaultFont;
     }
 
-    public Label.LabelStyle getTitleLableStyle(){
+    //Label Style
+    public Label.LabelStyle getDefaultLabelStyle(){
         return skin.get(LABEL_STYLE_DEFAULT, Label.LabelStyle.class);
+    }
+
+    public Label.LabelStyle getOptionalLableStyle(){
+        return skin.get(LABEL_STYLE_OPTIONAL, Label.LabelStyle.class);
+    }
+
+    public Label.LabelStyle getErrorLableStyle(){
+        return skin.get(LABEL_STYLE_ERROR, Label.LabelStyle.class);
+    }
+
+    public Label.LabelStyle getSubTitleLableStyle(){
+        return skin.get(LABEL_STYLE_SUBTITLE, Label.LabelStyle.class);
+    }
+
+    public Label.LabelStyle getTitleLableStyle(){
+        return skin.get(LABEL_STYLE_TITLE, Label.LabelStyle.class);
+    }
+
+    public Label.LabelStyle getTitlePlainLableStyle(){
+        return skin.get(LABEL_STYLE_TITLE_PLAIN, Label.LabelStyle.class);
     }
 
     @Override

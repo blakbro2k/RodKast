@@ -11,6 +11,7 @@ import net.asg.game.screens.PlayListScreen;
 import net.asg.game.screens.PodPlayerScreen;
 import net.asg.game.screens.RodKastScreenAdapter;
 import net.asg.game.utils.GameEventListener;
+import net.asg.game.utils.MessageCatalog;
 import net.asg.game.utils.Utils;
 import net.asg.game.utils.parser.XMLHandler;
 
@@ -142,7 +143,7 @@ public class RodKastApplication extends Game {
 	public ExitDialog getExitDialog(){
 		if(exitDialog == null){
             Skin homeScreenSkin = getAssetsManager().getSkinProvider().getDefaultUISkin();
-			exitDialog = new ExitDialog("Press Back Again to Exit", homeScreenSkin);
+			exitDialog = new ExitDialog(MessageCatalog.BACK_BUTTON_MSG, homeScreenSkin);
 		}
 		return exitDialog;
 	}

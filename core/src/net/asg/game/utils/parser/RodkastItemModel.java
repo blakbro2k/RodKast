@@ -3,6 +3,7 @@ package net.asg.game.utils.parser;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader.Element;
 
+import net.asg.game.utils.MessageCatalog;
 import net.asg.game.utils.Utils;
 
 import java.net.MalformedURLException;
@@ -130,7 +131,7 @@ class RodkastItemModel{
     }
 
     private static void throwArgumentException(String name) throws IllegalArgumentException{
-        throw new IllegalArgumentException(name + " attribute could not be found");
+        throw new IllegalArgumentException(name + MessageCatalog.NULL_ATTRIBUTE_MSG);
     }
 
     private static void validateInput(Object object, String key) throws IllegalArgumentException{

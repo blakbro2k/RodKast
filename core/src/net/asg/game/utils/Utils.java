@@ -90,7 +90,7 @@ public class Utils {
      * @return
      */
     public static String getThreeLetterMonth(int numMonth){
-        String ret = "";
+        String ret;
         switch(numMonth){
             case 0:
                 ret = "JAN";
@@ -129,6 +129,7 @@ public class Utils {
                 ret = "DEC";
                 break;
             default:
+                ret = "";
                 break;
         }
         return ret;
