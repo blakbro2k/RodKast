@@ -7,8 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import net.asg.game.Actors.PlayListActor;
 import net.asg.game.RodKastApplication;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.MessageCatalog;
@@ -61,6 +63,7 @@ public class PlayListStage extends RodkastStageAdapter{
 
     private void setUpPlayerWindow(Table main) {
         Label nameLabel = new Label(MessageCatalog.PLAYER_WINDOW_MSG, defaultScreenLabelStyle);
+
         main.row();
         main.add(nameLabel).expandX().height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(4);
     }
@@ -70,7 +73,7 @@ public class PlayListStage extends RodkastStageAdapter{
         playList.setWidth(GlobalConstants.VIEWPORT_WIDTH);
         //playList.debug();
 
-        //TODO: Group date Actor and Title Actor into a button that changes episode in player
+
         for(RodkastEpisode episode : episodes){
             if(episode != null){
                 playList.add(createDateActor(episode)).center().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);

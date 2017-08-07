@@ -22,7 +22,7 @@ import java.util.Locale;
  */
 
 class RodkastItemModel{
-    public static final String RODKAST_URL_STRING = "http://rodkast.com/feed/podcast/";
+    static final String RODKAST_URL_STRING = "http://rodkast.com/feed/podcast/";
     public static final String RSS_TITLE = "title";
     public static final String RSS_LINK = "link";
     public static final String RSS_PUBLISHED_DATE = "pubDate";
