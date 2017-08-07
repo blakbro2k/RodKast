@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -28,6 +29,7 @@ public class ImageProvider implements Disposable{
     public final String CALL_OVER_ATLAS = "call";
     public final String RODKAST_UP_ATLAS = "RodKast_small";
     public final String RODKAST_DOWN_ATLAS = "RodKast_small";
+    public final String RODKAST_IMAGE = "rodkast_icon";
     public final String RODKAST_OVER_ATLAS = "RodKast_small";
 
     private AssetsManager assetsManager;
@@ -141,5 +143,9 @@ public class ImageProvider implements Disposable{
         tempButtonStyle.pressedOffsetX = 1;
         tempButtonStyle.pressedOffsetY = -1;
         return tempButtonStyle;
+    }
+
+    public TextureRegion getRodKastImage(){
+        return getAtlas().findRegion(RODKAST_IMAGE);
     }
 }
