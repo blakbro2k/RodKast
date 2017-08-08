@@ -4,22 +4,21 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 
 /**
  * Created by Blakbro2k on 8/5/2017.
  */
 
-public class MusicPlayerActor  extends Actor {
+public class MusicPlayer {
     private Music music;
-    private Skin skin;
     private float songDuration;
     private float currentPosition;
 
     private Slider slider;
     private boolean sliderUpdating = false;
 
-    public MusicPlayerActor(Skin skin){
-        this.skin = skin;
+    public MusicPlayer(){
     }
 
     public void loadMusic(){

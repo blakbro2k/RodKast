@@ -9,17 +9,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import net.asg.game.Actors.PlayListActor;
 import net.asg.game.RodKastApplication;
+import net.asg.game.menu.MusicPlayerWidget;
+import net.asg.game.menu.PlayListWidget;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.MessageCatalog;
 import net.asg.game.utils.Utils;
 import net.asg.game.utils.parser.RodkastEpisode;
 
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -30,6 +29,7 @@ public class PlayListStage extends RodkastStageAdapter{
     private static final float PLAYER_WINDOW_SIZE = .2f;
     private static final float PLAYLIST_WINDOW_SIZE = .8f;
     private static final float PLAYLIST_PADDING = 4f;
+    private MusicPlayerWidget _episodePlayer;
 
     public PlayListStage(RodKastApplication app){
         super(app);
@@ -44,6 +44,8 @@ public class PlayListStage extends RodkastStageAdapter{
         setUpPlayerWindow(main, episodeList);
         setUpPlayListWindow(main, episodeList);
         setUpAdMobWindow(main);
+
+
 
         addActor(main);
         setInputProcessor();
@@ -67,8 +69,8 @@ public class PlayListStage extends RodkastStageAdapter{
     private void setUpPlayerWindow(Table main, List<RodkastEpisode> episodeList) {
         Label nameLabel = new Label(MessageCatalog.PLAYER_WINDOW_MSG, defaultScreenLabelStyle);
 
-        Table episodePlayer = new Table();
-
+        //Table episodePlayer = new Table();
+        //_episodePlayer = new Table();
         RodkastEpisode defaultEpisode = null;
 
         if(episodeList != null) {
@@ -77,29 +79,53 @@ public class PlayListStage extends RodkastStageAdapter{
 
         TextureRegion rodKastTextureRegion = imageProvider.getRodKastImage();
         Image rodKastImage = new Image(rodKastTextureRegion);
-        //Image rodKastImage rodKastTextureRegion();
 
-        episodePlayer.add(rodKastImage);
-        episodePlayer.add(createTitleActor(defaultEpisode)).left().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);
-        episodePlayer.add(menuProvider.getRightButton()).left();
+        _episodePlayer = new MusicPlayerWidget(defaultEpisode, defaultSkin, rodKastImage);
+        _episodePlayer.debug();
+        _episodePlayer.setEpisode(defaultEpisode);
 
-        //imageProvider.getRodKastButtonStyle();
+        //episodePlayer.add(rodKastImage);
+        //episodePlayer.add(createTitleActor(defaultEpisode)).left().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);
+        //episodePlayer.add(menuProvider.getRightButton()).left();
 
+        main.debug();
         main.row();
         //main.add(nameLabel).expandX().height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(4);
-        main.add(episodePlayer).expandX().height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(4);
+        main.add(_episodePlayer).fillX().height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(4);
     }
 
     private Actor setUpPlayListActor(List<RodkastEpisode> episodes) {
         Table playList = new Table();
         playList.setWidth(GlobalConstants.VIEWPORT_WIDTH);
-        //playList.debug();
 
         for(RodkastEpisode episode : episodes){
             if(episode != null){
-                playList.add(createDateActor(episode)).center().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);
-                playList.add(createTitleActor(episode)).left().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);
-                playList.add(menuProvider.getRightButton()).left();
+
+                final PlayListWidget widget = new PlayListWidget(episode, defaultSkin);
+                widget.addListener(new ClickListener()
+                {
+                    @Override
+                    public void clicked (InputEvent event, float x, float y) {
+                        System.out.println("ChangeTo=" + widget.getEpisode());
+                        _episodePlayer.setEpisode(widget.getEpisode());
+                        draw();
+                        System.out.println("_episodePlayer=" + _episodePlayer.getEpisode());
+                    }
+                });
+
+                Button button = widget.getButton();
+                button.addListener(new ClickListener()
+                {
+                    @Override
+                    public void clicked (InputEvent event, float x, float y) {
+                        System.out.println("downloading " + widget.getEpisode() + "...");
+                    }
+                });
+
+                //widget.debug();
+                playList.add(widget.getDateActor()).center().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING).fill();
+                playList.add(widget.getTitleActor()).left().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING).fill();
+                playList.add(widget.getButton()).left().fillX();
                 playList.row();
             }
         }
@@ -113,31 +139,6 @@ public class PlayListStage extends RodkastStageAdapter{
 
         Label titleLabel = new Label(Utils.cleanTitle(episode.getTitle()), defaultScreenLabelStyle);
         return new Container<>(titleLabel).fill();
-    }
-
-    private Actor createDateActor(RodkastEpisode episode) {
-        Container container = null;
-        if(episode != null){
-            Calendar pubDate = episode.getPubishedDate();
-
-            if(pubDate != null){
-                container = new Container<>(createMonthDay(pubDate));
-            }
-        }
-        return container;
-    }
-
-    private Table createMonthDay(Calendar pubDate) {
-        Table table = new Table();
-        if(pubDate != null){
-            Label monthLabel = new Label(Utils.getThreeLetterMonth(pubDate.get(Calendar.MONTH)), defaultScreenLabelStyle);
-            Label dayLabel = new Label(pubDate.get(Calendar.DAY_OF_MONTH) + "", defaultScreenLabelStyle);
-
-            table.add(monthLabel).center();
-            table.row();
-            table.add(dayLabel).center();
-        }
-        return table;
     }
 
     private void setUpStageTitleWindow(Table main){

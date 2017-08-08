@@ -1,6 +1,7 @@
 package net.asg.game.utils.parser;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.XmlReader;
 
@@ -92,6 +93,6 @@ public class RodkastEpisode implements Disposable{
     @Override
     public String toString(){
         return "[\"" + title + "\" - " + Utils.getThreeLetterMonth(pubishedDate.get(Calendar.MONTH))
-                + "-" + pubishedDate.get(Calendar.DAY_OF_WEEK) + "]";
+                + "-" + pubishedDate.get(Calendar.DAY_OF_MONTH) + "]";
     }
 }
