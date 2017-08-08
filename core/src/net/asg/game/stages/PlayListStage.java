@@ -1,5 +1,6 @@
 package net.asg.game.stages;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 
 import net.asg.game.RodKastApplication;
 import net.asg.game.menu.MusicPlayerWidget;
@@ -29,6 +31,7 @@ public class PlayListStage extends RodkastStageAdapter{
     private static final float PLAYER_WINDOW_SIZE = .2f;
     private static final float PLAYLIST_WINDOW_SIZE = .8f;
     private static final float PLAYLIST_PADDING = 4f;
+    private static final String MUSICPLAYER_NAME = "musicplayer";
     private MusicPlayerWidget _episodePlayer;
 
     public PlayListStage(RodKastApplication app){
@@ -44,8 +47,6 @@ public class PlayListStage extends RodkastStageAdapter{
         setUpPlayerWindow(main, episodeList);
         setUpPlayListWindow(main, episodeList);
         setUpAdMobWindow(main);
-
-
 
         addActor(main);
         setInputProcessor();
@@ -69,8 +70,6 @@ public class PlayListStage extends RodkastStageAdapter{
     private void setUpPlayerWindow(Table main, List<RodkastEpisode> episodeList) {
         Label nameLabel = new Label(MessageCatalog.PLAYER_WINDOW_MSG, defaultScreenLabelStyle);
 
-        //Table episodePlayer = new Table();
-        //_episodePlayer = new Table();
         RodkastEpisode defaultEpisode = null;
 
         if(episodeList != null) {
@@ -81,17 +80,14 @@ public class PlayListStage extends RodkastStageAdapter{
         Image rodKastImage = new Image(rodKastTextureRegion);
 
         _episodePlayer = new MusicPlayerWidget(defaultEpisode, defaultSkin, rodKastImage);
-        _episodePlayer.debug();
+        //episodePlayer.debug();
+        _episodePlayer.setName(MUSICPLAYER_NAME);
         _episodePlayer.setEpisode(defaultEpisode);
 
-        //episodePlayer.add(rodKastImage);
-        //episodePlayer.add(createTitleActor(defaultEpisode)).left().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);
-        //episodePlayer.add(menuProvider.getRightButton()).left();
-
-        main.debug();
+        //main.debug();
         main.row();
         //main.add(nameLabel).expandX().height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(4);
-        main.add(_episodePlayer).fillX().height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(4);
+        main.add(_episodePlayer).fill().height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(4);
     }
 
     private Actor setUpPlayListActor(List<RodkastEpisode> episodes) {
@@ -106,10 +102,7 @@ public class PlayListStage extends RodkastStageAdapter{
                 {
                     @Override
                     public void clicked (InputEvent event, float x, float y) {
-                        System.out.println("ChangeTo=" + widget.getEpisode());
                         _episodePlayer.setEpisode(widget.getEpisode());
-                        draw();
-                        System.out.println("_episodePlayer=" + _episodePlayer.getEpisode());
                     }
                 });
 
@@ -130,15 +123,6 @@ public class PlayListStage extends RodkastStageAdapter{
             }
         }
         return playList;
-    }
-
-    private Actor createTitleActor(RodkastEpisode episode) {
-        if(episode == null){
-            return null;
-        }
-
-        Label titleLabel = new Label(Utils.cleanTitle(episode.getTitle()), defaultScreenLabelStyle);
-        return new Container<>(titleLabel).fill();
     }
 
     private void setUpStageTitleWindow(Table main){

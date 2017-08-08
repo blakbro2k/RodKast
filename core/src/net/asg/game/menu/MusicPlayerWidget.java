@@ -1,5 +1,6 @@
 package net.asg.game.menu;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -34,15 +35,12 @@ public class MusicPlayerWidget extends Table {
         this.labelStyle = skin.get("default", Label.LabelStyle.class);
         this.image = image;
         this.titleActor = getTitleActor();
-        //System.out.println(image);
         setPlayerTitle();
     }
 
     private void setPlayerTitle() {
-        System.out.println("clear");
         //setDebug(true);
         reset();
-        clear();
         add(image).fill();
         add(titleActor).left().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);
         add(button).left();
@@ -71,7 +69,9 @@ public class MusicPlayerWidget extends Table {
     public void setEpisode(RodkastEpisode episode){
         this.episode = episode;
         this.title = getTitleFromEpisode(episode);
+        this.titleActor = null;
         this.titleActor = getTitleActor();
+
         setPlayerTitle();
     }
 }

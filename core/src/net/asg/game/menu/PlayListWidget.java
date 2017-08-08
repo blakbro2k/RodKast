@@ -28,7 +28,6 @@ public class PlayListWidget extends Table{
     private Container dateActor;
     private Label titleActor;
 
-
     public PlayListWidget(RodkastEpisode episode, Skin skin, String labelStyle){
         super(skin);
         this.button = new Button(skin.get("right", ButtonStyle.class));
