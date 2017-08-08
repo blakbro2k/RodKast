@@ -23,15 +23,25 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandleStream;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 
+import net.asg.game.utils.parser.RodkastEpisode;
+
+import java.net.URL;
+
 public class AudioUtils {
 
     private static AudioUtils ourInstance = new AudioUtils();
     private static Music music;
     private float songDuration;
     private float currentPosition;
+    private URL mediaLink;
+    private float duration;
+    private String type;
 
     private static final String MUSIC_ON_PREFERENCE = "music_on";
     private static final String SOUND_ON_PREFERENCE = "sound_on";
+    private static final String STORAGE_PREFERENCE = "storage";
+    private static final String STORAGE_PATH_PREFERENCE = "storage";
+
 
     private AudioUtils() {
     }
@@ -48,7 +58,10 @@ public class AudioUtils {
         return Gdx.app.getPreferences(GlobalConstants.PREFERENCES_NAME);
     }
 
-    public void setMusic() {
+    public void setEpisode(RodkastEpisode episode) {
+        this.mediaLink = episode.getMediaLink();
+        this.duration = episode.getDuration();
+        this.type = episode.getType();
         //music = Gdx.audio.newMusic(Gdx.files.internal(Constants.GAME_MUSIC));
         //FileHandleStream fileHandleStream = new FileHandleStream() {
         //}

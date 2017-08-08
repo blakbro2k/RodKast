@@ -84,10 +84,10 @@ public class PlayListStage extends RodkastStageAdapter{
         _episodePlayer.setName(MUSICPLAYER_NAME);
         _episodePlayer.setEpisode(defaultEpisode);
 
-        //main.debug();
+        main.debug();
         main.row();
         //main.add(nameLabel).expandX().height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(4);
-        main.add(_episodePlayer).fill().height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(4);
+        main.add(_episodePlayer).fill().height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(3);
     }
 
     private Actor setUpPlayListActor(List<RodkastEpisode> episodes) {

@@ -22,7 +22,6 @@ public class RodkastEpisode implements Disposable{
     private String guid;
     private String description;
     private String category;
-    private Music episode;
     private XMLEnclosure enclosure;
 
     public RodkastEpisode(XmlReader.Element item) throws MalformedURLException {
@@ -61,21 +60,22 @@ public class RodkastEpisode implements Disposable{
         return category;
     }
 
-    public Music getEpisode() {
-        return episode;
-    }
-
     public URL getMediaLink() {
         return enclosure.getUrl();
     }
 
-    public void getStream(){
-
+    public XMLEnclosure getEnclosure(){
+        return enclosure;
     }
 
-    public void downloadStream(){
-
+    public String getType() {
+        return enclosure.getType();
     }
+
+    public float getDuration() {
+        return enclosure.getLength();
+    }
+
 
     @Override
     public void dispose() {
@@ -86,7 +86,6 @@ public class RodkastEpisode implements Disposable{
         guid = null;
         description = null;
         category = null;
-        episode = null;
         enclosure = null;
     }
 

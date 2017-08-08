@@ -1,19 +1,19 @@
 package net.asg.game.menu;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import net.asg.game.utils.AudioUtils;
 import net.asg.game.utils.Utils;
 import net.asg.game.utils.parser.RodkastEpisode;
+import net.asg.game.utils.parser.XMLEnclosure;
 
-import java.util.Calendar;
+import java.net.URL;
 
 /**
  * Created by Blakbro2k on 8/7/2017.
@@ -29,21 +29,32 @@ public class MusicPlayerWidget extends Table {
     private static final float PLAYLIST_PADDING = 4f;
 
 
-    public MusicPlayerWidget(RodkastEpisode episode, Skin skin, Image image){
+    public MusicPlayerWidget(final RodkastEpisode episode, Skin skin, Image image){
         this.button = new Button(skin.get("right", Button.ButtonStyle.class));
         this.title = getTitleFromEpisode(episode);
         this.labelStyle = skin.get("default", Label.LabelStyle.class);
         this.image = image;
         this.titleActor = getTitleActor();
+
+        button.addListener(new ClickListener()
+        {
+            @Override
+            public void clicked (InputEvent event, float x, float y) {
+                AudioUtils.getInstance().setEpisode(episode);
+
+                System.out.println("playing " + episode + "...");
+            }
+        });
+
         setPlayerTitle();
     }
 
     private void setPlayerTitle() {
         //setDebug(true);
         reset();
-        add(image).fill();
-        add(titleActor).left().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);
-        add(button).left();
+        add(image).left().fill();
+        add(titleActor).left().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING).fillX();
+        add(button).left().fillX();
     }
 
     private String getTitleFromEpisode(RodkastEpisode episode) {
