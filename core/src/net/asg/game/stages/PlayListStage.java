@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Array;
 import net.asg.game.RodKastApplication;
 import net.asg.game.menu.MusicPlayerWidget;
 import net.asg.game.menu.PlayListWidget;
+import net.asg.game.utils.AudioUtils;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.MessageCatalog;
 import net.asg.game.utils.Utils;
@@ -30,6 +31,7 @@ import java.util.List;
 public class PlayListStage extends RodkastStageAdapter{
     private static final float PLAYER_WINDOW_SIZE = .2f;
     private static final float PLAYLIST_WINDOW_SIZE = .8f;
+    private static final int COLSPAN = 3;
     private static final float PLAYLIST_PADDING = 4f;
     private static final String MUSICPLAYER_NAME = "musicplayer";
     private MusicPlayerWidget _episodePlayer;
@@ -56,7 +58,7 @@ public class PlayListStage extends RodkastStageAdapter{
         Label nameLabel = new Label(MessageCatalog.ADMOB_WINDOW_MSG, defaultScreenLabelStyle);
         app.getGameEvenListener().showBannerAd();
         main.row();
-        main.add(nameLabel).expandX().height(BANNER_SIZE).colspan(4);
+        main.add(nameLabel).expandX().height(BANNER_SIZE).colspan(COLSPAN);
     }
 
     private void setUpPlayListWindow(Table main, List<RodkastEpisode> episodeList) {
@@ -64,7 +66,7 @@ public class PlayListStage extends RodkastStageAdapter{
 
         ScrollPane pane = new ScrollPane(playList);
         main.row();
-        main.add(pane).expandX().height(getBannerOffSet() * PLAYLIST_WINDOW_SIZE).colspan(4);
+        main.add(pane).expandX().height(getBannerOffSet() * PLAYLIST_WINDOW_SIZE).colspan(COLSPAN);
     }
 
     private void setUpPlayerWindow(Table main, List<RodkastEpisode> episodeList) {
@@ -80,29 +82,30 @@ public class PlayListStage extends RodkastStageAdapter{
         Image rodKastImage = new Image(rodKastTextureRegion);
 
         _episodePlayer = new MusicPlayerWidget(defaultEpisode, defaultSkin, rodKastImage);
-        //episodePlayer.debug();
+        _episodePlayer.debug();
         _episodePlayer.setName(MUSICPLAYER_NAME);
         _episodePlayer.setEpisode(defaultEpisode);
 
         main.debug();
         main.row();
-        //main.add(nameLabel).expandX().height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(4);
-        main.add(_episodePlayer).fill().height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(3);
+        main.add(_episodePlayer).fill().height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(COLSPAN);
     }
 
     private Actor setUpPlayListActor(List<RodkastEpisode> episodes) {
         Table playList = new Table();
         playList.setWidth(GlobalConstants.VIEWPORT_WIDTH);
 
-        for(RodkastEpisode episode : episodes){
+        for(final RodkastEpisode episode : episodes){
             if(episode != null){
 
                 final PlayListWidget widget = new PlayListWidget(episode, defaultSkin);
+                //RodkastEpisode episode = widget.getEpisode();
+
                 widget.addListener(new ClickListener()
                 {
                     @Override
                     public void clicked (InputEvent event, float x, float y) {
-                        _episodePlayer.setEpisode(widget.getEpisode());
+                        _episodePlayer.setEpisode(episode);
                     }
                 });
 

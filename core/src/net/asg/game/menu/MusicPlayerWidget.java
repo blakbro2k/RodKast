@@ -29,7 +29,7 @@ public class MusicPlayerWidget extends Table {
     private static final float PLAYLIST_PADDING = 4f;
 
 
-    public MusicPlayerWidget(final RodkastEpisode episode, Skin skin, Image image){
+    public MusicPlayerWidget(RodkastEpisode episode, Skin skin, Image image){
         this.button = new Button(skin.get("right", Button.ButtonStyle.class));
         this.title = getTitleFromEpisode(episode);
         this.labelStyle = skin.get("default", Label.LabelStyle.class);
@@ -40,13 +40,15 @@ public class MusicPlayerWidget extends Table {
         {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                AudioUtils.getInstance().setEpisode(episode);
-
-                System.out.println("playing " + episode + "...");
+                processEvent(MusicPlayerWidget.this);
             }
         });
 
         setPlayerTitle();
+    }
+
+    private void processEvent(MusicPlayerWidget widget){
+        System.out.println("Playing : " + widget.getEpisode());
     }
 
     private void setPlayerTitle() {
