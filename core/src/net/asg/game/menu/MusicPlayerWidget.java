@@ -8,12 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import net.asg.game.providers.MenuProvider;
 import net.asg.game.utils.AudioUtils;
+import net.asg.game.utils.MessageCatalog;
 import net.asg.game.utils.Utils;
 import net.asg.game.utils.parser.RodkastEpisode;
-import net.asg.game.utils.parser.XMLEnclosure;
-
-import java.net.URL;
 
 /**
  * Created by Blakbro2k on 8/7/2017.
@@ -21,7 +20,8 @@ import java.net.URL;
 
 public class MusicPlayerWidget extends Table {
     private Label.LabelStyle labelStyle;
-    private Button button;
+    private Button playButton;
+    private Button pauseButton;
     private String title;
     private RodkastEpisode episode;
     private Image image;
@@ -30,25 +30,56 @@ public class MusicPlayerWidget extends Table {
 
 
     public MusicPlayerWidget(RodkastEpisode episode, Skin skin, Image image){
-        this.button = new Button(skin.get("right", Button.ButtonStyle.class));
+        if(episode == null) {
+            throw new IllegalArgumentException(MessageCatalog.NULL_RODKAST_EPISODE_MSG);
+        }
+
+        if(skin == null) {
+            throw new IllegalArgumentException(MessageCatalog.NULL_SKIN_MSG);
+        }
+
+        if(image == null) {
+            throw new IllegalArgumentException(MessageCatalog.NULL_IMAGE_MSG);
+        }
+
+        this.playButton = new Button(skin.get(MenuProvider.RIGHT_BUTTON, Button.ButtonStyle.class));
+        this.pauseButton = new Button(skin.get(MenuProvider.LEFT_BUTTON, Button.ButtonStyle.class));
+
         this.title = getTitleFromEpisode(episode);
-        this.labelStyle = skin.get("default", Label.LabelStyle.class);
+        this.labelStyle = skin.get(MenuProvider.LABEL_STYLE_DEFAULT, Label.LabelStyle.class);
         this.image = image;
         this.titleActor = getTitleActor();
 
-        button.addListener(new ClickListener()
+        playButton.addListener(new ClickListener()
         {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                processEvent(MusicPlayerWidget.this);
+                processEvent(MusicPlayerWidget.this, false);
+            }
+        });
+
+        pauseButton.addListener(new ClickListener()
+        {
+            @Override
+            public void clicked (InputEvent event, float x, float y) {
+                processEvent(MusicPlayerWidget.this, true);
             }
         });
 
         setPlayerTitle();
     }
 
-    private void processEvent(MusicPlayerWidget widget){
-        System.out.println("Playing : " + widget.getEpisode());
+    private void processEvent(MusicPlayerWidget widget, boolean isPause){
+        if(widget != null) {
+            System.out.println("Playing : " + widget.getEpisode());
+            AudioUtils.getInstance().setEpisode(widget.getEpisode());
+
+            if (!isPause) {
+                //AudioUtils.getInstance().playMusic();
+            } else {
+                //AudioUtils.getInstance().pauseMusic();
+            }
+        }
     }
 
     private void setPlayerTitle() {
@@ -56,7 +87,7 @@ public class MusicPlayerWidget extends Table {
         reset();
         add(image).left().fill();
         add(titleActor).left().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING).fillX();
-        add(button).left().fillX();
+        add(playButton).left().fillX();
     }
 
     private String getTitleFromEpisode(RodkastEpisode episode) {

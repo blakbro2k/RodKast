@@ -29,9 +29,11 @@ public abstract class RodKastScreenAdapter implements Screen, Disposable{
         //Clear the screen
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
-        stage.act(delta);
-        //Update the stage
-        stage.draw();
+        if(stage != null){
+            stage.act(delta);
+            //Update the stage
+            stage.draw();
+        }
     }
 
     @Override

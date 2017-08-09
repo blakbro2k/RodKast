@@ -1,46 +1,26 @@
-/*
- * Copyright (c) 2014. William Mora
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package net.asg.game.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandleStream;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 
 import net.asg.game.utils.parser.RodkastEpisode;
 
 import java.net.URL;
 
 public class AudioUtils {
-
     private static AudioUtils ourInstance = new AudioUtils();
     private static Music music;
     private float songDuration;
     private float currentPosition;
     private URL mediaLink;
-    private float duration;
     private String type;
+    private RodkastEpisode currentEpisode;
+    private boolean isDownloaded;
 
     private static final String MUSIC_ON_PREFERENCE = "music_on";
-    private static final String SOUND_ON_PREFERENCE = "sound_on";
-    private static final String STORAGE_PREFERENCE = "storage";
-    private static final String STORAGE_PATH_PREFERENCE = "storage";
+    private static final String EXTERNAL_STORAGE_PREFERENCE = "ext_storage"; //true = external; false = internal
+    private static final String STORAGE_PATH_PREFERENCE = "storage_path";
 
 
     private AudioUtils() {
@@ -59,17 +39,36 @@ public class AudioUtils {
     }
 
     public void setEpisode(RodkastEpisode episode) {
-        this.mediaLink = episode.getMediaLink();
-        this.duration = episode.getDuration();
-        this.type = episode.getType();
+        if(episode != null && !episode.equals(currentEpisode)){
+            this.mediaLink = episode.getMediaLink();
+            this.songDuration = episode.getDuration();
+            this.type = episode.getType();
+            this.currentEpisode = episode;
+
+            if(mediaLink != null){
+                isDownloaded = checkIfDownloaded(mediaLink.getFile());
+            }
+
+            if(isDownloaded){
+                System.out.println("Episode Downloaded");
+            } else {
+                System.out.println("Episode Not Downloaded");
+            }
+        }
+
         //music = Gdx.audio.newMusic(Gdx.files.internal(Constants.GAME_MUSIC));
         //FileHandleStream fileHandleStream = new FileHandleStream() {
         //}
         //Gdx.audio.newMusic();
     }
 
-    public Sound createSound(String soundFileName) {
-        return Gdx.audio.newSound(Gdx.files.internal(soundFileName));
+    private boolean checkIfDownloaded(String fileName) {
+        boolean isExternal = getPreferences().getBoolean(EXTERNAL_STORAGE_PREFERENCE, false);
+        return isExternal? Gdx.files.external(fileName).exists() : Gdx.files.internal(fileName).exists();
+    }
+
+    public float getSongDuration(){
+        return songDuration;
     }
 
     public void playMusic() {
@@ -79,19 +78,12 @@ public class AudioUtils {
         }
     }
 
-    public void playSound(Sound sound) {
-        boolean soundOn = getPreferences().getBoolean(SOUND_ON_PREFERENCE, true);
-        if (soundOn) {
-            sound.play();
-        }
-    }
-
     public void toggleMusic() {
         saveBoolean(MUSIC_ON_PREFERENCE, !getPreferences().getBoolean(MUSIC_ON_PREFERENCE, true));
     }
 
-    public void toggleSound() {
-        saveBoolean(SOUND_ON_PREFERENCE, !getPreferences().getBoolean(SOUND_ON_PREFERENCE, true));
+    public void toggleStorage() {
+        saveBoolean(EXTERNAL_STORAGE_PREFERENCE, !getPreferences().getBoolean(EXTERNAL_STORAGE_PREFERENCE, true));
     }
 
     private void saveBoolean(String key, boolean value) {

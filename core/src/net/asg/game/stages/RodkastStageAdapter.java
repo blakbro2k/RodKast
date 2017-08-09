@@ -45,6 +45,8 @@ public class RodkastStageAdapter extends Stage {
     MenuProvider menuProvider;
 
     Dialog loadingDialog;
+    Dialog errorDialog;
+
     RodkastChannel rssChannel;
 
     Skin defaultSkin;
@@ -93,7 +95,12 @@ public class RodkastStageAdapter extends Stage {
             }
             rssChannel = xmlHandler.buildChannel();
         } catch (IOException e) {
-            e.printStackTrace();
+            if(errorDialog == null){
+                errorDialog = new Dialog(e.getMessage(), defaultSkin);
+                errorDialog.show(this);
+                System.out.println(e.getMessage() + " is handeled");
+            }
+            //e.printStackTrace();
         }
 
         loadingDialog.hide();
@@ -126,7 +133,7 @@ public class RodkastStageAdapter extends Stage {
         if(rssChannel == null){
             loadAssets();
         }
-
+        System.err.println("rss" + rssChannel);
         return rssChannel.getEpisodes();
     }
 

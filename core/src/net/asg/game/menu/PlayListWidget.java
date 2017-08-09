@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+import net.asg.game.providers.MenuProvider;
+import net.asg.game.utils.MessageCatalog;
 import net.asg.game.utils.Utils;
 import net.asg.game.utils.parser.RodkastEpisode;
 
@@ -30,7 +32,19 @@ public class PlayListWidget extends Table{
 
     public PlayListWidget(RodkastEpisode episode, Skin skin, String labelStyle){
         super(skin);
-        this.button = new Button(skin.get("right", ButtonStyle.class));
+        if(episode == null) {
+            throw new IllegalArgumentException(MessageCatalog.NULL_RODKAST_EPISODE_MSG);
+        }
+
+        if(skin == null) {
+            throw new IllegalArgumentException(MessageCatalog.NULL_SKIN_MSG);
+        }
+
+        if(labelStyle == null) {
+            throw new IllegalArgumentException(MessageCatalog.NULL_LABEL_STLYE_MSG);
+        }
+
+        this.button = new Button(skin.get(MenuProvider.RIGHT_BUTTON, ButtonStyle.class));
         this.labelStyle = skin.get(labelStyle, LabelStyle.class);
         this.episode = episode;
         this.title = getTitleFromEpisode(episode);
@@ -42,7 +56,7 @@ public class PlayListWidget extends Table{
     }
 
     public PlayListWidget(RodkastEpisode episode, Skin skin){
-        this(episode, skin,"default");
+        this(episode, skin, MenuProvider.LABEL_STYLE_DEFAULT);
     }
 
     public void setEpisode(RodkastEpisode episode){

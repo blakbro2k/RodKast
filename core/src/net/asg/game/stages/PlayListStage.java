@@ -99,7 +99,6 @@ public class PlayListStage extends RodkastStageAdapter{
             if(episode != null){
 
                 final PlayListWidget widget = new PlayListWidget(episode, defaultSkin);
-                //RodkastEpisode episode = widget.getEpisode();
 
                 widget.addListener(new ClickListener()
                 {

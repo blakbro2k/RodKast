@@ -12,6 +12,10 @@ public class MessageCatalog {
     public static final String PLAYER_WINDOW_MSG = "Player Window Section";
     public static final String SOCIAL_WINDOW_MSG = "Social Window Section";
     public static final String BACK_BUTTON_MSG = "Press Again to Exit";
+    public static final String NULL_RODKAST_EPISODE_MSG = "RodkastEpisode cannot be null";
+    public static final String NULL_SKIN_MSG = "You must have a valid skin";
+    public static final String NULL_LABEL_STLYE_MSG = "You must have a valid label style";
+    public static final String NULL_IMAGE_MSG = "Image is null";
 
     private MessageCatalog(){}
 }

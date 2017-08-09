@@ -9,6 +9,7 @@ import net.asg.game.providers.AssetsManager;
 import net.asg.game.screens.HomeScreen;
 import net.asg.game.screens.PlayListScreen;
 import net.asg.game.screens.PodPlayerScreen;
+import net.asg.game.screens.PreHomeScreen;
 import net.asg.game.screens.RodKastScreenAdapter;
 import net.asg.game.utils.GameEventListener;
 import net.asg.game.utils.MessageCatalog;
@@ -28,6 +29,7 @@ public class RodKastApplication extends Game {
 	private HomeScreen homeScreen;
 	private PlayListScreen playListScreen;
 	private PodPlayerScreen podPlayerScreen;
+	private PreHomeScreen preHomeScreen;
 
 	private GameEventListener gameEventListener;
 
@@ -98,6 +100,13 @@ public class RodKastApplication extends Game {
 			podPlayerScreen = new PodPlayerScreen(this);
 		}
         setRodKastScreen(podPlayerScreen);
+	}
+
+	public void gotoPreHomeScreen() {
+		if(preHomeScreen == null){
+			preHomeScreen = new PreHomeScreen(this);
+		}
+		setRodKastScreen(preHomeScreen);
 	}
 
 	private void setRodKastScreen(RodKastScreenAdapter screen){

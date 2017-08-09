@@ -15,15 +15,15 @@ import net.asg.game.utils.Utils;
  */
 
 public class MenuProvider implements Disposable {
-    private static final String RIGHT_BUTTON = "right";
-    private static final String LEFT_BUTTON = "left";
-    private static final String FONT_TITLE = "font-title";
-    private static final String LABEL_STYLE_DEFAULT = "default";
-    private static final String LABEL_STYLE_OPTIONAL = "optional";
-    private static final String LABEL_STYLE_ERROR = "error";
-    private static final String LABEL_STYLE_TITLE_PLAIN = "title-plain";
-    private static final String LABEL_STYLE_SUBTITLE = "subtitle";
-    private static final String LABEL_STYLE_TITLE = "title";
+    public static final String RIGHT_BUTTON = "right";
+    public static final String LEFT_BUTTON = "left";
+    public static final String FONT_TITLE = "font-title";
+    public static final String LABEL_STYLE_DEFAULT = "default";
+    public static final String LABEL_STYLE_OPTIONAL = "optional";
+    public static final String LABEL_STYLE_ERROR = "error";
+    public static final String LABEL_STYLE_TITLE_PLAIN = "title-plain";
+    public static final String LABEL_STYLE_SUBTITLE = "subtitle";
+    public static final String LABEL_STYLE_TITLE = "title";
 
     private Skin skin;
     private BitmapFont defaultFont;
