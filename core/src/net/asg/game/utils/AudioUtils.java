@@ -55,11 +55,6 @@ public class AudioUtils {
                 System.out.println("Episode Not Downloaded");
             }
         }
-
-        //music = Gdx.audio.newMusic(Gdx.files.internal(Constants.GAME_MUSIC));
-        //FileHandleStream fileHandleStream = new FileHandleStream() {
-        //}
-        //Gdx.audio.newMusic();
     }
 
     private boolean checkIfDownloaded(String fileName) {

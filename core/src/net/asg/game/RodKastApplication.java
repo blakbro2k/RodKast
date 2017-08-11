@@ -45,6 +45,7 @@ public class RodKastApplication extends Game {
 
 	@Override
 	public void create() {
+        //TODO: add log submittion handler
         assetsManager = new AssetsManager();
 		try {
 			xmlHandler = new XMLHandler();

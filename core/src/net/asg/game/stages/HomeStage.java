@@ -18,15 +18,17 @@ public class HomeStage extends RodkastStageAdapter {
     //TODO: Social Medial
     private static final float SOCIAL_WINDOW_SIZE = .4f;
     private static final float PLAYER_WINDOW_SIZE = .6f;
-    private static final int COLUMN_SPAN = 4;
+    private static final int COLUMN_SPAN = 1;
 
     public HomeStage(RodKastApplication app){
         super(app);
 
+
         Table main = new Table();
-        main.setWidth(GlobalConstants.VIEWPORT_WIDTH);
-        main.setHeight(GlobalConstants.VIEWPORT_HEIGHT);
-        //main.debug();
+        //main.setWidth(GlobalConstants.VIEWPORT_WIDTH);
+        //main.setHeight(GlobalConstants.VIEWPORT_HEIGHT);
+        //main.setFillParent(true);
+        main.debug();
 
         loadAssets();
 
@@ -41,14 +43,14 @@ public class HomeStage extends RodkastStageAdapter {
 
     private void setUpStageTitleWindow(Table main){
         Label nameLabel = new Label(GlobalConstants.GAME_TITLE, titleScreenLabelStyle);
-        main.add(nameLabel).expandX().height(BANNER_SIZE);
+        main.add(nameLabel).height(BANNER_SIZE);
     }
 
     private void setUpAdMobWindow(Table main) {
         Label nameLabel = new Label(MessageCatalog.ADMOB_WINDOW_MSG, defaultScreenLabelStyle);
         app.getGameEvenListener().showBannerAd();
         main.row();
-        main.add(nameLabel).fill().height(BANNER_SIZE).colspan(COLUMN_SPAN);
+        main.add(nameLabel).height(BANNER_SIZE).colspan(COLUMN_SPAN);
     }
 
     private void setUpPlayerWindow(Table main) {
@@ -64,12 +66,12 @@ public class HomeStage extends RodkastStageAdapter {
         });
 
         main.row();
-        main.add(playerButton).fill().height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(COLUMN_SPAN);
+        main.add(playerButton).height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(COLUMN_SPAN);
     }
 
     private void setUpSocialWindow(Table main) {
         Label nameLabel = new Label(MessageCatalog.SOCIAL_WINDOW_MSG, defaultScreenLabelStyle);
         main.row();
-        main.add(nameLabel).fill().height(getBannerOffSet() * SOCIAL_WINDOW_SIZE).colspan(COLUMN_SPAN);
+        main.add(nameLabel).height(getBannerOffSet() * SOCIAL_WINDOW_SIZE).colspan(COLUMN_SPAN);
     }
 }

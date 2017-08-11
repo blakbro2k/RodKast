@@ -100,7 +100,6 @@ public class RodkastStageAdapter extends Stage {
                 errorDialog.show(this);
                 System.out.println(e.getMessage() + " is handeled");
             }
-            //e.printStackTrace();
         }
 
         loadingDialog.hide();
@@ -133,7 +132,6 @@ public class RodkastStageAdapter extends Stage {
         if(rssChannel == null){
             loadAssets();
         }
-        System.err.println("rss" + rssChannel);
         return rssChannel.getEpisodes();
     }
 
