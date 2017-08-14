@@ -28,10 +28,10 @@ import java.util.List;
  * Created by Blakbro2k on 7/23/2017.
  */
 
-public class PlayListStage extends RodkastStageAdapter {
+public class PlayListStage extends RodkastStageAdapter{
     private static final float PLAYER_WINDOW_SIZE = .2f;
     private static final float PLAYLIST_WINDOW_SIZE = .8f;
-    private static final int COLSPAN = 2;
+    private static final int COLSPAN = 3;
     private static final float PLAYLIST_PADDING = 4f;
     private static final String MUSICPLAYER_NAME = "musicplayer";
     private MusicPlayerWidget _episodePlayer;
@@ -42,10 +42,8 @@ public class PlayListStage extends RodkastStageAdapter {
         Table main = new Table();
         main.setWidth(GlobalConstants.VIEWPORT_WIDTH);
         main.setHeight(GlobalConstants.VIEWPORT_HEIGHT);
-        //main.setFillParent(true);
-        main.debug();
-
         List<RodkastEpisode> episodeList = getEpisodelist();
+        //main.debug();
 
         setUpStageTitleWindow(main);
         setUpPlayerWindow(main, episodeList);
@@ -60,7 +58,7 @@ public class PlayListStage extends RodkastStageAdapter {
         Label nameLabel = new Label(MessageCatalog.ADMOB_WINDOW_MSG, defaultScreenLabelStyle);
         app.getGameEvenListener().showBannerAd();
         main.row();
-        main.add(nameLabel).height(BANNER_SIZE).colspan(COLSPAN);
+        main.add(nameLabel).expandX().height(BANNER_SIZE).colspan(COLSPAN);
     }
 
     private void setUpPlayListWindow(Table main, List<RodkastEpisode> episodeList) {
@@ -68,7 +66,7 @@ public class PlayListStage extends RodkastStageAdapter {
 
         ScrollPane pane = new ScrollPane(playList);
         main.row();
-        main.add(pane).height(getBannerOffSet() * PLAYLIST_WINDOW_SIZE).colspan(COLSPAN);
+        main.add(pane).expandX().height(getBannerOffSet() * PLAYLIST_WINDOW_SIZE).colspan(COLSPAN);
     }
 
     private void setUpPlayerWindow(Table main, List<RodkastEpisode> episodeList) {
@@ -87,16 +85,11 @@ public class PlayListStage extends RodkastStageAdapter {
         _episodePlayer.debug();
         _episodePlayer.setName(MUSICPLAYER_NAME);
         _episodePlayer.setEpisode(defaultEpisode);
-        //_episodePlayer.setFillParent(true);
-        //_episodePlayer.colspan(COLSPAN);
-
-        //Container container = new Container(_episodePlayer);
-        //container.setFillParent(true);
-        //container.colspan(COLSPAN);
+        _episodePlayer.setWidth(main.getWidth());
 
         main.debug();
         main.row();
-        main.add(_episodePlayer).height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(COLSPAN);
+        main.add(_episodePlayer).expand().height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(COLSPAN);
     }
 
     private Actor setUpPlayListActor(List<RodkastEpisode> episodes) {
@@ -107,6 +100,7 @@ public class PlayListStage extends RodkastStageAdapter {
             if(episode != null){
 
                 final PlayListWidget widget = new PlayListWidget(episode, defaultSkin);
+                //RodkastEpisode episode = widget.getEpisode();
 
                 widget.addListener(new ClickListener()
                 {
@@ -126,9 +120,9 @@ public class PlayListStage extends RodkastStageAdapter {
                 });
 
                 //widget.debug();
-                playList.add(widget.getDateActor()).center().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);
-                playList.add(widget.getTitleActor()).left().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);
-                playList.add(widget.getButton());
+                playList.add(widget.getDateActor()).center().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING).fill();
+                playList.add(widget.getTitleActor()).left().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING).fill();
+                playList.add(widget.getButton()).left().fillX();
                 playList.row();
             }
         }
@@ -147,7 +141,7 @@ public class PlayListStage extends RodkastStageAdapter {
             }
         });
 
-        main.add(backButton).left();//.padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);
-        main.add(nameLabel);//.height(BANNER_SIZE);
+        main.add(backButton).padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);
+        main.add(nameLabel).expandX().height(BANNER_SIZE).left();
     }
 }
