@@ -24,8 +24,6 @@ import java.util.Calendar;
 public class PlayListWidget extends Table{
     private LabelStyle labelStyle;
     private Button button;
-    private Calendar date;
-    private String title;
     private RodkastEpisode episode;
     private Container dateActor;
     private Label titleActor;
@@ -47,12 +45,15 @@ public class PlayListWidget extends Table{
         this.button = new Button(skin.get(MenuProvider.RIGHT_BUTTON, ButtonStyle.class));
         this.labelStyle = skin.get(labelStyle, LabelStyle.class);
         this.episode = episode;
-        this.title = getTitleFromEpisode(episode);
-        this.date = getDateFromDate(episode);
 
-        add(getTitleActor()).fill();
-        add(getDateActor()).fill();
-        add(getButton()).fill();
+        initializeWidget();
+    }
+
+    private void initializeWidget(){
+        reset();
+        add(getTitleActor());
+        add(getDateActor());
+        add(getButton());
     }
 
     public PlayListWidget(RodkastEpisode episode, Skin skin){
@@ -61,11 +62,7 @@ public class PlayListWidget extends Table{
 
     public void setEpisode(RodkastEpisode episode){
         this.episode = episode;
-        this.title = null;
-        this.date = null;
-
-        this.title = getTitleFromEpisode(episode);
-        this.date = getDateFromDate(episode);
+        initializeWidget();
     }
 
     public RodkastEpisode getEpisode(){
@@ -73,20 +70,23 @@ public class PlayListWidget extends Table{
     }
 
     public Actor getTitleActor() {
-        if(titleActor == null){
-            titleActor = new Label(title, labelStyle);
-        }
+        if(episode != null){
+            if(titleActor == null){
+                titleActor = new Label(Utils.getTitleFromEpisode(episode), labelStyle);
+            }
 
-        if(getDebug()){
-            return titleActor.debug();
-        } else {
-            return titleActor;
+            if(getDebug()){
+                return titleActor.debug();
+            } else {
+                return titleActor;
+            }
         }
+        return new Label("Title Not Loaded", labelStyle);
     }
 
     public Actor getDateActor() {
         if(dateActor == null){
-            dateActor = new Container<>(createMonthDay(date));
+            dateActor = new Container<>(createMonthDay(getDateFromDate()));
         }
 
         if(getDebug()){
@@ -105,20 +105,12 @@ public class PlayListWidget extends Table{
         }
     }
 
-    private Calendar getDateFromDate(RodkastEpisode episode) {
+    private Calendar getDateFromDate() {
         Calendar calendar = null;
         if(episode != null){
             calendar = episode.getPubishedDate();
         }
         return calendar;
-    }
-
-    private String getTitleFromEpisode(RodkastEpisode episode) {
-        String string = "";
-        if(episode != null){
-            string = Utils.cleanTitle(episode.getTitle());
-        }
-        return string;
     }
 
     private Table createMonthDay(Calendar pubDate) {
