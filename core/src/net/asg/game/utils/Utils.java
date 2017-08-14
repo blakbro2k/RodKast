@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Disposable;
 import net.asg.game.RodKastApplication;
 import net.asg.game.menu.ExitDialog;
 import net.asg.game.screens.RodKastScreenAdapter;
+import net.asg.game.utils.parser.RodkastEpisode;
 
 /**
  * Created by Blakbro2k on 6/25/2017.
@@ -162,5 +163,13 @@ public class Utils {
             return Float.parseFloat(attribute);
         }
         return 0;
+    }
+
+    public static String getTitleFromEpisode(RodkastEpisode episode) {
+        String string = "";
+        if(episode != null){
+            string = cleanTitle(episode.getTitle());
+        }
+        return string;
     }
 }

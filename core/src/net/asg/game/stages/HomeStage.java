@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.asg.game.RodKastApplication;
+import net.asg.game.screens.PlayListScreen;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.MessageCatalog;
 
@@ -25,9 +26,9 @@ public class HomeStage extends RodkastStageAdapter {
 
 
         Table main = new Table();
-        //main.setWidth(GlobalConstants.VIEWPORT_WIDTH);
-        //main.setHeight(GlobalConstants.VIEWPORT_HEIGHT);
-        //main.setFillParent(true);
+        main.setWidth(GlobalConstants.VIEWPORT_WIDTH);
+        main.setHeight(GlobalConstants.VIEWPORT_HEIGHT);
+        main.setFillParent(true);
         main.debug();
 
         loadAssets();
@@ -61,6 +62,7 @@ public class HomeStage extends RodkastStageAdapter {
             @Override
             public void clicked (InputEvent event, float x, float y) {
                 app.pushScreen(app.getCurrentScreen());
+                //PlayListScreen.this.gotoScreen();
                 app.gotoPlayListScreen();
             }
         });

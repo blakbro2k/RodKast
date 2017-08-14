@@ -88,7 +88,7 @@ public class PlayListStage extends RodkastStageAdapter {
         _episodePlayer.setName(MUSICPLAYER_NAME);
         _episodePlayer.setEpisode(defaultEpisode);
         //_episodePlayer.setFillParent(true);
-        //_episodePlayer.colspan(COLSPAN);
+        _episodePlayer.setWidth(GlobalConstants.VIEWPORT_WIDTH);
 
         //Container container = new Container(_episodePlayer);
         //container.setFillParent(true);
@@ -96,7 +96,7 @@ public class PlayListStage extends RodkastStageAdapter {
 
         main.debug();
         main.row();
-        main.add(_episodePlayer).height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(COLSPAN);
+        main.add(_episodePlayer).height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(COLSPAN).fill();
     }
 
     private Actor setUpPlayListActor(List<RodkastEpisode> episodes) {
@@ -121,7 +121,7 @@ public class PlayListStage extends RodkastStageAdapter {
                 {
                     @Override
                     public void clicked (InputEvent event, float x, float y) {
-                        System.out.println("downloading " + widget.getEpisode() + "...");
+                        _episodePlayer.download(PlayListStage.this, episode);
                     }
                 });
 
@@ -147,7 +147,7 @@ public class PlayListStage extends RodkastStageAdapter {
             }
         });
 
-        main.add(backButton).left();//.padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);
-        main.add(nameLabel);//.height(BANNER_SIZE);
+        main.add(backButton).left().width(backButton.getWidth());//.padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING);
+        main.add(nameLabel).left();//.height(BANNER_SIZE);
     }
 }

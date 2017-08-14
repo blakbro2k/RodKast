@@ -76,7 +76,6 @@ public class RodkastEpisode implements Disposable{
         return enclosure.getLength();
     }
 
-
     @Override
     public void dispose() {
         title = null;

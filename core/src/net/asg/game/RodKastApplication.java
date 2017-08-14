@@ -83,7 +83,7 @@ public class RodKastApplication extends Game {
     }
 
     public void gotoHomeScreen() {
-        if(homeScreen == null){
+		if(homeScreen == null){
 			homeScreen = new HomeScreen(this);
 		}
         setRodKastScreen(homeScreen);
@@ -97,7 +97,7 @@ public class RodKastApplication extends Game {
     }
 
     public void gotoPodPlayerScreen() {
-        if(podPlayerScreen == null){
+		if(podPlayerScreen == null){
 			podPlayerScreen = new PodPlayerScreen(this);
 		}
         setRodKastScreen(podPlayerScreen);
