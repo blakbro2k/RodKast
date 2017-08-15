@@ -41,13 +41,9 @@ public class MusicPlayerWidget extends Table {
         }
 
         this.episode = episode;
-
         this.playButton = new Button(skin.get(MenuProvider.RIGHT_BUTTON, Button.ButtonStyle.class));
-
-        //this.title = getTitleFromEpisode();
         this.labelStyle = skin.get(MenuProvider.LABEL_STYLE_DEFAULT, Label.LabelStyle.class);
         this.image = image;
-        //this.titleActor = getTitleActor();
 
         playButton.addListener(new ClickListener()
         {
@@ -74,11 +70,14 @@ public class MusicPlayerWidget extends Table {
     }
 
     private void setPlayerTitle() {
-        //setDebug(true);
+        if(getDebug()) {
+            setDebug(true);
+        }
+
         reset();
-        add(image);//.left().fill();
-        add(getTitleActor());//.left().padLeft(PLAYLIST_PADDING).padRight(PLAYLIST_PADDING).fillX();
-        add(playButton);//.left().fillX();
+        add(image);
+        add(getTitleActor());
+        add(playButton);
     }
 
     private Label getTitleActor() {
