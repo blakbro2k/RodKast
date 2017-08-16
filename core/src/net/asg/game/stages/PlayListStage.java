@@ -110,8 +110,8 @@ public class PlayListStage extends RodkastStageAdapter {
                     }
                 });
 
-                Button butdton = widget.getButton();
-                butdton.addListener(new ClickListener()
+                Button button = widget.getButton();
+                button.addListener(new ClickListener()
                 {
                     @Override
                     public void clicked (InputEvent event, float x, float y) {
