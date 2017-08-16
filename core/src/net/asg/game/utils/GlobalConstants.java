@@ -15,8 +15,6 @@ public class GlobalConstants {
 
     public static final int VIEWPORT_WIDTH = APP_WIDTH;
     public static final int VIEWPORT_HEIGHT = APP_HEIGHT;
-    public static final int HOMESTAGE_TOP_MENU_HEIGHT = 100;
-    public static final int HOMESTAGE_BOTTOM_MENU_HEIGHT = 100;
 
     public static final String BAD_LOGIC_IMAGE_PATH = "data/badlogic.jpg";
     public static final String DEFAULT_FONT_PATH = "data/default.fnt";

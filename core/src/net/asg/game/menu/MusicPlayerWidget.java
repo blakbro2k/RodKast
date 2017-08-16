@@ -75,7 +75,7 @@ public class MusicPlayerWidget extends Table {
         }
 
         reset();
-        add(image);
+        add(image).left();
         add(getTitleActor());
         add(playButton);
     }

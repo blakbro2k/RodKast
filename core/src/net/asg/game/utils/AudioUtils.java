@@ -72,11 +72,8 @@ public class AudioUtils {
     }
 
     public void playMusic() {
-        boolean musicOn = getPreferences().getBoolean(MUSIC_ON_PREFERENCE, true);
-        if (musicOn) {
-            System.out.println("Play Episode" + fileName);
-            //music.play();
-        }
+        System.out.println("Play Episode" + fileName);
+        //music.play();
     }
 
     public void toggleMusic() {
@@ -101,12 +98,7 @@ public class AudioUtils {
 
     public void pauseMusic() {
         System.out.println("Pause Episode" + fileName);
-        boolean musicOn = getPreferences().getBoolean(MUSIC_ON_PREFERENCE, true);
-
-        if (musicOn) {
-            System.out.println("Play Episode" + fileName);
-            //music.pause();
-        }
+        //music.pause();
     }
 
     public void dowloadEpisode(RodkastStageAdapter stage, RodkastEpisode episode) {
@@ -128,7 +120,6 @@ public class AudioUtils {
 
     private void beginDownload(RodkastStageAdapter stage) {
         //stage.addListener()
-
     }
 
     private Music createNewMusic() {

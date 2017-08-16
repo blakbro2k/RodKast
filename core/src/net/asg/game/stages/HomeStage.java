@@ -33,47 +33,39 @@ public class HomeStage extends RodkastStageAdapter {
     public HomeStage(RodKastApplication app){
         super(app);
 
-
+        loadAssets();
 
         Table main = new Table();
         main.setFillParent(true);
+        main.top();
         main.debug();
 
-        loadAssets();
+        addActor(main);
+        setInputProcessor();
 
         setUpStageTitleWindow(main);
         setUpPlayerWindow(main);
         setUpSocialWindow(main);
         setUpAdMobWindow(main);
-
-
-        addActor(main);
-        setInputProcessor();
     }
 
     private void setUpStageTitleWindow(Table main){
-        main.row().expand();
-
         Label nameLabel = new Label(GlobalConstants.GAME_TITLE, titleScreenLabelStyle);
-        nameLabel.setSize(GlobalConstants.VIEWPORT_WIDTH,GlobalConstants.VIEWPORT_HEIGHT);
-        main.add(nameLabel);
+        main.add(nameLabel).height(BANNER_SIZE).expandX();
     }
 
     private void setUpAdMobWindow(Table main) {
-        main.row();//.height(BANNER_SIZE);
+        app.getGameEvenListener().showBannerAd();
 
         Label nameLabel = new Label(MessageCatalog.ADMOB_WINDOW_MSG, defaultScreenLabelStyle);
-        app.getGameEvenListener().showBannerAd();
-        main.add(nameLabel);
+
+        main.row();
+        main.add(nameLabel).height(BANNER_SIZE);
     }
 
     private void setUpPlayerWindow(Table main) {
-        main.row().height(getBannerOffSet() * PLAYER_WINDOW_SIZE);
-
-        Label nameLabel = new Label("Player Window Section", defaultScreenLabelStyle);
-        //nameLabel.setFillParent(false);
+        //Label nameLabel = new Label("Player Window Section", defaultScreenLabelStyle);
         ImageButton playerButton = new ImageButton(imageProvider.getRodKastButtonStyle());
-        //playerButton.setWidth(GlobalConstants.APP_WIDTH);
 
         playerButton.addListener(new ClickListener()
         {
@@ -83,13 +75,15 @@ public class HomeStage extends RodkastStageAdapter {
                 app.gotoPlayListScreen();
             }
         });
-        main.add(nameLabel);
+
+        main.row();
+        main.add(playerButton).height(getBannerOffSet() * PLAYER_WINDOW_SIZE).fillX();
     }
 
     private void setUpSocialWindow(Table main) {
-        main.row().height(getBannerOffSet() * SOCIAL_WINDOW_SIZE);
-
         Label nameLabel = new Label(MessageCatalog.SOCIAL_WINDOW_MSG, defaultScreenLabelStyle);
-        main.add(nameLabel);
+
+        main.row();
+        main.add(nameLabel).height(getBannerOffSet() * SOCIAL_WINDOW_SIZE).fillX();
     }
 }

@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.asg.game.RodKastApplication;
@@ -37,9 +36,8 @@ public class PlayListStage extends RodkastStageAdapter {
         super(app);
 
         Table main = new Table();
-        main.setWidth(GlobalConstants.VIEWPORT_WIDTH);
-        main.setHeight(GlobalConstants.VIEWPORT_HEIGHT);
-        //main.setFillParent(true);
+        main.setFillParent(true);
+        main.top();
         main.debug();
 
         List<RodkastEpisode> episodeList = getEpisodelist();
@@ -54,10 +52,12 @@ public class PlayListStage extends RodkastStageAdapter {
     }
 
     private void setUpAdMobWindow(Table main) {
-        Label nameLabel = new Label(MessageCatalog.ADMOB_WINDOW_MSG, defaultScreenLabelStyle);
         app.getGameEvenListener().showBannerAd();
+
+        Label nameLabel = new Label(MessageCatalog.ADMOB_WINDOW_MSG, defaultScreenLabelStyle);
+
         main.row();
-        main.add(nameLabel).colspan(COLSPAN);
+        main.add(nameLabel).height(BANNER_SIZE).colspan(COLSPAN);
     }
 
     private void setUpPlayListWindow(Table main, List<RodkastEpisode> episodeList) {
@@ -65,10 +65,8 @@ public class PlayListStage extends RodkastStageAdapter {
         Actor playList = setUpPlayListActor(episodeList);
 
         ScrollPane pane = new ScrollPane(playList);
+
         main.row();
-        //main.add(pane);
-        //main.add(paneLabel).colspan(COLSPAN);
-        //System.out.println(pane.getParent());
         main.add(pane).height(getBannerOffSet() * PLAYLIST_WINDOW_SIZE).colspan(COLSPAN);
     }
 
@@ -90,18 +88,19 @@ public class PlayListStage extends RodkastStageAdapter {
         _episodePlayer.setEpisode(defaultEpisode);
         _episodePlayer.setWidth(GlobalConstants.VIEWPORT_WIDTH);
 
-        main.debug();
         main.row();
-        main.add(_episodePlayer).height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(COLSPAN);
+        main.add(_episodePlayer).left().height(getBannerOffSet() * PLAYER_WINDOW_SIZE).fillX().expandX().colspan(COLSPAN);
     }
 
     private Actor setUpPlayListActor(List<RodkastEpisode> episodes) {
         Table playList = new Table();
+        playList.debug();
 
         for(final RodkastEpisode episode : episodes){
             if(episode != null){
 
-                final PlayListWidget widget = new PlayListWidget(episode, defaultSkin);
+                PlayListWidget widget = new PlayListWidget(episode, defaultSkin);
+                widget.debug();
 
                 widget.addListener(new ClickListener()
                 {
@@ -120,10 +119,11 @@ public class PlayListStage extends RodkastStageAdapter {
                     }
                 });
 
-                widget.debug();
-                playList.add(widget.getDateActor());
-                playList.add(widget.getTitleActor());
-                playList.add(widget.getButton());
+                playList.add(widget.getDateActor()).expand().height(PlayListWidget.DEFAULT_DATE_HEIGHT)
+                        .width(PlayListWidget.DEFAULT_DATE_WIDTH);
+                playList.add(widget.getTitleActor()).fill();
+                playList.add(widget.getButton()).height(PlayListWidget.DEFAULT_DATE_HEIGHT)
+                        .width(PlayListWidget.DEFAULT_DATE_WIDTH);
                 playList.row();
             }
         }
@@ -142,7 +142,7 @@ public class PlayListStage extends RodkastStageAdapter {
             }
         });
 
-        main.add(backButton);
-        main.add(nameLabel);
+        main.add(backButton).height(BANNER_SIZE).left().width(backButton.getWidth()).fill();
+        main.add(nameLabel).height(BANNER_SIZE).left().expandX();
     }
 }

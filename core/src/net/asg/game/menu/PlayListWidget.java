@@ -22,6 +22,10 @@ import java.util.Calendar;
  */
 
 public class PlayListWidget extends Table{
+    public final static int DEFAULT_DATE_WIDTH = 50;
+    public final static int DEFAULT_DATE_HEIGHT = 50;
+    public final static int DEFAULT_PADDING = 550;
+
     private LabelStyle labelStyle;
     private Button button;
     private RodkastEpisode episode;
@@ -51,8 +55,8 @@ public class PlayListWidget extends Table{
 
     private void initializeWidget(){
         reset();
-        add(getTitleActor());
-        add(getDateActor());
+        add(getDateActor()).expand();
+        add(getTitleActor()).padLeft(DEFAULT_PADDING).padRight(DEFAULT_PADDING);
         add(getButton());
     }
 
@@ -75,11 +79,7 @@ public class PlayListWidget extends Table{
                 titleActor = new Label(Utils.getTitleFromEpisode(episode), labelStyle);
             }
 
-            if(getDebug()){
-                return titleActor.debug();
-            } else {
-                return titleActor;
-            }
+            return titleActor;
         }
         return new Label("Title Not Loaded", labelStyle);
     }
@@ -114,16 +114,21 @@ public class PlayListWidget extends Table{
     }
 
     private Table createMonthDay(Calendar pubDate) {
-        Table table = new Table();
+        Table mTable = new Table();
+        mTable.top();
+        if(getDebug()){
+            mTable.debug();
+        }
+
         if(pubDate != null){
             Label monthLabel = new Label(Utils.getThreeLetterMonth(pubDate.get(Calendar.MONTH)), labelStyle);
             Label dayLabel = new Label(pubDate.get(Calendar.DAY_OF_MONTH) + "", labelStyle);
 
-            table.add(monthLabel).center();
-            table.row();
-            table.add(dayLabel).center();
+            mTable.add(monthLabel).center();
+            mTable.row();
+            mTable.add(dayLabel).center();
         }
-        return table;
+        return mTable;
     }
 
     @Override
