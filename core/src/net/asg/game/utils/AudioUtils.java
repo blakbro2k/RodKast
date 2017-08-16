@@ -26,7 +26,9 @@ public class AudioUtils {
     private URL mediaLink;
     private String type;
     private RodkastEpisode currentEpisode;
+    private String playingEpisodeName;
     private String currentEpisodeName;
+
 
     private static final String MUSIC_ON_PREFERENCE = "music_on";
     private static final String EXTERNAL_STORAGE_PREFERENCE = "ext_storage"; //true = external; false = internal
@@ -54,20 +56,24 @@ public class AudioUtils {
             this.songDuration = episode.getDuration();
             this.type = episode.getType();
             this.currentEpisode = episode;
-            this.currentEpisodeName = getEpisodeAudio(currentEpisode);
+            this.currentEpisodeName = getEpisodeAudioFile(currentEpisode);
         }
 
         if(isDownloaded(currentEpisode)){
-            add(currentEpisodeName,createNewAudio(currentEpisodeName));
+            addAudio(currentEpisodeName,createNewAudio(currentEpisodeName));
         }
     }
 
-    private void add(String key, Music music){
-        Music audio = audioTable.get(key);
+    private void addAudio(String key, Music music){
+        Music audio = getAudio(key);
 
         if(audio == null){
             audioTable.put(key, music);
         }
+    }
+
+    private Music getAudio(String key) {
+        return audioTable.get(key);
     }
 
     private boolean isDownloaded(RodkastEpisode episode) {
@@ -131,33 +137,23 @@ public class AudioUtils {
     }
 
     public void playMusic() {
-        Music music = getCurrentAudioStream();
+        Music music = getAudio(playingEpisodeName);
         //TODO: throw EpisodeNotFound exception for display
         if(music != null) {
             if (music.isPlaying()) {
                 music.pause();
             } else {
                 music.play();
+                playingEpisodeName = currentEpisodeName;
             }
         }
     }
 
-    private Music getCurrentAudioStream() {
-        Music audio = null;
-        if(isDownloaded(currentEpisode)){
-            String episodeAudio = getEpisodeAudio(currentEpisode);
-            if(episodeAudio != null){
-                audio = audioTable.get(episodeAudio);
-            }
-        }
-        return audio;
-    }
-
-    private String getEpisodeAudio(RodkastEpisode episode){
+    private String getEpisodeAudioFile(RodkastEpisode episode){
         if(episode == null){
             return null;
         }
-        return getFileFromURL(currentEpisode.getMediaLink());
+        return getFileFromURL(episode.getMediaLink());
     }
 
 
@@ -233,7 +229,7 @@ public class AudioUtils {
                             public void run () {
                                 if (progress == 100) {
                                     System.out.println(progressString);
-                                    add(name, createNewAudio(name));
+                                    addAudio(name, createNewAudio(name));
                                     //button.setDisabled(false);
                                 }
                                 System.out.println(progressString);
