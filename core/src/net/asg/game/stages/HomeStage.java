@@ -1,24 +1,14 @@
 package net.asg.game.stages;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 
 import net.asg.game.RodKastApplication;
-import net.asg.game.menu.PlayListWidget;
-import net.asg.game.screens.PlayListScreen;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.MessageCatalog;
-import net.asg.game.utils.parser.RodkastEpisode;
-
-import java.util.List;
 
 /**
  * Created by Blakbro2k on 6/21/2017.

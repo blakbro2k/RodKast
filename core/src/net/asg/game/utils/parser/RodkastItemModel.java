@@ -43,11 +43,11 @@ class RodkastItemModel{
         return getXmlURLAttribute(RSS_LINK, element);
     }
 
-    public static Calendar getRssPubDate(Element element) throws IllegalArgumentException{
+    public static Calendar getRssPubDate(Element element) throws IllegalArgumentException, ParseException {
         return getXmlDateAttribute(RSS_PUBLISHED_DATE, element);
     }
 
-    public static Calendar getLastBuildDate(Element element) throws IllegalArgumentException{
+    public static Calendar getLastBuildDate(Element element) throws IllegalArgumentException, ParseException {
         return getXmlDateAttribute(RSS_LAST_BUILD_DATE, element);
     }
 
@@ -84,20 +84,16 @@ class RodkastItemModel{
                 elem.getAttribute(XMLEnclosure.URL_ATTRIBUTE));
     }
 
-    public static List<RodkastEpisode> getCompleteEpisodesList(Element element) {
+    public static List<RodkastEpisode> getCompleteEpisodesList(Element element) throws MalformedURLException, ParseException {
         if(element != null){
             Array<Element> items = element.getChildrenByName(RodkastItemModel.RSS_ITEM);
 
-            try {
-                return buildRodkestEpisodes(items);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+            return buildRodkestEpisodes(items);
         }
         return null;
     }
 
-    private static List<RodkastEpisode> buildRodkestEpisodes(Array<Element> items) throws MalformedURLException {
+    private static List<RodkastEpisode> buildRodkestEpisodes(Array<Element> items) throws MalformedURLException, ParseException {
         List<RodkastEpisode> episodes = null;
 
         if(items != null){
@@ -111,14 +107,8 @@ class RodkastItemModel{
         return episodes;
     }
 
-   /* public static Map<String, XMLImage> getRssImages(Element item){
-        validateInput(item);
-        for()
-    }*/
-
-
     private static XMLImage getRssImage(Element element) throws IllegalArgumentException, MalformedURLException {
-        //validateInput(element);
+        validateInput(element, "Element");
 
         Element elem = element.getChildByName(RSS_IMAGE);
         if(elem == null){
@@ -140,7 +130,7 @@ class RodkastItemModel{
         }
     }
 
-    private static Calendar getXmlDateAttribute(String attr, Element element) throws IllegalArgumentException{
+    private static Calendar getXmlDateAttribute(String attr, Element element) throws IllegalArgumentException, ParseException {
         return parseDate(getValidatedChildByName(attr,element).getText());
     }
 
@@ -163,14 +153,10 @@ class RodkastItemModel{
         return elem;
     }
 
-    private static Calendar parseDate(String date) {
-        try {
-            GregorianCalendar calendar = new GregorianCalendar();
-            Date parsedDate = new SimpleDateFormat(RSS_DATE_PATTERN, Locale.US).parse(date);
-            calendar.setTime(parsedDate);
-            return calendar;
-        } catch (ParseException e) {
-            return null;
-        }
+    private static Calendar parseDate(String date) throws ParseException {
+        GregorianCalendar calendar = new GregorianCalendar();
+        Date parsedDate = new SimpleDateFormat(RSS_DATE_PATTERN, Locale.US).parse(date);
+        calendar.setTime(parsedDate);
+        return calendar;
     }
 }

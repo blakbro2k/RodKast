@@ -25,6 +25,7 @@ import net.asg.game.utils.parser.RodkastEpisode;
 import net.asg.game.utils.parser.XMLHandler;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -100,6 +101,8 @@ public class RodkastStageAdapter extends Stage {
                 errorDialog.show(this);
                 System.out.println(e.getMessage() + " is handeled");
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
         loadingDialog.hide();

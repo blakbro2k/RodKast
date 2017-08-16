@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.XmlReader;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class RodkastChannel implements Disposable{
     private List<RodkastEpisode> episodes;
     private Map<String,XMLImage> images;
 
-    public RodkastChannel(XmlReader.Element elem) throws MalformedURLException {
+    public RodkastChannel(XmlReader.Element elem) throws MalformedURLException, ParseException {
         if (elem != null) {
             this.title = RodkastItemModel.getRssTitle(elem);
             this.link = RodkastItemModel.getRssUrl(elem);

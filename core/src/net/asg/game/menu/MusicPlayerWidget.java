@@ -1,5 +1,7 @@
 package net.asg.game.menu;
 
+import com.badlogic.gdx.Net.HttpMethods;
+import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -11,9 +13,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import net.asg.game.providers.MenuProvider;
 import net.asg.game.stages.RodkastStageAdapter;
 import net.asg.game.utils.AudioUtils;
+import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.MessageCatalog;
 import net.asg.game.utils.Utils;
 import net.asg.game.utils.parser.RodkastEpisode;
+
+import java.net.URL;
 
 /**
  * Created by Blakbro2k on 8/7/2017.
@@ -49,23 +54,25 @@ public class MusicPlayerWidget extends Table {
         {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                processEvent(MusicPlayerWidget.this, false);
+                processEvent(MusicPlayerWidget.this);
             }
         });
 
         setPlayerTitle();
     }
 
-    private void processEvent(MusicPlayerWidget widget, boolean isPause){
+    private void processEvent(MusicPlayerWidget widget){
         if(widget != null) {
             System.out.println("Setting : " + widget.getEpisode());
             AudioUtils.getInstance().setEpisode(widget.getEpisode());
+            AudioUtils.getInstance().playMusic();
 
-            if (!isPause) {
-                AudioUtils.getInstance().playMusic();
-            } else {
-                AudioUtils.getInstance().pauseMusic();
-            }
+            //boolean isPaused = AudioUtils.getInstance().isPaused();
+
+            //if (!isPaused) {
+            //} else {
+            //    AudioUtils.getInstance().pauseMusic();
+            //}
         }
     }
 
@@ -98,9 +105,13 @@ public class MusicPlayerWidget extends Table {
     }
 
     public void download(RodkastStageAdapter stage, RodkastEpisode episode) {
-        //if(!this.episode.equals(episode)){
-        //    setEpisode(episode);
-        //}
+        if(stage == null){
+            throw new RuntimeException("Stage cannot be null.");
+        }
+
+        if(episode == null){
+            throw new RuntimeException("No episode found");
+        }
 
         AudioUtils.getInstance().dowloadEpisode(stage, episode);
     }

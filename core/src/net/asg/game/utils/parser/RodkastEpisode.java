@@ -9,6 +9,7 @@ import net.asg.game.utils.Utils;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.Calendar;
 
 /**
@@ -24,7 +25,7 @@ public class RodkastEpisode implements Disposable{
     private String category;
     private XMLEnclosure enclosure;
 
-    public RodkastEpisode(XmlReader.Element item) throws MalformedURLException {
+    public RodkastEpisode(XmlReader.Element item) throws MalformedURLException, ParseException {
             if (item != null){
                 this.title = RodkastItemModel.getRssTitle(item);
                 this.webLink = RodkastItemModel.getRssUrl(item);

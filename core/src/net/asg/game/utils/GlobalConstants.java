@@ -12,6 +12,7 @@ public class GlobalConstants {
     public static final int MAX_HEIGHT = 1024;
     public static final int APP_WIDTH = 480;
     public static final int APP_HEIGHT = 800;
+    public static final int HTTP_REQUEST_TIMEOUT = 2500;
 
     public static final int VIEWPORT_WIDTH = APP_WIDTH;
     public static final int VIEWPORT_HEIGHT = APP_HEIGHT;
@@ -22,6 +23,7 @@ public class GlobalConstants {
     public static final String DEFAULT_UISKIN_ATLAS = "data/uiskin.atlas";
     public static final String DEFAULT_UISKIN_JSON = "data/uiskin.json";
     public static final String DEFAULT_ATLAS_PATH = "data/imageAssets.atlas";
+    public static final String DEFAULT_DOWNLOAD_FOLDER = "rodkast";
     public static final String SHADE_UISKIN_ATLAS = "data/shade/uiskin.atlas";
     public static final String SHADE_UISKIN_JSON = "data/shade/uiskin.json";
     public static final String SHADE_ATLAS_PATH = "data/shade/imageAssets.atlas";
@@ -33,5 +35,4 @@ public class GlobalConstants {
     public static final String GAME_ATLAS_NAME = "imageAssets";
 
     public static final String PREFERENCES_NAME = "rodkast_prefs";
-
 }
