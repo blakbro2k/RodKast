@@ -7,10 +7,8 @@ import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.Net.HttpMethods;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
-import net.asg.game.stages.RodkastStageAdapter;
 import net.asg.game.utils.parser.RodkastEpisode;
 
 import java.io.IOException;
@@ -19,15 +17,15 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.util.Hashtable;
 import java.util.Map;
-import java.util.Set;
 
 public class AudioUtils {
-    private static AudioUtils ourInstance = new AudioUtils();
-    private static Map<String,Music> audioTable = new Hashtable<>();
-    private float songDuration;
-    private float currentPosition;
-    private RodkastEpisode currentEpisode;
-    private String currentEpisodeName;
+    private static final String CONTENT_LENGTH = "Content-Length";
+    private static AudioUtils _ourInstance = new AudioUtils();
+    private static Map<String,Music> _audioTable = new Hashtable<>();
+    private static String _currentAudioPlayingName = null;
+    //private float songDuration;
+    //private float currentPosition;
+    //private RodkastEpisode currentEpisode;
 
 
     private static final String EXTERNAL_STORAGE_PREFERENCE = "ext_storage"; //true = external; false = internal
@@ -43,23 +41,11 @@ public class AudioUtils {
     }
 
     public static AudioUtils getInstance() {
-        return ourInstance;
+        return _ourInstance;
     }
 
     private Preferences getPreferences() {
         return Gdx.app.getPreferences(GlobalConstants.PREFERENCES_NAME);
-    }
-
-    public void setEpisode(RodkastEpisode episode) {
-        if(episode != null && !episode.equals(currentEpisode)){
-            this.songDuration = episode.getDuration();
-            this.currentEpisode = episode;
-            this.currentEpisodeName = getEpisodeAudioFile(currentEpisode);
-        }
-
-        if(isDownloaded(currentEpisode)){
-            addAudio(currentEpisodeName,createNewAudio(currentEpisodeName));
-        }
     }
 
     private void addAudio(String key, Music music){
@@ -70,7 +56,7 @@ public class AudioUtils {
         Music audio = getAudio(key);
 
         if(audio == null){
-            audioTable.put(key, music);
+            _audioTable.put(key, music);
         }
     }
 
@@ -78,7 +64,7 @@ public class AudioUtils {
         if(key == null){
             return null;
         }
-        return audioTable.get(key);
+        return _audioTable.get(key);
     }
 
     private boolean isDownloaded(RodkastEpisode episode) {
@@ -106,9 +92,9 @@ public class AudioUtils {
         return getPreferences().getBoolean(INTERNET_DOWNLOAD_PREFERENCE, true);
     }
 
-    public float getSongDuration(){
-        return songDuration;
-    }
+    //public float getSongDuration(){
+        //return songDuration;
+    //}
 
     public void setStoragePref(boolean bool) {
         saveBoolean(EXTERNAL_STORAGE_PREFERENCE, bool);
@@ -142,43 +128,38 @@ public class AudioUtils {
     }
 
     public void dispose() {
-        Utils.disposeObjects(currentEpisode);
+        //Utils.disposeObjects(currentEpisode);
         //mediaLink = null;
         //type = null;
-        audioTable.clear();
-        audioTable = null;
+        _audioTable.clear();
+        _audioTable = null;
+        _ourInstance = null;
+        _currentAudioPlayingName = null;
     }
 
     public void playEpisode(RodkastEpisode episode) {
         System.out.println("Play Button pressed: episode : " + episode);
 
-        //check if is download, no? kick rocks
-        //check if currently playing, yes? kick rocks
-        //no, pause currently playing
-        //set this to currently playing
-        //play this episode
-
         if(isDownloaded(episode)){
-            currentEpisodeName = getEpisodeAudioFile(episode);
-            System.out.println(currentEpisodeName + "is downloaded.");
+            String currentEpisodeName = getEpisodeAudioFile(episode);
 
-            Music episodeAudio = createNewAudio(currentEpisodeName);
-            System.out.println("episodeAudio: " + episodeAudio);
-            System.out.println("audioTable: " + audioTable);
-            System.out.println("is : " + currentEpisodeName + "playing? " + isCurrentlyPlaying(episodeAudio));
-
-            if(!isCurrentlyPlaying(episodeAudio)){
+            if(!isCurrentlyPlaying(currentEpisodeName)){
                 pauseCurrentEpisode();
-                setCurrentlyplaying(episodeAudio);
-                toggleEpisode(episodeAudio);
-            } else {
-                toggleEpisode(episodeAudio);
             }
+
+            _currentAudioPlayingName = currentEpisodeName;
+            toggleEpisode(_currentAudioPlayingName);
         }
     }
 
-    private void toggleEpisode(Music episodeAudio){
-        if(episodeAudio != null){
+    private void toggleEpisode(String audioName){
+        if(audioName != null){
+            Music episodeAudio = getAudio(audioName);
+            if(episodeAudio == null){
+                episodeAudio = createNewAudio(audioName);
+                addAudio(audioName, episodeAudio);
+            }
+
             if(episodeAudio.isPlaying()){
                 episodeAudio.pause();
             } else {
@@ -187,13 +168,12 @@ public class AudioUtils {
         }
     }
 
-    private boolean isCurrentlyPlaying(Music episodeAudio) {
-        Music playingAudio = getCurrentlyPlaying();
-        return playingAudio != null && playingAudio.equals(episodeAudio);
+    private boolean isCurrentlyPlaying(String currentEpisodeName) {
+        return _currentAudioPlayingName != null && !_currentAudioPlayingName.isEmpty() && _currentAudioPlayingName.equals(currentEpisodeName);
     }
 
     private Music getCurrentlyPlaying(){
-        return getAudio("playing");
+        return getAudio(_currentAudioPlayingName);
     }
 
     private void pauseCurrentEpisode() {
@@ -201,12 +181,6 @@ public class AudioUtils {
 
         if(currentAudio != null){
             currentAudio.pause();
-        }
-    }
-
-    public void setCurrentlyplaying(Music episodeAudio) {
-        if(episodeAudio != null){
-            addAudio("playing", episodeAudio);
         }
     }
 
@@ -220,6 +194,9 @@ public class AudioUtils {
 
     public void dowloadEpisode(RodkastEpisode episode) {
             boolean isDownloaded = isDownloaded(episode);
+        //TODO: Add temp download functionality
+        //TODO: it should download as ._temp
+        //TODO: count all ._temp if exist restart downloads.
 
             if(!isDownloaded){
                 beginDownload(episode);
@@ -263,14 +240,14 @@ public class AudioUtils {
             @Override
             public void handleHttpResponse (HttpResponse httpResponse) {
                 // Determine how much we have to download
-                long length = Long.parseLong(httpResponse.getHeader("Content-Length"));
+                long length = Long.parseLong(httpResponse.getHeader(CONTENT_LENGTH));
 
                 // We're going to download the file to external storage, create the streams
                 InputStream is = httpResponse.getResultAsStream();
                 OutputStream os = Gdx.files.external(getStorageFolderPref() + "\\" + name).write(false);
 
                 byte[] bytes = new byte[1024];
-                int count = -1;
+                int count;
                 long read = 0;
                 try {
                     // Keep reading bytes and storing them until there are no more.
@@ -279,7 +256,7 @@ public class AudioUtils {
                         read += count;
 
                         // Update the UI with the download progress
-                        System.out.println("float" + (read / length));
+                        System.out.println("float" + ((double) read / (double) length));
                         final int progress = ((int) (((double) read / (double) length) * 100));
                         final String progressString = progress == 100 ? "Click to download" : progress + "%";
 
@@ -289,7 +266,7 @@ public class AudioUtils {
                             public void run () {
                                 if (progress == 100) {
                                     System.out.println(progressString);
-                                    //addAudio(name, createNewAudio(name));
+                                    //rename file;
                                     //button.setDisabled(false);
                                 }
                                 System.out.println(progressString);

@@ -3,10 +3,14 @@ package net.asg.game.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 
@@ -149,5 +153,23 @@ public class RodkastStageAdapter extends Stage {
                 rssChannel,
                 defaultSkin);
         camera = null;
+    }
+
+    void setUpStageTitleWindow(Table main, boolean useBackbutton){
+        Label nameLabel = new Label(GlobalConstants.GAME_TITLE, titleScreenLabelStyle);
+
+        Button backButton = menuProvider.getBackButton();
+        backButton.addListener(new ClickListener()
+        {
+            @Override
+            public void clicked (InputEvent event, float x, float y) {
+                Utils.backButton(app);
+            }
+        });
+
+        if(useBackbutton){
+            main.add(backButton).height(BANNER_SIZE).left().width(BANNER_SIZE).fill();
+        }
+        main.add(nameLabel).height(BANNER_SIZE).left().expandX();
     }
 }

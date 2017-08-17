@@ -30,7 +30,7 @@ public class PlayListStage extends RodkastStageAdapter {
     private static final int COLSPAN = 2;
     private static final float PLAYLIST_PADDING = 4f;
     private static final String MUSICPLAYER_NAME = "musicplayer";
-    private static MusicPlayerWidget _episodePlayer;
+    private MusicPlayerWidget _episodePlayer;
 
     public PlayListStage(RodKastApplication app){
         super(app);
@@ -38,11 +38,11 @@ public class PlayListStage extends RodkastStageAdapter {
         Table main = new Table();
         main.setFillParent(true);
         main.top();
-        main.debug();
+        main.debugAll();
 
         List<RodkastEpisode> episodeList = getEpisodelist();
 
-        setUpStageTitleWindow(main);
+        setUpStageTitleWindow(main, true);
         setUpPlayerWindow(main, episodeList);
         setUpPlayListWindow(main, episodeList);
         setUpAdMobWindow(main);
@@ -83,28 +83,31 @@ public class PlayListStage extends RodkastStageAdapter {
         Image rodKastImage = new Image(rodKastTextureRegion);
 
         _episodePlayer = new MusicPlayerWidget(defaultEpisode, defaultSkin, rodKastImage);
-        _episodePlayer.debug();
         _episodePlayer.setName(MUSICPLAYER_NAME);
+        _episodePlayer.debugAll();
+        _episodePlayer.size(480,getBannerOffSet() * PLAYER_WINDOW_SIZE);
 
         main.row();
-        main.add(_episodePlayer).left().height(getBannerOffSet() * PLAYER_WINDOW_SIZE).fillX().expandX().colspan(COLSPAN);
+        main.add(_episodePlayer).height(getBannerOffSet() * PLAYER_WINDOW_SIZE).fillX().expandX().colspan(COLSPAN);
     }
 
     private Actor setUpPlayListActor(List<RodkastEpisode> episodes) {
         Table playList = new Table();
-        playList.debug();
+        playList.debugAll();
 
         for(final RodkastEpisode episode : episodes){
             if(episode != null){
 
                 PlayListWidget widget = new PlayListWidget(episode, defaultSkin);
-                widget.debug();
+                widget.debugAll();
 
                 widget.addListener(new ClickListener()
                 {
                     @Override
                     public void clicked (InputEvent event, float x, float y) {
                         _episodePlayer.setEpisode(episode);
+                        _episodePlayer.debugAll();
+
                     }
                 });
 
@@ -114,6 +117,7 @@ public class PlayListStage extends RodkastStageAdapter {
                     @Override
                     public void clicked (InputEvent event, float x, float y) {
                         _episodePlayer.download(episode);
+                        _episodePlayer.debugAll();
                     }
                 });
 
@@ -126,21 +130,5 @@ public class PlayListStage extends RodkastStageAdapter {
             }
         }
         return playList;
-    }
-
-    private void setUpStageTitleWindow(Table main){
-        Label nameLabel = new Label(GlobalConstants.GAME_TITLE, titleScreenLabelStyle);
-
-        Button backButton = menuProvider.getBackButton();
-        backButton.addListener(new ClickListener()
-        {
-            @Override
-            public void clicked (InputEvent event, float x, float y) {
-                Utils.backButton(app);
-            }
-        });
-
-        main.add(backButton).height(BANNER_SIZE).left().width(BANNER_SIZE).fill();
-        main.add(nameLabel).height(BANNER_SIZE).left().expandX();
     }
 }

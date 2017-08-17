@@ -55,8 +55,9 @@ public class PlayListWidget extends Table{
 
     private void initializeWidget(){
         reset();
-        add(getDateActor()).expand();
-        add(getTitleActor()).padLeft(DEFAULT_PADDING).padRight(DEFAULT_PADDING);
+
+        add(getDateActor()).expand().fill();
+        add(getTitleActor());
         add(getButton());
     }
 
@@ -86,23 +87,15 @@ public class PlayListWidget extends Table{
 
     public Actor getDateActor() {
         if(dateActor == null){
-            dateActor = new Container<>(createMonthDay(getDateFromDate()));
+            dateActor = new Container<>(createMonthDay(getDateFromDate())).fill();
         }
 
-        if(getDebug()){
-            return dateActor.debug();
-        } else {
-            return dateActor;
-        }
+        //dateActor.fill();
+        return dateActor;
     }
 
     public Button getButton(){
-        if(getDebug()){
-            button.debug();
             return button;
-        } else {
-            return button;
-        }
     }
 
     private Calendar getDateFromDate() {
@@ -115,10 +108,7 @@ public class PlayListWidget extends Table{
 
     private Table createMonthDay(Calendar pubDate) {
         Table mTable = new Table();
-        mTable.top();
-        if(getDebug()){
-            mTable.debug();
-        }
+        //mTable.top();
 
         if(pubDate != null){
             Label monthLabel = new Label(Utils.getThreeLetterMonth(pubDate.get(Calendar.MONTH)), labelStyle);
@@ -128,6 +118,12 @@ public class PlayListWidget extends Table{
             mTable.row();
             mTable.add(dayLabel).center();
         }
+
+        if(getDebug()){
+            System.out.println("debug All");
+            mTable.debugAll();
+        }
+
         return mTable;
     }
 

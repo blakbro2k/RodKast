@@ -18,7 +18,6 @@ public class HomeStage extends RodkastStageAdapter {
     //TODO: Social Medial
     private static final float SOCIAL_WINDOW_SIZE = .4f;
     private static final float PLAYER_WINDOW_SIZE = .6f;
-    private static final int COLUMN_SPAN = 2;
 
     public HomeStage(RodKastApplication app){
         super(app);
@@ -33,15 +32,10 @@ public class HomeStage extends RodkastStageAdapter {
         addActor(main);
         setInputProcessor();
 
-        setUpStageTitleWindow(main);
+        setUpStageTitleWindow(main, false);
         setUpPlayerWindow(main);
         setUpSocialWindow(main);
         setUpAdMobWindow(main);
-    }
-
-    private void setUpStageTitleWindow(Table main){
-        Label nameLabel = new Label(GlobalConstants.GAME_TITLE, titleScreenLabelStyle);
-        main.add(nameLabel).height(BANNER_SIZE).expandX();
     }
 
     private void setUpAdMobWindow(Table main) {

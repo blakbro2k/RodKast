@@ -60,7 +60,6 @@ public class MusicPlayerWidget extends Container {
     private void processEvent(MusicPlayerWidget widget){
         if(widget != null) {
             System.out.println("playing : " + widget.getEpisode());
-            //AudioUtils.getInstance().setEpisode(widget.getEpisode());
             AudioUtils.getInstance().playEpisode(widget.getEpisode());
         }
     }
@@ -68,17 +67,14 @@ public class MusicPlayerWidget extends Container {
     private void setPlayerTitle() {
         if(main == null){
             main = new Table();
-            //main.setFillParent(true);
         }
 
-        if(getDebug()) {
-            main.setDebug(true);
-        }
         main.reset();
-        main.add(image).left().expand();
-        main.add(getTitleActor()).expand();
-        main.add(playButton);
-        setActor(main.left());
+        main.add(image).left().fill().width(70);
+        main.add(getTitleActor()).fill().expand();
+        main.add(playButton).right().fill().width(70);
+
+        setActor(main);
     }
 
     private Label getTitleActor() {
