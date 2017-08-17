@@ -153,8 +153,10 @@ class RodkastItemModel{
         return elem;
     }
 
-    private static Calendar parseDate(String date) throws ParseException {
+    private static Calendar parseDate(String date) throws ParseException, IllegalArgumentException {
         GregorianCalendar calendar = new GregorianCalendar();
+        validateInput(calendar, "Date");
+
         Date parsedDate = new SimpleDateFormat(RSS_DATE_PATTERN, Locale.US).parse(date);
         calendar.setTime(parsedDate);
         return calendar;

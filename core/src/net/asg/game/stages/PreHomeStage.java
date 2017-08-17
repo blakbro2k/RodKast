@@ -14,6 +14,8 @@ public class PreHomeStage extends RodkastStageAdapter {
     public PreHomeStage(RodKastApplication app){
         super(app);
 
+        loadAssets();
+
         Table main = new Table();
         main.setWidth(GlobalConstants.VIEWPORT_WIDTH);
         main.setHeight(GlobalConstants.VIEWPORT_HEIGHT);
@@ -24,6 +26,6 @@ public class PreHomeStage extends RodkastStageAdapter {
 
     private void setUpStageTitleWindow(Table main){
         Label nameLabel = new Label(GlobalConstants.GAME_TITLE, titleScreenLabelStyle);
-        main.add(nameLabel).expandX().height(BANNER_SIZE);
+        main.add(nameLabel).height(BANNER_SIZE).expandX();
     }
 }

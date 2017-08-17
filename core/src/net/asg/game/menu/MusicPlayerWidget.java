@@ -1,9 +1,8 @@
 package net.asg.game.menu;
 
-import com.badlogic.gdx.Net.HttpMethods;
-import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -11,24 +10,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.asg.game.providers.MenuProvider;
-import net.asg.game.stages.RodkastStageAdapter;
 import net.asg.game.utils.AudioUtils;
-import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.MessageCatalog;
 import net.asg.game.utils.Utils;
 import net.asg.game.utils.parser.RodkastEpisode;
-
-import java.net.URL;
 
 /**
  * Created by Blakbro2k on 8/7/2017.
  */
 
-public class MusicPlayerWidget extends Table {
+public class MusicPlayerWidget extends Container {
     private Label.LabelStyle labelStyle;
     private Button playButton;
     private RodkastEpisode episode;
     private Image image;
+    private Table main;
 
     private static final float PLAYLIST_PADDING = 4f;
 
@@ -63,28 +59,26 @@ public class MusicPlayerWidget extends Table {
 
     private void processEvent(MusicPlayerWidget widget){
         if(widget != null) {
-            System.out.println("Setting : " + widget.getEpisode());
-            AudioUtils.getInstance().setEpisode(widget.getEpisode());
-            AudioUtils.getInstance().playMusic();
-
-            //boolean isPaused = AudioUtils.getInstance().isPaused();
-
-            //if (!isPaused) {
-            //} else {
-            //    AudioUtils.getInstance().pauseMusic();
-            //}
+            System.out.println("playing : " + widget.getEpisode());
+            //AudioUtils.getInstance().setEpisode(widget.getEpisode());
+            AudioUtils.getInstance().playEpisode(widget.getEpisode());
         }
     }
 
     private void setPlayerTitle() {
-        if(getDebug()) {
-            setDebug(true);
+        if(main == null){
+            main = new Table();
+            //main.setFillParent(true);
         }
 
-        reset();
-        add(image).left();
-        add(getTitleActor());
-        add(playButton);
+        if(getDebug()) {
+            main.setDebug(true);
+        }
+        main.reset();
+        main.add(image).left().expand();
+        main.add(getTitleActor()).expand();
+        main.add(playButton);
+        setActor(main.left());
     }
 
     private Label getTitleActor() {
@@ -100,19 +94,11 @@ public class MusicPlayerWidget extends Table {
         setPlayerTitle();
     }
 
-    public MusicPlayerWidget getInstance(){
-        return this;
-    }
-
-    public void download(RodkastStageAdapter stage, RodkastEpisode episode) {
-        if(stage == null){
-            throw new RuntimeException("Stage cannot be null.");
-        }
-
+    public void download(RodkastEpisode episode) {
         if(episode == null){
             throw new RuntimeException("No episode found");
         }
 
-        AudioUtils.getInstance().dowloadEpisode(stage, episode);
+        AudioUtils.getInstance().dowloadEpisode(episode);
     }
 }

@@ -7,6 +7,8 @@ import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.Net.HttpMethods;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import net.asg.game.stages.RodkastStageAdapter;
 import net.asg.game.utils.parser.RodkastEpisode;
@@ -17,22 +19,20 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Set;
 
 public class AudioUtils {
     private static AudioUtils ourInstance = new AudioUtils();
     private static Map<String,Music> audioTable = new Hashtable<>();
     private float songDuration;
     private float currentPosition;
-    private URL mediaLink;
-    private String type;
     private RodkastEpisode currentEpisode;
-    private String playingEpisodeName;
     private String currentEpisodeName;
 
 
-    private static final String MUSIC_ON_PREFERENCE = "music_on";
     private static final String EXTERNAL_STORAGE_PREFERENCE = "ext_storage"; //true = external; false = internal
     private static final String STORAGE_PATH_PREFERENCE = "storage_path";
+    private static final String INTERNET_DOWNLOAD_PREFERENCE = "inet_only";
 
     private static final String INTERNAL_ASSETS_PATH = "data/";
 
@@ -52,9 +52,7 @@ public class AudioUtils {
 
     public void setEpisode(RodkastEpisode episode) {
         if(episode != null && !episode.equals(currentEpisode)){
-            this.mediaLink = episode.getMediaLink();
             this.songDuration = episode.getDuration();
-            this.type = episode.getType();
             this.currentEpisode = episode;
             this.currentEpisodeName = getEpisodeAudioFile(currentEpisode);
         }
@@ -65,6 +63,10 @@ public class AudioUtils {
     }
 
     private void addAudio(String key, Music music){
+        if(key == null || music == null){
+            return;
+        }
+
         Music audio = getAudio(key);
 
         if(audio == null){
@@ -73,6 +75,9 @@ public class AudioUtils {
     }
 
     private Music getAudio(String key) {
+        if(key == null){
+            return null;
+        }
         return audioTable.get(key);
     }
 
@@ -90,11 +95,15 @@ public class AudioUtils {
     }
 
     public String getStorageFolderPref(){
-        return getPreferences().getString(STORAGE_PATH_PREFERENCE);
+        return getPreferences().getString(STORAGE_PATH_PREFERENCE, GlobalConstants.DEFAULT_DOWNLOAD_FOLDER);
     }
 
     public boolean getExternalPref(){
-        return getPreferences().getBoolean(EXTERNAL_STORAGE_PREFERENCE);
+        return getPreferences().getBoolean(EXTERNAL_STORAGE_PREFERENCE, true);
+    }
+
+    public boolean getInternetOnlyPref(){
+        return getPreferences().getBoolean(INTERNET_DOWNLOAD_PREFERENCE, true);
     }
 
     public float getSongDuration(){
@@ -103,6 +112,10 @@ public class AudioUtils {
 
     public void setStoragePref(boolean bool) {
         saveBoolean(EXTERNAL_STORAGE_PREFERENCE, bool);
+    }
+
+    public void setInternetOnlyPref(boolean bool) {
+        saveBoolean(INTERNET_DOWNLOAD_PREFERENCE, bool);
     }
 
     public void setStoragePathPref(String path) {
@@ -130,22 +143,70 @@ public class AudioUtils {
 
     public void dispose() {
         Utils.disposeObjects(currentEpisode);
-        mediaLink = null;
-        type = null;
+        //mediaLink = null;
+        //type = null;
         audioTable.clear();
         audioTable = null;
     }
 
-    public void playMusic() {
-        Music music = getAudio(playingEpisodeName);
-        //TODO: throw EpisodeNotFound exception for display
-        if(music != null) {
-            if (music.isPlaying()) {
-                music.pause();
+    public void playEpisode(RodkastEpisode episode) {
+        System.out.println("Play Button pressed: episode : " + episode);
+
+        //check if is download, no? kick rocks
+        //check if currently playing, yes? kick rocks
+        //no, pause currently playing
+        //set this to currently playing
+        //play this episode
+
+        if(isDownloaded(episode)){
+            currentEpisodeName = getEpisodeAudioFile(episode);
+            System.out.println(currentEpisodeName + "is downloaded.");
+
+            Music episodeAudio = createNewAudio(currentEpisodeName);
+            System.out.println("episodeAudio: " + episodeAudio);
+            System.out.println("audioTable: " + audioTable);
+            System.out.println("is : " + currentEpisodeName + "playing? " + isCurrentlyPlaying(episodeAudio));
+
+            if(!isCurrentlyPlaying(episodeAudio)){
+                pauseCurrentEpisode();
+                setCurrentlyplaying(episodeAudio);
+                toggleEpisode(episodeAudio);
             } else {
-                music.play();
-                playingEpisodeName = currentEpisodeName;
+                toggleEpisode(episodeAudio);
             }
+        }
+    }
+
+    private void toggleEpisode(Music episodeAudio){
+        if(episodeAudio != null){
+            if(episodeAudio.isPlaying()){
+                episodeAudio.pause();
+            } else {
+                episodeAudio.play();
+            }
+        }
+    }
+
+    private boolean isCurrentlyPlaying(Music episodeAudio) {
+        Music playingAudio = getCurrentlyPlaying();
+        return playingAudio != null && playingAudio.equals(episodeAudio);
+    }
+
+    private Music getCurrentlyPlaying(){
+        return getAudio("playing");
+    }
+
+    private void pauseCurrentEpisode() {
+        Music currentAudio = getCurrentlyPlaying();
+
+        if(currentAudio != null){
+            currentAudio.pause();
+        }
+    }
+
+    public void setCurrentlyplaying(Music episodeAudio) {
+        if(episodeAudio != null){
+            addAudio("playing", episodeAudio);
         }
     }
 
@@ -157,14 +218,12 @@ public class AudioUtils {
     }
 
 
-    public void dowloadEpisode(RodkastStageAdapter stage, RodkastEpisode episode) {
-        if(stage != null){
+    public void dowloadEpisode(RodkastEpisode episode) {
             boolean isDownloaded = isDownloaded(episode);
 
             if(!isDownloaded){
                 beginDownload(episode);
             }
-        }
     }
 
     private String getFileFromURL(URL url){
@@ -193,9 +252,9 @@ public class AudioUtils {
         Gdx.net.sendHttpRequest(request, createNewRodKastListener(fileName));
     }
 
-    private HttpResponseListener createNewRodKastListener(String fileName) throws RuntimeException{
+    private HttpResponseListener createNewRodKastListener(String fileName) throws GdxRuntimeException{
         if(fileName == null){
-            throw new RuntimeException("Episode not found");
+            throw new GdxRuntimeException("Episode not found");
         }
 
         final String name = fileName;
@@ -220,6 +279,7 @@ public class AudioUtils {
                         read += count;
 
                         // Update the UI with the download progress
+                        System.out.println("float" + (read / length));
                         final int progress = ((int) (((double) read / (double) length) * 100));
                         final String progressString = progress == 100 ? "Click to download" : progress + "%";
 
@@ -229,7 +289,7 @@ public class AudioUtils {
                             public void run () {
                                 if (progress == 100) {
                                     System.out.println(progressString);
-                                    addAudio(name, createNewAudio(name));
+                                    //addAudio(name, createNewAudio(name));
                                     //button.setDisabled(false);
                                 }
                                 System.out.println(progressString);

@@ -38,17 +38,17 @@ public class RodkastStageAdapter extends Stage {
     ImageProvider imageProvider;
     private SoundProvider soundProvider;
     private SkinProvider skinProvider;
-    AssetsManager manager;
+    private AssetsManager manager;
     RodKastApplication app;
-    XMLHandler xmlHandler;
+    private XMLHandler xmlHandler;
 
-    OrthographicCamera camera;
+    private OrthographicCamera camera;
     MenuProvider menuProvider;
 
-    Dialog loadingDialog;
-    Dialog errorDialog;
+    private Dialog loadingDialog;
+    private Dialog errorDialog;
 
-    RodkastChannel rssChannel;
+    private RodkastChannel rssChannel;
 
     Skin defaultSkin;
 
@@ -85,6 +85,7 @@ public class RodkastStageAdapter extends Stage {
 
     void loadAssets(){
         if(loadingDialog == null){
+            System.out.println("loading....");
             loadingDialog = new Dialog(MessageCatalog.LOADING_MSG, defaultSkin);
         }
         loadingDialog.show(this);

@@ -30,7 +30,7 @@ public class PlayListStage extends RodkastStageAdapter {
     private static final int COLSPAN = 2;
     private static final float PLAYLIST_PADDING = 4f;
     private static final String MUSICPLAYER_NAME = "musicplayer";
-    private MusicPlayerWidget _episodePlayer;
+    private static MusicPlayerWidget _episodePlayer;
 
     public PlayListStage(RodKastApplication app){
         super(app);
@@ -85,8 +85,6 @@ public class PlayListStage extends RodkastStageAdapter {
         _episodePlayer = new MusicPlayerWidget(defaultEpisode, defaultSkin, rodKastImage);
         _episodePlayer.debug();
         _episodePlayer.setName(MUSICPLAYER_NAME);
-        //_episodePlayer.setEpisode(defaultEpisode);
-        //_episodePlayer.setWidth(GlobalConstants.VIEWPORT_WIDTH);
 
         main.row();
         main.add(_episodePlayer).left().height(getBannerOffSet() * PLAYER_WINDOW_SIZE).fillX().expandX().colspan(COLSPAN);
@@ -115,7 +113,7 @@ public class PlayListStage extends RodkastStageAdapter {
                 {
                     @Override
                     public void clicked (InputEvent event, float x, float y) {
-                        _episodePlayer.download(PlayListStage.this, episode);
+                        _episodePlayer.download(episode);
                     }
                 });
 
@@ -142,7 +140,7 @@ public class PlayListStage extends RodkastStageAdapter {
             }
         });
 
-        main.add(backButton).height(BANNER_SIZE).left().width(backButton.getWidth()).fill();
+        main.add(backButton).height(BANNER_SIZE).left().width(BANNER_SIZE).fill();
         main.add(nameLabel).height(BANNER_SIZE).left().expandX();
     }
 }
