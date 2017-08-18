@@ -1,10 +1,14 @@
 package net.asg.game.menu;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -20,11 +24,12 @@ import net.asg.game.utils.parser.RodkastEpisode;
  */
 
 public class MusicPlayerWidget extends Container {
-    private Label.LabelStyle labelStyle;
+    private LabelStyle labelStyle;
     private Button playButton;
     private RodkastEpisode episode;
     private Image image;
     private Table main;
+    private ProgressBar seekerBar;
 
     private static final float PLAYLIST_PADDING = 4f;
 
@@ -42,9 +47,14 @@ public class MusicPlayerWidget extends Container {
         }
 
         this.episode = episode;
-        this.playButton = new Button(skin.get(MenuProvider.RIGHT_BUTTON, Button.ButtonStyle.class));
+        //this.playButton = new Button(skin.get(MenuProvider.RIGHT_BUTTON, Button.ButtonStyle.class));
+        this.playButton = new Button(skin,MenuProvider.RIGHT_BUTTON);
         this.labelStyle = skin.get(MenuProvider.LABEL_STYLE_DEFAULT, Label.LabelStyle.class);
         this.image = image;
+        //this.seekerBar = new ProgressBar(skin.get(MenuProvider.SEEKER_BAR_STYLE, ProgressBar.ProgressBarStyle.class));
+        this.seekerBar = new ProgressBar(0.0f, 1.0f, 0.2f, false, skin);
+
+        //ShapeRenderer.ShapeType;
 
         playButton.addListener(new ClickListener()
         {
@@ -76,8 +86,14 @@ public class MusicPlayerWidget extends Container {
         setActor(main);
     }
 
-    private Label getTitleActor() {
-        return new Label(Utils.getTitleFromEpisode(episode), labelStyle);
+    private Actor getTitleActor() {
+        Table titleactor = new Table();
+        titleactor.add(new Label("RodKast", labelStyle)).expand().fill();
+        titleactor.row();
+        titleactor.add(new Label(Utils.getTitleFromEpisode(episode), labelStyle)).expandX().fill();
+        titleactor.row();
+        titleactor.add(seekerBar).expandX().fill();
+        return titleactor;
     }
 
     public RodkastEpisode getEpisode(){
@@ -95,5 +111,9 @@ public class MusicPlayerWidget extends Container {
         }
 
         AudioUtils.getInstance().dowloadEpisode(episode);
+    }
+
+    public void setSeakerValue(float value){
+        seekerBar.setValue(value);
     }
 }

@@ -7,6 +7,7 @@ import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.Net.HttpMethods;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import net.asg.game.utils.parser.RodkastEpisode;
@@ -142,6 +143,7 @@ public class AudioUtils {
     }
 
     private void toggleEpisode(String audioName){
+        //TODO: Need to have one global Music file that is destroyed and created as needed.
         if(audioName != null){
             Music episodeAudio = getAudio(audioName);
             if(episodeAudio == null){
@@ -155,6 +157,17 @@ public class AudioUtils {
                 episodeAudio.play();
             }
         }
+    }
+
+    public float getEpisodePositionValue(){
+        Music episodeAudio = getCurrentlyPlaying();
+        if(episodeAudio == null){
+            return 0f;
+        }
+
+        episodeAudio.getPosition();
+        //episodeAudio.
+        return 0.5f;
     }
 
     private boolean isCurrentlyPlaying(String currentEpisodeName) {
@@ -212,13 +225,11 @@ public class AudioUtils {
         request.setTimeOut(GlobalConstants.HTTP_REQUEST_TIMEOUT);
         request.setUrl(episodeLink.toString());
 
-        String fileName = getFileFromURL(episodeLink);
-
         // Send the request, listen for the response
-        Gdx.net.sendHttpRequest(request, createNewRodKastListener(fileName));
+        Gdx.net.sendHttpRequest(request, createNewRodKastListener(getFileFromURL(episodeLink)));
     }
 
-    private HttpResponseListener createNewRodKastListener(String fileName) throws GdxRuntimeException{
+    private HttpResponseListener createNewRodKastListener(final String fileName) throws GdxRuntimeException{
         if(fileName == null){
             throw new GdxRuntimeException("Episode not found");
         }
@@ -234,6 +245,8 @@ public class AudioUtils {
                 // We're going to download the file to external storage, create the streams
                 InputStream is = httpResponse.getResultAsStream();
                 OutputStream os = Gdx.files.external(getStorageFolderPref() + "\\" + name).write(false);
+
+                //AudioUtils.getInstance().hashCode();
 
                 byte[] bytes = new byte[1024];
                 int count;
@@ -255,9 +268,11 @@ public class AudioUtils {
                             public void run () {
                                 if (progress == 100) {
                                     System.out.println(progressString);
+                                    //FileHandle file = new FileHandle();
                                     //rename file;
                                     //button.setDisabled(false);
                                 }
+                                System.out.println(fileName);
                                 System.out.println(progressString);
                                 //button.setText(progressString);
                             }
@@ -301,5 +316,12 @@ public class AudioUtils {
         } else {
             return Gdx.audio.newMusic(Gdx.files.internal(rodKastEpisode));
         }
+    }
+
+    private class EpisodeAudio {
+        private float position;
+        private float totalTime;
+        private String filePath;
+        private boolean isPlaying;
     }
 }

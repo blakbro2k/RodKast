@@ -24,6 +24,7 @@ public class MenuProvider implements Disposable {
     public static final String LABEL_STYLE_TITLE_PLAIN = "title-plain";
     public static final String LABEL_STYLE_SUBTITLE = "subtitle";
     public static final String LABEL_STYLE_TITLE = "title";
+    public static final String SEEKER_BAR_STYLE = "default-horizontal";
 
     private Skin skin;
     private BitmapFont defaultFont;

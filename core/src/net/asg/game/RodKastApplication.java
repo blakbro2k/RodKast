@@ -11,6 +11,7 @@ import net.asg.game.screens.PlayListScreen;
 import net.asg.game.screens.PodPlayerScreen;
 import net.asg.game.screens.PreHomeScreen;
 import net.asg.game.screens.RodKastScreenAdapter;
+import net.asg.game.utils.AudioUtils;
 import net.asg.game.utils.GameEventListener;
 import net.asg.game.utils.MessageCatalog;
 import net.asg.game.utils.Utils;
@@ -75,6 +76,7 @@ public class RodKastApplication extends Game {
         screenStack = null;
         exitDialog = null;
         gameEventListener = null;
+		AudioUtils.getInstance().dispose();
     }
 
 	public void render() {

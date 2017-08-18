@@ -57,7 +57,7 @@ public class PlayListWidget extends Table{
         reset();
 
         add(getDateActor()).expand().fill();
-        add(getTitleActor());
+        add(getTitleActor()).pad(4,2,2,4);
         add(getButton());
     }
 
