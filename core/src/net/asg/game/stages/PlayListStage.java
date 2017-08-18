@@ -85,7 +85,7 @@ public class PlayListStage extends RodkastStageAdapter {
         _episodePlayer = new MusicPlayerWidget(defaultEpisode, defaultSkin, rodKastImage);
         _episodePlayer.setName(MUSICPLAYER_NAME);
         _episodePlayer.debugAll();
-        _episodePlayer.size(480,getBannerOffSet() * PLAYER_WINDOW_SIZE);
+        _episodePlayer.size(GlobalConstants.APP_WIDTH, getBannerOffSet() * PLAYER_WINDOW_SIZE);
 
         main.row();
         main.add(_episodePlayer).height(getBannerOffSet() * PLAYER_WINDOW_SIZE).fillX().expandX().colspan(COLSPAN);
@@ -106,8 +106,6 @@ public class PlayListStage extends RodkastStageAdapter {
                     @Override
                     public void clicked (InputEvent event, float x, float y) {
                         _episodePlayer.setEpisode(episode);
-                        _episodePlayer.debugAll();
-
                     }
                 });
 
@@ -117,7 +115,6 @@ public class PlayListStage extends RodkastStageAdapter {
                     @Override
                     public void clicked (InputEvent event, float x, float y) {
                         _episodePlayer.download(episode);
-                        _episodePlayer.debugAll();
                     }
                 });
 

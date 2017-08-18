@@ -23,15 +23,10 @@ public class AudioUtils {
     private static AudioUtils _ourInstance = new AudioUtils();
     private static Map<String,Music> _audioTable = new Hashtable<>();
     private static String _currentAudioPlayingName = null;
-    //private float songDuration;
-    //private float currentPosition;
-    //private RodkastEpisode currentEpisode;
-
 
     private static final String EXTERNAL_STORAGE_PREFERENCE = "ext_storage"; //true = external; false = internal
     private static final String STORAGE_PATH_PREFERENCE = "storage_path";
     private static final String INTERNET_DOWNLOAD_PREFERENCE = "inet_only";
-
     private static final String INTERNAL_ASSETS_PATH = "data/";
 
 
@@ -92,10 +87,6 @@ public class AudioUtils {
         return getPreferences().getBoolean(INTERNET_DOWNLOAD_PREFERENCE, true);
     }
 
-    //public float getSongDuration(){
-        //return songDuration;
-    //}
-
     public void setStoragePref(boolean bool) {
         saveBoolean(EXTERNAL_STORAGE_PREFERENCE, bool);
     }
@@ -138,8 +129,6 @@ public class AudioUtils {
     }
 
     public void playEpisode(RodkastEpisode episode) {
-        System.out.println("Play Button pressed: episode : " + episode);
-
         if(isDownloaded(episode)){
             String currentEpisodeName = getEpisodeAudioFile(episode);
 
@@ -304,6 +293,7 @@ public class AudioUtils {
 
     private Music createNewAudio(String fileName) {
         boolean isExternal = getExternalPref();
+        System.out.println("createNewAudio: " + isExternal);
         String rodKastEpisode = getStorageFolderPref() + "\\" + fileName;
 
         if(isExternal){

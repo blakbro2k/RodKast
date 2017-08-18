@@ -59,7 +59,6 @@ public class MusicPlayerWidget extends Container {
 
     private void processEvent(MusicPlayerWidget widget){
         if(widget != null) {
-            System.out.println("playing : " + widget.getEpisode());
             AudioUtils.getInstance().playEpisode(widget.getEpisode());
         }
     }

@@ -29,7 +29,7 @@ public class PlayListWidget extends Table{
     private LabelStyle labelStyle;
     private Button button;
     private RodkastEpisode episode;
-    private Container dateActor;
+    private Table dateActor;
     private Label titleActor;
 
     public PlayListWidget(RodkastEpisode episode, Skin skin, String labelStyle){
@@ -87,10 +87,12 @@ public class PlayListWidget extends Table{
 
     public Actor getDateActor() {
         if(dateActor == null){
-            dateActor = new Container<>(createMonthDay(getDateFromDate())).fill();
+            Table date = new Table();
+            date.add(createMonthDay(getDateFromDate())).fill().expand();
+            dateActor = date;
+            //dateActor = new Table(createMonthDay(getDateFromDate()));
         }
 
-        //dateActor.fill();
         return dateActor;
     }
 
@@ -114,13 +116,12 @@ public class PlayListWidget extends Table{
             Label monthLabel = new Label(Utils.getThreeLetterMonth(pubDate.get(Calendar.MONTH)), labelStyle);
             Label dayLabel = new Label(pubDate.get(Calendar.DAY_OF_MONTH) + "", labelStyle);
 
-            mTable.add(monthLabel).center();
+            mTable.add(monthLabel).center().expand();
             mTable.row();
-            mTable.add(dayLabel).center();
+            mTable.add(dayLabel).center().expand();
         }
 
         if(getDebug()){
-            System.out.println("debug All");
             mTable.debugAll();
         }
 

@@ -148,6 +148,7 @@ public class Utils {
                     .replace("#8217","'")
                     .replace("#8220","\"")
                     .replace("#8221","\"")
+                    .replace("#8230","...")
                     .replace("#038","&");
         }
         return ret;
