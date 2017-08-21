@@ -4,11 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import net.asg.game.RodKastApplication;
 import net.asg.game.menu.ExitDialog;
 import net.asg.game.screens.RodKastScreenAdapter;
 import net.asg.game.utils.parser.RodkastEpisode;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Created by Blakbro2k on 6/25/2017.
@@ -172,5 +177,25 @@ public class Utils {
             string = cleanTitle(episode.getTitle());
         }
         return string;
+    }
+
+    public static void closeInputStream(InputStream is) throws GdxRuntimeException{
+        if(is != null){
+            try {
+                is.close();
+            } catch (IOException e) {
+                throw new GdxRuntimeException(e);
+            }
+        }
+    }
+
+    public static void closeOutputStream(OutputStream os) throws GdxRuntimeException{
+        if(os != null){
+            try {
+                os.close();
+            } catch (IOException e) {
+                throw new GdxRuntimeException(e);
+            }
+        }
     }
 }

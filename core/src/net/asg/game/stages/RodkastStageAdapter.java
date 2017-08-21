@@ -38,6 +38,7 @@ import java.util.List;
 
 public class RodkastStageAdapter extends Stage {
     protected static final int BANNER_SIZE = 50;
+    protected static final int COLSPAN = 3;
 
     ImageProvider imageProvider;
     private SoundProvider soundProvider;
@@ -47,7 +48,7 @@ public class RodkastStageAdapter extends Stage {
     private XMLHandler xmlHandler;
 
     private OrthographicCamera camera;
-    MenuProvider menuProvider;
+    private MenuProvider menuProvider;
 
     private Dialog loadingDialog;
     private Dialog errorDialog;
@@ -61,7 +62,7 @@ public class RodkastStageAdapter extends Stage {
     Label.LabelStyle titleScreenLabelStyle;
     Label.LabelStyle titlePlainScreenLabelStyle;
 
-    public RodkastStageAdapter(RodKastApplication app) {
+    RodkastStageAdapter(RodKastApplication app) {
         super(new ScalingViewport(Scaling.stretch, GlobalConstants.VIEWPORT_WIDTH, GlobalConstants.VIEWPORT_HEIGHT,
                 new OrthographicCamera(GlobalConstants.VIEWPORT_WIDTH, GlobalConstants.VIEWPORT_HEIGHT)));
         this.app = app;
@@ -143,7 +144,7 @@ public class RodkastStageAdapter extends Stage {
         return rssChannel.getEpisodes();
     }
 
-    public int getBannerOffSet(){
+    int getBannerOffSet(){
         return (GlobalConstants.VIEWPORT_HEIGHT - BANNER_SIZE * 2);
     }
 
@@ -156,6 +157,9 @@ public class RodkastStageAdapter extends Stage {
     }
 
     void setUpStageTitleWindow(Table main, boolean useBackbutton){
+        Label backButtonSpacer = new Label("", defaultScreenLabelStyle);
+        backButtonSpacer.setWidth(BANNER_SIZE);
+
         Label nameLabel = new Label(GlobalConstants.GAME_TITLE, titleScreenLabelStyle);
 
         Button backButton = menuProvider.getBackButton();
@@ -169,7 +173,21 @@ public class RodkastStageAdapter extends Stage {
 
         if(useBackbutton){
             main.add(backButton).height(BANNER_SIZE).left().width(BANNER_SIZE).fill();
+            main.add(nameLabel).height(BANNER_SIZE).left().expandX();
+            main.add(backButtonSpacer).height(BANNER_SIZE).left().width(BANNER_SIZE).fill();
+        } else {
+            main.add(backButtonSpacer).height(BANNER_SIZE).left().width(BANNER_SIZE).fill();
+            main.add(nameLabel).height(BANNER_SIZE).center().expandX();
+            main.add(backButtonSpacer).height(BANNER_SIZE).left().width(BANNER_SIZE).fill();
         }
-        main.add(nameLabel).height(BANNER_SIZE).left().expandX();
+    }
+
+    void setUpAdMobWindow(Table main) {
+        app.getGameEvenListener().showBannerAd();
+
+        Label nameLabel = new Label(MessageCatalog.ADMOB_WINDOW_MSG, defaultScreenLabelStyle);
+
+        main.row();
+        main.add(nameLabel).height(BANNER_SIZE).colspan(COLSPAN);
     }
 }

@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.asg.game.RodKastApplication;
-import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.MessageCatalog;
 
 /**
@@ -38,15 +37,6 @@ public class HomeStage extends RodkastStageAdapter {
         setUpAdMobWindow(main);
     }
 
-    private void setUpAdMobWindow(Table main) {
-        app.getGameEvenListener().showBannerAd();
-
-        Label nameLabel = new Label(MessageCatalog.ADMOB_WINDOW_MSG, defaultScreenLabelStyle);
-
-        main.row();
-        main.add(nameLabel).height(BANNER_SIZE);
-    }
-
     private void setUpPlayerWindow(Table main) {
         //Label nameLabel = new Label("Player Window Section", defaultScreenLabelStyle);
         ImageButton playerButton = new ImageButton(imageProvider.getRodKastButtonStyle());
@@ -61,13 +51,13 @@ public class HomeStage extends RodkastStageAdapter {
         });
 
         main.row();
-        main.add(playerButton).height(getBannerOffSet() * PLAYER_WINDOW_SIZE).fillX();
+        main.add(playerButton).height(getBannerOffSet() * PLAYER_WINDOW_SIZE).fillX().colspan(COLSPAN);
     }
 
     private void setUpSocialWindow(Table main) {
         Label nameLabel = new Label(MessageCatalog.SOCIAL_WINDOW_MSG, defaultScreenLabelStyle);
 
         main.row();
-        main.add(nameLabel).height(getBannerOffSet() * SOCIAL_WINDOW_SIZE).fillX();
+        main.add(nameLabel).height(getBannerOffSet() * SOCIAL_WINDOW_SIZE).fillX().colspan(COLSPAN);
     }
 }

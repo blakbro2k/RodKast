@@ -1,13 +1,12 @@
 package net.asg.game.utils;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Net.HttpResponseListener;
-import com.badlogic.gdx.Net.HttpResponse;
-import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.Net.HttpMethods;
+import com.badlogic.gdx.Net.HttpRequest;
+import com.badlogic.gdx.Net.HttpResponse;
+import com.badlogic.gdx.Net.HttpResponseListener;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import net.asg.game.utils.parser.RodkastEpisode;
@@ -19,11 +18,16 @@ import java.net.URL;
 import java.util.Hashtable;
 import java.util.Map;
 
+//import org.tritonus.share.sampled.TAudioFormat;
+//import org.tritonus.share.sampled.file.TAudioFileFormat;
+
 public class AudioUtils {
     private static final String CONTENT_LENGTH = "Content-Length";
     private static AudioUtils _ourInstance = new AudioUtils();
     private static Map<String,Music> _audioTable = new Hashtable<>();
+    private static Map<String, AudioUtils.EpisodeAudio> _audioIndex = new Hashtable<>();
     private static String _currentAudioPlayingName = null;
+    private static Music _episodeMusicObject;
 
     private static final String EXTERNAL_STORAGE_PREFERENCE = "ext_storage"; //true = external; false = internal
     private static final String STORAGE_PATH_PREFERENCE = "storage_path";
@@ -68,12 +72,8 @@ public class AudioUtils {
             return false;
         }
 
-        String localFileName = getFileFromURL(episode.getMediaLink());
-
-        boolean isExternal = getExternalPref();
-        String rodKastEpisode = getStorageFolderPref() + "\\" + localFileName;
-
-        return isExternal? Gdx.files.external(rodKastEpisode).exists() : Gdx.files.internal(rodKastEpisode).exists();
+        String rodKastEpisode = getFullFilePath(getFileFromURL(episode.getMediaLink()));
+        return getExternalPref()? Gdx.files.external(rodKastEpisode).exists() : Gdx.files.internal(rodKastEpisode).exists();
     }
 
     public String getStorageFolderPref(){
@@ -139,6 +139,16 @@ public class AudioUtils {
 
             _currentAudioPlayingName = currentEpisodeName;
             toggleEpisode(_currentAudioPlayingName);
+        }
+    }
+
+
+    public void setEpisodePosition(RodkastEpisode episode) {
+        String currentEpisodeName = getEpisodeAudioFile(episode);
+
+        if(isCurrentlyPlaying(currentEpisodeName)){
+            System.out.println("TODO: Changing Position");
+
         }
     }
 
@@ -213,7 +223,7 @@ public class AudioUtils {
         return filePath.substring(filePath.lastIndexOf('/') + 1);
     }
 
-    private void beginDownload(RodkastEpisode episode) {
+    private void beginDownload(RodkastEpisode episode) throws GdxRuntimeException{
         if(episode == null) {
             throw new RuntimeException("Invalid episode");
         }
@@ -228,6 +238,24 @@ public class AudioUtils {
         // Send the request, listen for the response
         Gdx.net.sendHttpRequest(request, createNewRodKastListener(getFileFromURL(episodeLink)));
     }
+
+    public void addAudioToIndex(String fileName){
+        if(fileName != null){
+            AudioUtils.EpisodeAudio audio = _audioIndex.get(fileName);
+
+            if(audio == null){
+                _audioIndex.put(fileName, new AudioUtils.EpisodeAudio(fileName));
+            }
+        }
+    }
+
+    public String getFullFilePath(String fileName){
+        if(fileName == null){
+            fileName = "";
+        }
+        return getStorageFolderPref() + "\\" + fileName;
+    }
+
 
     private HttpResponseListener createNewRodKastListener(final String fileName) throws GdxRuntimeException{
         if(fileName == null){
@@ -244,7 +272,7 @@ public class AudioUtils {
 
                 // We're going to download the file to external storage, create the streams
                 InputStream is = httpResponse.getResultAsStream();
-                OutputStream os = Gdx.files.external(getStorageFolderPref() + "\\" + name).write(false);
+                OutputStream os = Gdx.files.external(getFullFilePath(name)).write(false);
 
                 //AudioUtils.getInstance().hashCode();
 
@@ -268,6 +296,7 @@ public class AudioUtils {
                             public void run () {
                                 if (progress == 100) {
                                     System.out.println(progressString);
+                                    AudioUtils.getInstance().addAudioToIndex(name);
                                     //FileHandle file = new FileHandle();
                                     //rename file;
                                     //button.setDisabled(false);
@@ -279,14 +308,10 @@ public class AudioUtils {
                         });
                     }
                 } catch (IOException e) {
-
+                    throw new GdxRuntimeException(e);
                 } finally {
-                    try {
-                        is.close();
-                        os.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    Utils.closeInputStream(is);
+                    Utils.closeOutputStream(os);
                 }
             }
             @Override
@@ -294,7 +319,7 @@ public class AudioUtils {
                 Gdx.app.postRunnable(new Runnable() {
                     @Override
                     public void run () {
-                        //button.setText("Too bad. Download failed.");
+                        throw new GdxRuntimeException("download failed");
                     }
                 });
             }
@@ -309,7 +334,7 @@ public class AudioUtils {
     private Music createNewAudio(String fileName) {
         boolean isExternal = getExternalPref();
         System.out.println("createNewAudio: " + isExternal);
-        String rodKastEpisode = getStorageFolderPref() + "\\" + fileName;
+        String rodKastEpisode = getFullFilePath(fileName);
 
         if(isExternal){
             return Gdx.audio.newMusic(Gdx.files.external(rodKastEpisode));
@@ -318,10 +343,46 @@ public class AudioUtils {
         }
     }
 
-    private class EpisodeAudio {
+    private class EpisodeAudio{
         private float position;
-        private float totalTime;
         private String filePath;
         private boolean isPlaying;
+
+        private long duration;
+        private String title;
+        private String author;
+        private String album;
+        private String date;
+        private String copyright;
+        private String comment;
+        //private Mpg123Decoder decoder;
+
+        EpisodeAudio(String episodeName){
+            System.out.println("added " + episodeName + "to Download index");
+
+
+            /*
+            File file = new File(filename);
+            AudioFileFormat baseFileFormat = null;
+            AudioFormat baseFormat = null;
+            baseFileFormat = AudioSystem.getAudioFileFormat(file);
+            baseFormat = baseFileFormat.getFormat();
+
+            if (baseFileFormat instanceof TAudioFileFormat)
+            {
+                Map properties = ((TAudioFileFormat)baseFileFormat).properties();
+                String key = "author";
+                String val = (String) properties.get(key);
+                key = "mp3.id3tag.v2";
+                InputStream tag= (InputStream) properties.get(key);
+            }
+            // TAudioFormat properties
+            if (baseFormat instanceof TAudioFormat)
+            {
+                Map properties = ((TAudioFormat)baseFormat).properties();
+                String key = "bitrate";
+                Integer val = (Integer) properties.get(key);
+            }*/
+        }
     }
 }

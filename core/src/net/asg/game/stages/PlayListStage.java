@@ -15,7 +15,6 @@ import net.asg.game.menu.MusicPlayerWidget;
 import net.asg.game.menu.PlayListWidget;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.MessageCatalog;
-import net.asg.game.utils.Utils;
 import net.asg.game.utils.parser.RodkastEpisode;
 
 import java.util.List;
@@ -27,7 +26,6 @@ import java.util.List;
 public class PlayListStage extends RodkastStageAdapter {
     private static final float PLAYER_WINDOW_SIZE = .2f;
     private static final float PLAYLIST_WINDOW_SIZE = .8f;
-    private static final int COLSPAN = 2;
     private static final float PLAYLIST_PADDING = 4f;
     private static final String MUSICPLAYER_NAME = "musicplayer";
     private MusicPlayerWidget _episodePlayer;
@@ -49,15 +47,6 @@ public class PlayListStage extends RodkastStageAdapter {
 
         addActor(main);
         setInputProcessor();
-    }
-
-    private void setUpAdMobWindow(Table main) {
-        app.getGameEvenListener().showBannerAd();
-
-        Label nameLabel = new Label(MessageCatalog.ADMOB_WINDOW_MSG, defaultScreenLabelStyle);
-
-        main.row();
-        main.add(nameLabel).height(BANNER_SIZE).colspan(COLSPAN);
     }
 
     private void setUpPlayListWindow(Table main, List<RodkastEpisode> episodeList) {
@@ -86,6 +75,14 @@ public class PlayListStage extends RodkastStageAdapter {
         _episodePlayer.setName(MUSICPLAYER_NAME);
         _episodePlayer.debugAll();
         _episodePlayer.size(GlobalConstants.APP_WIDTH, getBannerOffSet() * PLAYER_WINDOW_SIZE);
+        _episodePlayer.addListener(new ClickListener()
+        {
+            @Override
+            public void clicked (InputEvent event, float x, float y) {
+                app.pushScreen(app.getCurrentScreen());
+                app.gotoPodPlayerScreen();
+            }
+        });
 
         main.row();
         main.add(_episodePlayer).height(getBannerOffSet() * PLAYER_WINDOW_SIZE).fillX().expandX().colspan(COLSPAN);

@@ -1,7 +1,7 @@
 package net.asg.game.menu;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.asg.game.providers.MenuProvider;
@@ -30,8 +31,10 @@ public class MusicPlayerWidget extends Container {
     private Image image;
     private Table main;
     private ProgressBar seekerBar;
+    private Table titleActor;
 
     private static final float PLAYLIST_PADDING = 4f;
+    private EventListener listener;
 
     public MusicPlayerWidget(RodkastEpisode episode, Skin skin, Image image){
         if(episode == null) {
@@ -47,29 +50,43 @@ public class MusicPlayerWidget extends Container {
         }
 
         this.episode = episode;
-        //this.playButton = new Button(skin.get(MenuProvider.RIGHT_BUTTON, Button.ButtonStyle.class));
-        this.playButton = new Button(skin,MenuProvider.RIGHT_BUTTON);
+        this.playButton = new Button(skin, MenuProvider.RIGHT_BUTTON);
         this.labelStyle = skin.get(MenuProvider.LABEL_STYLE_DEFAULT, Label.LabelStyle.class);
         this.image = image;
-        //this.seekerBar = new ProgressBar(skin.get(MenuProvider.SEEKER_BAR_STYLE, ProgressBar.ProgressBarStyle.class));
-        this.seekerBar = new ProgressBar(0.0f, 1.0f, 0.2f, false, skin);
-
-        //ShapeRenderer.ShapeType;
+        this.seekerBar = new ProgressBar(0, 100, 0.1f, false, skin);
 
         playButton.addListener(new ClickListener()
         {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                processEvent(MusicPlayerWidget.this);
+                processPlayEvent(MusicPlayerWidget.this);
+            }
+        });
+
+        seekerBar.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                processSliderEvent(MusicPlayerWidget.this, actor);
             }
         });
 
         setPlayerTitle();
     }
 
-    private void processEvent(MusicPlayerWidget widget){
+    private void processPlayEvent(MusicPlayerWidget widget){
         if(widget != null) {
             AudioUtils.getInstance().playEpisode(widget.getEpisode());
+        }
+    }
+
+    private void processSliderEvent(MusicPlayerWidget widget, Actor actor){
+        /*
+        if (!sliderUpdating && slider.isDragging()){
+            music.setEpisodePosition((slider.getValue() / 100f) * songDuration);
+        }*/
+        System.out.println("actor: " + actor);
+        if(widget != null){
+            AudioUtils.getInstance().setEpisodePosition(widget.getEpisode());
         }
     }
 
@@ -83,17 +100,22 @@ public class MusicPlayerWidget extends Container {
         main.add(getTitleActor()).fill().expand();
         main.add(playButton).right().fill().width(70);
 
+        addListener(listener);
+
         setActor(main);
     }
 
     private Actor getTitleActor() {
-        Table titleactor = new Table();
-        titleactor.add(new Label("RodKast", labelStyle)).expand().fill();
-        titleactor.row();
-        titleactor.add(new Label(Utils.getTitleFromEpisode(episode), labelStyle)).expandX().fill();
-        titleactor.row();
-        titleactor.add(seekerBar).expandX().fill();
-        return titleactor;
+        if(titleActor == null){
+            titleActor = new Table();
+            titleActor.add(new Label("RodKast", labelStyle)).expand().fill();
+            titleActor.row();
+            titleActor.add(new Label(Utils.getTitleFromEpisode(episode), labelStyle)).expandX().fill();
+            titleActor.row();
+            titleActor.add(seekerBar).expandX().fill();
+        }
+
+        return titleActor;
     }
 
     public RodkastEpisode getEpisode(){
@@ -102,6 +124,8 @@ public class MusicPlayerWidget extends Container {
 
     public void setEpisode(RodkastEpisode episode){
         this.episode = episode;
+        titleActor.clear();
+        this.titleActor = null;
         setPlayerTitle();
     }
 
@@ -113,7 +137,16 @@ public class MusicPlayerWidget extends Container {
         AudioUtils.getInstance().dowloadEpisode(episode);
     }
 
-    public void setSeakerValue(float value){
-        seekerBar.setValue(value);
+    @Override
+    public boolean addListener (EventListener listener) {
+        boolean success = false;
+        this.listener = listener;
+
+        if(titleActor != null){
+            if(this.listener != null){
+                success = titleActor.addListener(this.listener);
+            }
+        }
+        return success;
     }
 }

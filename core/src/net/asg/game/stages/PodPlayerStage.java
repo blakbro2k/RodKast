@@ -19,8 +19,6 @@ import java.util.List;
  */
 
 public class PodPlayerStage extends RodkastStageAdapter {
-    private static final int COLSPAN = 2;
-
     public PodPlayerStage(RodKastApplication app) {
         super(app);
 
@@ -30,20 +28,19 @@ public class PodPlayerStage extends RodkastStageAdapter {
         main.debug();
 
         setUpStageTitleWindow(main, true);
-        //setUpPlayerWindow(main, episodeList);
-        //setUpPlayListWindow(main, episodeList);
-        //setUpAdMobWindow(main);
+        setUpEpisodeWindow(main);
+        setUpPlayerWindow(main);
+        setUpAdMobWindow(main);
 
         addActor(main);
         setInputProcessor();
     }
 
-    private void setUpAdMobWindow(Table main) {
-        app.getGameEvenListener().showBannerAd();
+    private void setUpEpisodeWindow(Table main) {
 
-        Label nameLabel = new Label(MessageCatalog.ADMOB_WINDOW_MSG, defaultScreenLabelStyle);
+    }
 
-        main.row();
-        main.add(nameLabel).height(BANNER_SIZE).colspan(COLSPAN);
+    private void setUpPlayerWindow(Table main) {
+
     }
 }
