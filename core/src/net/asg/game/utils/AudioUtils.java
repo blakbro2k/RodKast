@@ -209,6 +209,9 @@ public class AudioUtils {
         //TODO: Add temp download functionality
         //TODO: it should download as ._temp
         //TODO: count all ._temp if exist restart downloads.
+        //TODO: Check Network availibility
+        //TODO: Check dl over Network config
+        //TODO: error retry if network is unavailibly
 
             if(!isDownloaded){
                 beginDownload(episode);

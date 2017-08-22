@@ -180,22 +180,26 @@ public class Utils {
     }
 
     public static void closeInputStream(InputStream is) throws GdxRuntimeException{
-        if(is != null){
-            try {
-                is.close();
-            } catch (IOException e) {
-                throw new GdxRuntimeException(e);
-            }
-        }
+        closeStream(is);
     }
 
     public static void closeOutputStream(OutputStream os) throws GdxRuntimeException{
-        if(os != null){
+        closeStream(os);
+    }
+
+    private static void closeStream(Object o) throws GdxRuntimeException{
+        if(o != null){
             try {
-                os.close();
+                if(o instanceof InputStream){
+                    ((InputStream)o).close();
+                }
+                if(o instanceof OutputStream){
+                    ((OutputStream)o).close();
+                }
             } catch (IOException e) {
                 throw new GdxRuntimeException(e);
             }
         }
+        throw new GdxRuntimeException("Object stream must be InputStream or OutputStream");
     }
 }

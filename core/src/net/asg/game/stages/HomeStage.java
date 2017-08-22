@@ -21,8 +21,6 @@ public class HomeStage extends RodkastStageAdapter {
     public HomeStage(RodKastApplication app){
         super(app);
 
-        loadAssets();
-
         Table main = new Table();
         main.setFillParent(true);
         main.top();

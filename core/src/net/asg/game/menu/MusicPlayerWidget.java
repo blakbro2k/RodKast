@@ -53,7 +53,7 @@ public class MusicPlayerWidget extends Container {
         this.playButton = new Button(skin, MenuProvider.RIGHT_BUTTON);
         this.labelStyle = skin.get(MenuProvider.LABEL_STYLE_DEFAULT, Label.LabelStyle.class);
         this.image = image;
-        this.seekerBar = new ProgressBar(0, 100, 0.1f, false, skin);
+        this.seekerBar = new ProgressBar(0, 1, 0.1f, false, skin);
 
         playButton.addListener(new ClickListener()
         {
@@ -110,7 +110,7 @@ public class MusicPlayerWidget extends Container {
             titleActor = new Table();
             titleActor.add(new Label("RodKast", labelStyle)).expand().fill();
             titleActor.row();
-            titleActor.add(new Label(Utils.getTitleFromEpisode(episode), labelStyle)).expandX().fill();
+            titleActor.add(new Label(Utils.getTitleFromEpisode(episode), labelStyle)).expand().fill();
             titleActor.row();
             titleActor.add(seekerBar).expandX().fill();
         }
@@ -142,10 +142,8 @@ public class MusicPlayerWidget extends Container {
         boolean success = false;
         this.listener = listener;
 
-        if(titleActor != null){
-            if(this.listener != null){
-                success = titleActor.addListener(this.listener);
-            }
+        if(titleActor != null && listener != null){
+            success = titleActor.addListener(this.listener);
         }
         return success;
     }

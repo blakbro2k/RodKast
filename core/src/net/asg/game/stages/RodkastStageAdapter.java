@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 
@@ -29,6 +30,7 @@ import net.asg.game.utils.parser.RodkastEpisode;
 import net.asg.game.utils.parser.XMLHandler;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -43,7 +45,7 @@ public class RodkastStageAdapter extends Stage {
     ImageProvider imageProvider;
     private SoundProvider soundProvider;
     private SkinProvider skinProvider;
-    private AssetsManager manager;
+    protected AssetsManager manager;
     RodKastApplication app;
     private XMLHandler xmlHandler;
 
@@ -79,6 +81,7 @@ public class RodkastStageAdapter extends Stage {
     }
 
     private void initializeStage() {
+        //TODO: NULL check, build verify Util
         manager.loadPreAssets();
         defaultSkin = skinProvider.getRodKastUISkin();
         menuProvider = new MenuProvider(defaultSkin);
@@ -88,30 +91,35 @@ public class RodkastStageAdapter extends Stage {
         titlePlainScreenLabelStyle = menuProvider.getTitlePlainLableStyle();
     }
 
-    void loadAssets(){
+    private void loadAssets(){
         if(loadingDialog == null){
-            System.out.println("loading....");
             loadingDialog = new Dialog(MessageCatalog.LOADING_MSG, defaultSkin);
         }
         loadingDialog.show(this);
+        loadXmlData();
+        loadingDialog.hide();
+    }
 
-        manager.loadPostAssets();
+    public void displayErrorMessage(String message){
+        if(errorDialog == null){
+            errorDialog = new Dialog(message, defaultSkin);
+        }
+        errorDialog.show(this);
+    }
+
+    public void loadXmlData() throws GdxRuntimeException {
         try{
             if(xmlHandler == null){
                 xmlHandler = new XMLHandler();
             }
             rssChannel = xmlHandler.buildChannel();
-        } catch (IOException e) {
-            if(errorDialog == null){
-                errorDialog = new Dialog(e.getMessage(), defaultSkin);
-                errorDialog.show(this);
-                System.out.println(e.getMessage() + " is handeled");
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
+        } catch (IOException | ParseException e) {
+            throw new GdxRuntimeException(e);
         }
+    }
 
-        loadingDialog.hide();
+    public boolean isXmlLoaded(){
+        return xmlHandler != null && xmlHandler.isFetched();
     }
 
     public void setInputProcessor(){
@@ -176,6 +184,7 @@ public class RodkastStageAdapter extends Stage {
             main.add(nameLabel).height(BANNER_SIZE).left().expandX();
             main.add(backButtonSpacer).height(BANNER_SIZE).left().width(BANNER_SIZE).fill();
         } else {
+            //Future: Check if iOS. Use Backbutton
             main.add(backButtonSpacer).height(BANNER_SIZE).left().width(BANNER_SIZE).fill();
             main.add(nameLabel).height(BANNER_SIZE).center().expandX();
             main.add(backButtonSpacer).height(BANNER_SIZE).left().width(BANNER_SIZE).fill();
@@ -189,5 +198,9 @@ public class RodkastStageAdapter extends Stage {
 
         main.row();
         main.add(nameLabel).height(BANNER_SIZE).colspan(COLSPAN);
+    }
+
+    public AssetsManager assets() {
+        return manager;
     }
 }

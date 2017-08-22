@@ -9,7 +9,7 @@ import net.asg.game.providers.AssetsManager;
 import net.asg.game.screens.HomeScreen;
 import net.asg.game.screens.PlayListScreen;
 import net.asg.game.screens.PodPlayerScreen;
-import net.asg.game.screens.PreHomeScreen;
+import net.asg.game.screens.LoadingScreen;
 import net.asg.game.screens.RodKastScreenAdapter;
 import net.asg.game.utils.AudioUtils;
 import net.asg.game.utils.GameEventListener;
@@ -30,7 +30,7 @@ public class RodKastApplication extends Game {
 	private HomeScreen homeScreen;
 	private PlayListScreen playListScreen;
 	private PodPlayerScreen podPlayerScreen;
-	private PreHomeScreen preHomeScreen;
+	private LoadingScreen loadingScreen;
 
 	private GameEventListener gameEventListener;
 
@@ -48,6 +48,7 @@ public class RodKastApplication extends Game {
 	public void create() {
         //TODO: add log submittion handler
         assetsManager = new AssetsManager();
+
 		try {
 			xmlHandler = new XMLHandler();
 		} catch (MalformedURLException e) {
@@ -57,7 +58,7 @@ public class RodKastApplication extends Game {
 		fpsLog = new FPSLogger();
 		fpsLog.log();
 
-		gotoHomeScreen();
+		gotoLoadingScreen();
     }
 
 	@Override
@@ -105,11 +106,11 @@ public class RodKastApplication extends Game {
         setRodKastScreen(podPlayerScreen);
 	}
 
-	public void gotoPreHomeScreen() {
-		if(preHomeScreen == null){
-			preHomeScreen = new PreHomeScreen(this);
+	public void gotoLoadingScreen() {
+		if(loadingScreen == null){
+			loadingScreen = new LoadingScreen(this);
 		}
-		setRodKastScreen(preHomeScreen);
+		setRodKastScreen(loadingScreen);
 	}
 
 	private void setRodKastScreen(RodKastScreenAdapter screen){

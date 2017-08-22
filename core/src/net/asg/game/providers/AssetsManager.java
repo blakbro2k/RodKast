@@ -15,14 +15,12 @@ public class AssetsManager implements Disposable{
     private final ImageProvider imageProvider;
     private final SoundProvider soundProvider;
     private final SkinProvider skinProvider;
-    private float percentLoaded;
 
     public AssetsManager() {
         this.manager = new AssetManager();
         this.skinProvider = new SkinProvider(this);
         this.soundProvider = new SoundProvider(this);
         this.imageProvider = new ImageProvider(this);
-        percentLoaded = 0;
     }
 
     AssetManager getManager(){
@@ -40,7 +38,7 @@ public class AssetsManager implements Disposable{
     public void loadPostAssets(){
         queueImages();
         queueSounds();
-        manager.finishLoading();
+        //manager.finishLoading();
     }
 
     public void loadPreAssets(){
@@ -48,9 +46,12 @@ public class AssetsManager implements Disposable{
         manager.finishLoading();
     }
 
+    public boolean finishedStepLoading(){
+        return manager.update();
+    }
+
     public float getProgress(){
-        percentLoaded = Interpolation.linear.apply(percentLoaded, manager.getProgress(), 0.05f);
-        return percentLoaded;
+        return manager.getProgress();
     }
 
     private void queueSounds() {

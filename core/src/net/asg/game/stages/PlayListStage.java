@@ -90,6 +90,8 @@ public class PlayListStage extends RodkastStageAdapter {
 
     private Actor setUpPlayListActor(List<RodkastEpisode> episodes) {
         Table playList = new Table();
+        //com.badlogic.gdx.scenes.scene2d.ui.List list = new com.badlogic.gdx.scenes.scene2d.ui.List(defaultSkin);
+
         playList.debugAll();
 
         for(final RodkastEpisode episode : episodes){

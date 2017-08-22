@@ -19,9 +19,9 @@ import java.util.List;
  */
 
 public class XMLHandler implements Disposable{
-    protected URL urlLink;
-    protected Element xmlElements;
-    protected boolean isFeedFetched;
+    private URL urlLink;
+    private Element xmlElements;
+    private boolean isFeedFetched;
 
     public XMLHandler() throws MalformedURLException {
             this.urlLink = new URL(RodkastItemModel.RODKAST_URL_STRING);
@@ -46,6 +46,10 @@ public class XMLHandler implements Disposable{
         }
     }
 
+    public boolean isFetched(){
+        return isFeedFetched;
+    }
+
     public RodkastChannel buildChannel() throws IOException, ParseException {
             if(!isFeedFetched){
                 getTotalRssFeed();
@@ -60,7 +64,6 @@ public class XMLHandler implements Disposable{
 
     @Override
     public void dispose() {
-        //xmlElements.remove();
         urlLink = null;
         xmlElements = null;
     }
