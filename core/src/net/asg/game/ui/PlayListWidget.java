@@ -1,4 +1,4 @@
-package net.asg.game.menu;
+package net.asg.game.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;

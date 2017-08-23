@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import net.asg.game.RodKastApplication;
-import net.asg.game.menu.ExitDialog;
+import net.asg.game.ui.ExitDialog;
 import net.asg.game.screens.RodKastScreenAdapter;
 import net.asg.game.utils.parser.RodkastEpisode;
 

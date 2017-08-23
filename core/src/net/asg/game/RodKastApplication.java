@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-import net.asg.game.menu.ExitDialog;
+import net.asg.game.ui.ExitDialog;
 import net.asg.game.providers.AssetsManager;
 import net.asg.game.screens.HomeScreen;
 import net.asg.game.screens.PlayListScreen;

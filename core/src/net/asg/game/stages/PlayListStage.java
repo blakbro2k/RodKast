@@ -11,8 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.asg.game.RodKastApplication;
-import net.asg.game.menu.MusicPlayerWidget;
-import net.asg.game.menu.PlayListWidget;
+import net.asg.game.ui.MusicPlayerWidget;
+import net.asg.game.ui.PlayListWidget;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.MessageCatalog;
 import net.asg.game.utils.parser.RodkastEpisode;
@@ -90,8 +90,6 @@ public class PlayListStage extends RodkastStageAdapter {
 
     private Actor setUpPlayListActor(List<RodkastEpisode> episodes) {
         Table playList = new Table();
-        //com.badlogic.gdx.scenes.scene2d.ui.List list = new com.badlogic.gdx.scenes.scene2d.ui.List(defaultSkin);
-
         playList.debugAll();
 
         for(final RodkastEpisode episode : episodes){

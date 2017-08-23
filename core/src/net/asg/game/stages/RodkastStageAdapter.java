@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 
 import net.asg.game.RodKastApplication;
-import net.asg.game.menu.ExitDialog;
+import net.asg.game.ui.ExitDialog;
 import net.asg.game.providers.AssetsManager;
 import net.asg.game.providers.ImageProvider;
 import net.asg.game.providers.MenuProvider;
@@ -30,7 +30,6 @@ import net.asg.game.utils.parser.RodkastEpisode;
 import net.asg.game.utils.parser.XMLHandler;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.util.List;
 
