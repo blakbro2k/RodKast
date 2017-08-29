@@ -43,7 +43,7 @@ public class LoadingScreen extends RodKastScreenAdapter {
                     stage.displayErrorMessage(e.getMessage());
                 }
             } else {
-                if (System.currentTimeMillis() - lastUpdate > 7L) {
+                /*if (System.currentTimeMillis() - lastUpdate > 7L) {
                     ((LoadingStage) stage).timer(remainingPercentage);
 
                     remainingPercentage -= 0.01f;
@@ -53,8 +53,9 @@ public class LoadingScreen extends RodKastScreenAdapter {
                         //remainingPercentage = 1.0f;
                         app.gotoHomeScreen();
                     }
-                }
-            }
+                }*/
+            app.gotoHomeScreen();
+        }
 
             stage.act(delta);
             //Update the stage

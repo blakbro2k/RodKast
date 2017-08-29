@@ -38,7 +38,7 @@ public class LoadingStage extends RodkastStageAdapter{
 
         loadingBar = new ProgressBar(0, 1, 0.1f, false, defaultSkin);
 
-        cooldownTimerBlue = new RadialProgressBar(false);
+        cooldownTimerBlue = new RadialProgressBar(true);
         cooldownTimerBlue.setSize(100, 100);
         //cooldownTimerBlue.setPosition(100, 100);
         cooldownTimerBlue.setColor(Color.BLUE);
@@ -54,6 +54,10 @@ public class LoadingStage extends RodkastStageAdapter{
     public void update(float value){
         if(loadingBar != null){
             loadingBar.setValue(value);
+        }
+
+        if(cooldownTimerBlue != null){
+            cooldownTimerBlue.setValue(value);
         }
     }
 

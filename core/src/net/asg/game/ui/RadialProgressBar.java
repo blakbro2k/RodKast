@@ -58,12 +58,8 @@ public class RadialProgressBar extends Table{
         float remainingPercentage = getPercent();
         Color color = getColor();
 
-        //batch.draw
-
         Image cooldownTimer = new Image(cooldownTimer(remainingPercentage));
         cooldownTimer.setColor(color.r , color.g, color.b, parentAlpha);
-        //cooldownDisplay.addActor(cooldownTimer);
-
         cooldownTimer.draw(batch, parentAlpha);
     }
 
@@ -112,7 +108,7 @@ public class RadialProgressBar extends Table{
             float cos = MathUtils.cos(theta);
             float sin = MathUtils.sin(theta);
             float cx = radius * MathUtils.cos(START_ANGLE * MathUtils.degreesToRadians);
-            float cy = radius * MathUtils.sin((-1 * START_ANGLE) * MathUtils.degreesToRadians);
+            float cy = radius * MathUtils.sin((1 * START_ANGLE) * MathUtils.degreesToRadians);
 
             display.setColor(getColor());
 
