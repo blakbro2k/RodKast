@@ -183,7 +183,7 @@ public class RodkastStageAdapter extends Stage {
             main.add(nameLabel).height(BANNER_SIZE).left().expandX();
             main.add(backButtonSpacer).height(BANNER_SIZE).left().width(BANNER_SIZE).fill();
         } else {
-            //Future: Check if iOS. Use Backbutton
+            //TODO: Check if iOS. Use Backbutton
             main.add(backButtonSpacer).height(BANNER_SIZE).left().width(BANNER_SIZE).fill();
             main.add(nameLabel).height(BANNER_SIZE).center().expandX();
             main.add(backButtonSpacer).height(BANNER_SIZE).left().width(BANNER_SIZE).fill();

@@ -46,7 +46,7 @@ public class AssetsManager implements Disposable{
         manager.finishLoading();
     }
 
-    public boolean finishedStepLoading(){
+    public boolean isUpdateDone(){
         return manager.update();
     }
 

@@ -1,6 +1,7 @@
 package net.asg.game.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Net;
 import com.badlogic.gdx.Net.HttpMethods;
 import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.Net.HttpResponse;
@@ -267,6 +268,7 @@ public class AudioUtils {
 
         final String name = fileName;
 
+
         return new HttpResponseListener() {
             @Override
             public void handleHttpResponse (HttpResponse httpResponse) {
@@ -304,8 +306,8 @@ public class AudioUtils {
                                     //rename file;
                                     //button.setDisabled(false);
                                 }
-                                System.out.println(fileName);
-                                System.out.println(progressString);
+                                //System.out.println(fileName);
+                                //ystem.out.println(progressString);
                                 //button.setText(progressString);
                             }
                         });
@@ -346,10 +348,36 @@ public class AudioUtils {
         }
     }
 
+    private class RodkastEpisodeHttpResponseListener implements HttpResponseListener {
+
+        public RodkastEpisodeHttpResponseListener(){
+
+        }
+
+        @Override
+        public void handleHttpResponse(HttpResponse httpResponse) throws GdxRuntimeException {
+
+        }
+
+        @Override
+        public void failed(Throwable t) {
+
+        }
+
+        @Override
+        public void cancelled() {
+
+        }
+    }
+
     private class EpisodeAudio{
         private float position;
         private String filePath;
         private boolean isPlaying;
+        private float totalFileLength;
+        private String type;
+        private boolean isDownloadComplete;
+        private byte[] fileBytesBuffer;
 
         private long duration;
         private String title;

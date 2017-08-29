@@ -1,15 +1,13 @@
 package net.asg.game.stages;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import net.asg.game.RodKastApplication;
+import net.asg.game.ui.RadialProgressBar;
 import net.asg.game.utils.MessageCatalog;
-
-import java.io.IOException;
 
 /**
  * Created by eboateng on 8/9/2017.
@@ -17,6 +15,7 @@ import java.io.IOException;
 
 public class LoadingStage extends RodkastStageAdapter{
     private ProgressBar loadingBar;
+    public RadialProgressBar cooldownTimerBlue;
 
     public LoadingStage(RodKastApplication app) {
         super(app);
@@ -35,15 +34,34 @@ public class LoadingStage extends RodkastStageAdapter{
 
     private void setUpLoadingBar(Table main){
         Label loadingLabel = new Label(MessageCatalog.LOADING_MSG, defaultScreenLabelStyle);
+        Label RadialLabel = new Label(MessageCatalog.LOADING_MSG, defaultScreenLabelStyle);
+
         loadingBar = new ProgressBar(0, 1, 0.1f, false, defaultSkin);
+
+        cooldownTimerBlue = new RadialProgressBar(false);
+        cooldownTimerBlue.setSize(100, 100);
+        //cooldownTimerBlue.setPosition(100, 100);
+        cooldownTimerBlue.setColor(Color.BLUE);
 
         main.add(loadingLabel);
         main.add(loadingBar);
+        System.out.println(cooldownTimerBlue);
+        main.row();
+        main.add(RadialLabel);
+        main.add(cooldownTimerBlue);
     }
 
     public void update(float value){
         if(loadingBar != null){
             loadingBar.setValue(value);
+        }
+    }
+
+    public void timer(float remainingPercentage) {
+        System.out.println(remainingPercentage);
+
+        if(cooldownTimerBlue != null){
+            cooldownTimerBlue.setValue(remainingPercentage);
         }
     }
 }

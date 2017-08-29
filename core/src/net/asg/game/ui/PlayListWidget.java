@@ -4,7 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -50,10 +49,10 @@ public class PlayListWidget extends Table{
         this.labelStyle = skin.get(labelStyle, LabelStyle.class);
         this.episode = episode;
 
-        initializeWidget();
+        initialize();
     }
 
-    private void initializeWidget(){
+    private void initialize(){
         reset();
 
         add(getDateActor()).expand().fill();
@@ -67,7 +66,7 @@ public class PlayListWidget extends Table{
 
     public void setEpisode(RodkastEpisode episode){
         this.episode = episode;
-        initializeWidget();
+        initialize();
     }
 
     public RodkastEpisode getEpisode(){
