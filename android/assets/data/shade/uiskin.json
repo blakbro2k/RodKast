@@ -179,6 +179,9 @@ com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle: {
 	default-vertical: { background: slider-bar, knob: slider-bar-knob, knobBefore: slider-bar-fill },
 	default-horizontal: { background: slider-bar, knob: slider-bar-knob, knobBefore: slider-bar-fill }
 },
+net.asg.game.ui.RadialProgressBar$RadialProgressBarStyle: {
+	default: { background: loading-bar, download: left-button, radialColor: { a: 0, b: 0, g: 1, r: 1 }}
+},
 com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
 	default: {
 		font: font-button,

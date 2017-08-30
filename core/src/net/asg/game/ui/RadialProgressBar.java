@@ -8,7 +8,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -22,45 +25,82 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  * @author serhiy
  */
 public class RadialProgressBar extends Table{
+    private RadialProgressBarStyle style;
+
     private static final float PREFERRED_RADIUS = 100;
     private static final float START_ANGLE = 90;
 
-    private final boolean isClockwise;
+    private boolean isClockwise;
     private float value;
     private float min, max;
 
     private Table cooldownDisplay;
     private TextureRegionDrawable cooldownTexture;
 
-    public RadialProgressBar(float min, float max, boolean clockwise){
+    public RadialProgressBar(float min, float max, boolean clockwise, RadialProgressBarStyle style){
+        setStyle(style);
+
         this.isClockwise = clockwise;
-        this.min = min;
+        this.min = this.value = min;
         this.max = max;
+
         initialize();
     }
 
-    public RadialProgressBar(boolean clockwise){
-        this(0f, 1f, clockwise);
-        //initialize();
+    public RadialProgressBar(float min, float max, boolean clockwise, Skin skin, String styleName) {
+        this(min, max, clockwise, skin.get(styleName, RadialProgressBarStyle.class));
+    }
+
+    public RadialProgressBar(float min, float max, boolean clockwise, Skin skin){
+        this(min, max, clockwise, skin, "default");
     }
 
     private void initialize(){
+        setTouchable(Touchable.enabled);
+
         cooldownDisplay = new Table();
-        cooldownDisplay.setPosition(0, 0);
+        //cooldownDisplay.setPosition(0, 0);
+        //cooldownDisplay.setFillParent(true);
         cooldownDisplay.setSize(getPrefWidth(), getPrefHeight());
 
         addActor(cooldownDisplay);
+    }
+
+    public void setStyle (RadialProgressBarStyle style) {
+        if (style == null){
+            throw new IllegalArgumentException("style cannot be null.");
+        }
+        this.style = style;
+
+        setColor(style.radialColor);
+        //invalidateHierarchy();
+    }
+
+    /** Returns the progress bar's style. Modifying the returned style may not have an effect until
+     * {@link #setStyle(RadialProgressBarStyle)} is called. */
+    public RadialProgressBarStyle getStyle () {
+        return style;
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha){
         cooldownDisplay.clear();
         float remainingPercentage = getPercent();
+
+        float x = getX();
+        float y = getY();
+        float width = getWidth();
+        float height = getHeight();
         Color color = getColor();
 
+        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
+
         Image cooldownTimer = new Image(cooldownTimer(remainingPercentage));
-        cooldownTimer.setColor(color.r , color.g, color.b, parentAlpha);
-        cooldownTimer.draw(batch, parentAlpha);
+        Image downloadImage = new Image(style.download);
+        //cooldownTimer.setColor(color.r , color.g, color.b, color.a * parentAlpha);
+        cooldownTimer.setBounds(x, y, width, height);
+        cooldownTimer.draw(batch, color.a * parentAlpha);
+        downloadImage.draw(batch, color.a * parentAlpha);
     }
 
     public float getValue(){
@@ -108,7 +148,7 @@ public class RadialProgressBar extends Table{
             float cos = MathUtils.cos(theta);
             float sin = MathUtils.sin(theta);
             float cx = radius * MathUtils.cos(START_ANGLE * MathUtils.degreesToRadians);
-            float cy = radius * MathUtils.sin((1 * START_ANGLE) * MathUtils.degreesToRadians);
+            float cy = radius * MathUtils.sin((-1 * START_ANGLE) * MathUtils.degreesToRadians);
 
             display.setColor(getColor());
 
@@ -139,7 +179,7 @@ public class RadialProgressBar extends Table{
 
     private float calculateAngle(float remainingPercentage) {
         if (isClockwise) {
-            return 360 - 360 * remainingPercentage;
+            return 360 * remainingPercentage;
         } else {
             return 360 * remainingPercentage - 360;
         }
@@ -147,5 +187,25 @@ public class RadialProgressBar extends Table{
 
     private int calculateSegments(float angle) {
         return Math.max(1, (int) (6 * (float) Math.cbrt(Math.abs(angle)) * (Math.abs(angle) / 360.0f)));
+    }
+
+    static public class RadialProgressBarStyle {
+        public Drawable download;
+        /** The progress bar background Optional. */
+        public Drawable background;
+        public Color radialColor;
+
+        public RadialProgressBarStyle () {
+        }
+
+        public RadialProgressBarStyle (Drawable background, Drawable download, Color radialColor) {
+            this.background = background;
+            this.download = download;
+            this.radialColor = radialColor;
+        }
+
+        public RadialProgressBarStyle (RadialProgressBar.RadialProgressBarStyle style) {
+            this(style.background, style.download, style.radialColor);
+        }
     }
 }

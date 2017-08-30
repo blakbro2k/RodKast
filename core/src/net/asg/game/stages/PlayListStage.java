@@ -8,11 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.asg.game.RodKastApplication;
 import net.asg.game.ui.MusicPlayerWidget;
 import net.asg.game.ui.PlayListWidget;
+import net.asg.game.ui.RadialProgressBar;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.MessageCatalog;
 import net.asg.game.utils.parser.RodkastEpisode;
@@ -106,19 +108,19 @@ public class PlayListStage extends RodkastStageAdapter {
                     }
                 });
 
-                Button button = widget.getButton();
-                button.addListener(new ClickListener()
+                final RadialProgressBar downloadButton = widget.getDownloadButton();
+                downloadButton.addListener(new ClickListener()
                 {
                     @Override
                     public void clicked (InputEvent event, float x, float y) {
-                        _episodePlayer.download(episode);
+                        _episodePlayer.download(episode, downloadButton);
                     }
                 });
 
                 playList.add(widget.getDateActor()).expand().height(PlayListWidget.DEFAULT_DATE_HEIGHT)
                         .width(PlayListWidget.DEFAULT_DATE_WIDTH);
                 playList.add(widget.getTitleActor()).fill();
-                playList.add(widget.getButton()).height(PlayListWidget.DEFAULT_DATE_HEIGHT)
+                playList.add(widget.getDownloadButton()).height(PlayListWidget.DEFAULT_DATE_HEIGHT)
                         .width(PlayListWidget.DEFAULT_DATE_WIDTH);
                 playList.row();
             }

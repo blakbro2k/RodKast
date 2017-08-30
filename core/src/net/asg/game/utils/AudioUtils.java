@@ -10,6 +10,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
+import net.asg.game.ui.RadialProgressBar;
 import net.asg.game.utils.parser.RodkastEpisode;
 
 import java.io.IOException;
@@ -205,7 +206,7 @@ public class AudioUtils {
     }
 
 
-    public void dowloadEpisode(RodkastEpisode episode) {
+    public void dowloadEpisode(RodkastEpisode episode, RadialProgressBar downloadButton) {
             boolean isDownloaded = isDownloaded(episode);
         //TODO: Add temp download functionality
         //TODO: it should download as ._temp
@@ -245,13 +246,21 @@ public class AudioUtils {
 
     public void addAudioToIndex(String fileName){
         if(fileName != null){
-            AudioUtils.EpisodeAudio audio = _audioIndex.get(fileName);
+            EpisodeAudio audio = _audioIndex.get(fileName);
 
             if(audio == null){
-                _audioIndex.put(fileName, new AudioUtils.EpisodeAudio(fileName));
+                _audioIndex.put(fileName, new EpisodeAudio(fileName));
             }
         }
     }
+
+    public EpisodeAudio getAudioFromIndex(String fileName){
+        if(fileName != null){
+            return _audioIndex.get(fileName);
+        }
+        return null;
+    }
+
 
     public String getFullFilePath(String fileName){
         if(fileName == null){
@@ -266,20 +275,19 @@ public class AudioUtils {
             throw new GdxRuntimeException("Episode not found");
         }
 
-        final String name = fileName;
-
+        AudioUtils.getInstance().addAudioToIndex(fileName);
 
         return new HttpResponseListener() {
             @Override
             public void handleHttpResponse (HttpResponse httpResponse) {
                 // Determine how much we have to download
                 long length = Long.parseLong(httpResponse.getHeader(CONTENT_LENGTH));
+                EpisodeAudio audioIndexObject = AudioUtils.getInstance().getAudioFromIndex(fileName);
+                audioIndexObject.updateAudioLength(length);
 
                 // We're going to download the file to external storage, create the streams
                 InputStream is = httpResponse.getResultAsStream();
-                OutputStream os = Gdx.files.external(getFullFilePath(name)).write(false);
-
-                //AudioUtils.getInstance().hashCode();
+                OutputStream os = Gdx.files.external(getFullFilePath(fileName)).write(false);
 
                 byte[] bytes = new byte[1024];
                 int count;
@@ -295,13 +303,15 @@ public class AudioUtils {
                         final int progress = ((int) (((double) read / (double) length) * 100));
                         final String progressString = progress == 100 ? "Click to download" : progress + "%";
 
+
+                        audioIndexObject.updateProgres(progress);
+
                         // Since we are downloading on a background thread, post a runnable to touch ui
                         Gdx.app.postRunnable(new Runnable() {
                             @Override
                             public void run () {
                                 if (progress == 100) {
                                     System.out.println(progressString);
-                                    AudioUtils.getInstance().addAudioToIndex(name);
                                     //FileHandle file = new FileHandle();
                                     //rename file;
                                     //button.setDisabled(false);
@@ -320,11 +330,11 @@ public class AudioUtils {
                 }
             }
             @Override
-            public void failed (Throwable t) {
+            public void failed (final Throwable t) {
                 Gdx.app.postRunnable(new Runnable() {
                     @Override
                     public void run () {
-                        throw new GdxRuntimeException("download failed");
+                        throw new GdxRuntimeException(t);
                     }
                 });
             }
@@ -377,9 +387,10 @@ public class AudioUtils {
         private float totalFileLength;
         private String type;
         private boolean isDownloadComplete;
+        public float progress;
         private byte[] fileBytesBuffer;
 
-        private long duration;
+        public long duration;
         private String title;
         private String author;
         private String album;
@@ -414,6 +425,15 @@ public class AudioUtils {
                 String key = "bitrate";
                 Integer val = (Integer) properties.get(key);
             }*/
+        }
+
+        public void updateProgres(float value) {
+            this.isDownloadComplete = value > 100;
+            this.progress = value;
+        }
+
+        public void updateAudioLength(long value) {
+            this.duration = value;
         }
     }
 }

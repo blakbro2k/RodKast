@@ -200,6 +200,5 @@ public class Utils {
                 throw new GdxRuntimeException(e);
             }
         }
-        throw new GdxRuntimeException("Object stream must be InputStream or OutputStream");
     }
 }
