@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
@@ -21,7 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  *
  * @author serhiy
  */
-public class RadialProgressBar extends Table{
+public class RadialProgressBar extends Button {
     private static final float PREFERRED_RADIUS = 100;
     private static final float START_ANGLE = 90;
 
@@ -46,7 +47,7 @@ public class RadialProgressBar extends Table{
 
     private void initialize(){
         cooldownDisplay = new Table();
-        cooldownDisplay.setPosition(0, 0);
+        //cooldownDisplay.setPosition(0, 0);
         cooldownDisplay.setSize(getPrefWidth(), getPrefHeight());
 
         addActor(cooldownDisplay);
@@ -108,7 +109,7 @@ public class RadialProgressBar extends Table{
             float cos = MathUtils.cos(theta);
             float sin = MathUtils.sin(theta);
             float cx = radius * MathUtils.cos(START_ANGLE * MathUtils.degreesToRadians);
-            float cy = radius * MathUtils.sin((1 * START_ANGLE) * MathUtils.degreesToRadians);
+            float cy = radius * MathUtils.sin((-1 * START_ANGLE) * MathUtils.degreesToRadians);
 
             display.setColor(getColor());
 
@@ -118,7 +119,12 @@ public class RadialProgressBar extends Table{
                 float temp = cx;
                 cx = cos * cx - sin * cy;
                 cy = sin * temp + cos * cy;
-                display.fillTriangle((int) getWidth()/2, (int) getHeight()/2, (int) (getWidth()/2 + pcx), (int) (getHeight()/2 + pcy), (int) (getWidth()/2 + cx), (int) (getHeight()/2 + cy));
+                display.fillTriangle((int) getWidth()/2,
+                        (int) getHeight()/2,
+                        (int) (getWidth()/2 + pcx),
+                        (int) (getHeight()/2 + pcy),
+                        (int) (getWidth()/2 + cx),
+                        (int) (getHeight()/2 + cy));
             }
 
             display.setBlending(Blending.None);
@@ -139,9 +145,11 @@ public class RadialProgressBar extends Table{
 
     private float calculateAngle(float remainingPercentage) {
         if (isClockwise) {
-            return 360 - 360 * remainingPercentage;
+            return 360 * remainingPercentage;
+            //return 360 * remainingPercentage - 360;
         } else {
-            return 360 * remainingPercentage - 360;
+            //return 360 - 360 * remainingPercentage;
+            return 360 * remainingPercentage;
         }
     }
 

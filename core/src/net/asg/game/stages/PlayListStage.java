@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import net.asg.game.RodKastApplication;
 import net.asg.game.ui.MusicPlayerWidget;
 import net.asg.game.ui.PlayListWidget;
+import net.asg.game.ui.RadialProgressBar;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.MessageCatalog;
 import net.asg.game.utils.parser.RodkastEpisode;
@@ -106,7 +107,9 @@ public class PlayListStage extends RodkastStageAdapter {
                     }
                 });
 
-                Button button = widget.getButton();
+                //Button button = widget.getDownloadButton();
+                RadialProgressBar button = widget.getDownloadButton();
+
                 button.addListener(new ClickListener()
                 {
                     @Override
@@ -118,7 +121,7 @@ public class PlayListStage extends RodkastStageAdapter {
                 playList.add(widget.getDateActor()).expand().height(PlayListWidget.DEFAULT_DATE_HEIGHT)
                         .width(PlayListWidget.DEFAULT_DATE_WIDTH);
                 playList.add(widget.getTitleActor()).fill();
-                playList.add(widget.getButton()).height(PlayListWidget.DEFAULT_DATE_HEIGHT)
+                playList.add(widget.getDownloadButton()).height(PlayListWidget.DEFAULT_DATE_HEIGHT)
                         .width(PlayListWidget.DEFAULT_DATE_WIDTH);
                 playList.row();
             }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import net.asg.game.RodKastApplication;
 import net.asg.game.stages.RodkastStageAdapter;
@@ -29,10 +30,14 @@ public abstract class RodKastScreenAdapter implements Screen, Disposable{
         //Clear the screen
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
-        if(stage != null){
-            stage.act(delta);
-            //Update the stage
-            stage.draw();
+        try {
+            if (stage != null) {
+                stage.act(delta);
+                //Update the stage
+                stage.draw();
+            }
+        } catch (GdxRuntimeException e){
+            stage.displayErrorMessage(e.getMessage());
         }
     }
 

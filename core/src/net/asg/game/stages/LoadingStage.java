@@ -60,12 +60,4 @@ public class LoadingStage extends RodkastStageAdapter{
             cooldownTimerBlue.setValue(value);
         }
     }
-
-    public void timer(float remainingPercentage) {
-        System.out.println(remainingPercentage);
-
-        if(cooldownTimerBlue != null){
-            cooldownTimerBlue.setValue(remainingPercentage);
-        }
-    }
 }

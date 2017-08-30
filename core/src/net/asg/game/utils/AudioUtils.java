@@ -266,9 +266,6 @@ public class AudioUtils {
             throw new GdxRuntimeException("Episode not found");
         }
 
-        final String name = fileName;
-
-
         return new HttpResponseListener() {
             @Override
             public void handleHttpResponse (HttpResponse httpResponse) {
@@ -277,7 +274,7 @@ public class AudioUtils {
 
                 // We're going to download the file to external storage, create the streams
                 InputStream is = httpResponse.getResultAsStream();
-                OutputStream os = Gdx.files.external(getFullFilePath(name)).write(false);
+                OutputStream os = Gdx.files.external(getFullFilePath(fileName)).write(false);
 
                 //AudioUtils.getInstance().hashCode();
 
@@ -301,7 +298,7 @@ public class AudioUtils {
                             public void run () {
                                 if (progress == 100) {
                                     System.out.println(progressString);
-                                    AudioUtils.getInstance().addAudioToIndex(name);
+                                    AudioUtils.getInstance().addAudioToIndex(fileName);
                                     //FileHandle file = new FileHandle();
                                     //rename file;
                                     //button.setDisabled(false);
@@ -320,11 +317,11 @@ public class AudioUtils {
                 }
             }
             @Override
-            public void failed (Throwable t) {
+            public void failed (final Throwable t) {
                 Gdx.app.postRunnable(new Runnable() {
                     @Override
                     public void run () {
-                        throw new GdxRuntimeException("download failed");
+                        throw new GdxRuntimeException(t);
                     }
                 });
             }

@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
@@ -95,6 +96,7 @@ public class MusicPlayerWidget extends Container {
             main = new Table();
         }
 
+
         main.reset();
         main.add(image).left().fill().width(70);
         main.add(getTitleActor()).fill().expand();
@@ -142,7 +144,7 @@ public class MusicPlayerWidget extends Container {
         boolean success = false;
         this.listener = listener;
 
-        if(titleActor != null && listener != null){
+        if(listener != null && titleActor != null){
             success = titleActor.addListener(this.listener);
         }
         return success;

@@ -2,7 +2,6 @@ package net.asg.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL30;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import net.asg.game.RodKastApplication;
@@ -16,50 +15,40 @@ public class LoadingScreen extends RodKastScreenAdapter {
     private long lastUpdate = 0L;
     private float remainingPercentage = 1.0f;
 
-        public LoadingScreen(RodKastApplication app) {
-            super();
+    public LoadingScreen(RodKastApplication app) {
+        super();
 
-            if(this.app == null) {
-                this.app = app;
-            }
-
-            stage = new LoadingStage(app);
+        if (this.app == null) {
+            this.app = app;
         }
+
+        stage = new LoadingStage(app);
+    }
 
     @Override
     public void render(float delta) {
         //Clear the screen
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
-           //Interpolation
+        //Interpolation
+        try {
+            if (stage != null) {
+                stage.act(delta);
+                //Update the stage
+                stage.draw();
 
-        if(stage != null){
-            if(!stage.assets().isUpdateDone()){
-                ((LoadingStage) stage).update(stage.assets().getProgress());
-            } else if(!stage.isXmlLoaded()) {
-                try{
-                    stage.loadXmlData();
-                } catch (GdxRuntimeException e){
-                    stage.displayErrorMessage(e.getMessage());
-                }
-            } else {
-                /*if (System.currentTimeMillis() - lastUpdate > 7L) {
-                    ((LoadingStage) stage).timer(remainingPercentage);
+                if (!stage.assets().isUpdateDone()) {
+                    ((LoadingStage) stage).update(stage.assets().getProgress());
 
-                    remainingPercentage -= 0.01f;
-                    lastUpdate = System.currentTimeMillis();
-
-                    if (remainingPercentage <= 0.0f) {
-                        //remainingPercentage = 1.0f;
-                        app.gotoHomeScreen();
+                    if (!stage.isXmlLoaded()) {
+                        stage.loadXmlData();
                     }
-                }*/
-            app.gotoHomeScreen();
-        }
-
-            stage.act(delta);
-            //Update the stage
-            stage.draw();
+                } else {
+                    app.gotoHomeScreen();
+                }
+            }
+        } catch (GdxRuntimeException e) {
+            stage.displayErrorMessage(e.getMessage());
         }
     }
 

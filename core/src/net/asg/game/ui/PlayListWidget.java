@@ -1,11 +1,13 @@
 package net.asg.game.ui;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
@@ -20,13 +22,14 @@ import java.util.Calendar;
  * Created by Blakbro2k on 8/7/2017.
  */
 
-public class PlayListWidget extends Table{
+public class PlayListWidget extends Table {
     public final static int DEFAULT_DATE_WIDTH = 50;
     public final static int DEFAULT_DATE_HEIGHT = 50;
     public final static int DEFAULT_PADDING = 550;
 
     private LabelStyle labelStyle;
-    private Button button;
+    //private Button downloadButton;
+    private RadialProgressBar downloadButton;
     private RodkastEpisode episode;
     private Table dateActor;
     private Label titleActor;
@@ -45,7 +48,11 @@ public class PlayListWidget extends Table{
             throw new IllegalArgumentException(MessageCatalog.NULL_LABEL_STLYE_MSG);
         }
 
-        this.button = new Button(skin.get(MenuProvider.RIGHT_BUTTON, ButtonStyle.class));
+        //this.downloadButton = new Button(skin.get(MenuProvider.RIGHT_BUTTON, ButtonStyle.class));
+        this.downloadButton = new RadialProgressBar(true);
+        this.downloadButton.setSize(50, 50);
+        //cooldownTimerBlue.setPosition(100, 100);
+        this.downloadButton.setColor(Color.BLUE);
         this.labelStyle = skin.get(labelStyle, LabelStyle.class);
         this.episode = episode;
 
@@ -57,7 +64,7 @@ public class PlayListWidget extends Table{
 
         add(getDateActor()).expand().fill();
         add(getTitleActor()).pad(4,2,2,4);
-        add(getButton());
+        add(getDownloadButton());
     }
 
     public PlayListWidget(RodkastEpisode episode, Skin skin){
@@ -95,8 +102,8 @@ public class PlayListWidget extends Table{
         return dateActor;
     }
 
-    public Button getButton(){
-            return button;
+    public RadialProgressBar getDownloadButton(){
+            return downloadButton;
     }
 
     private Calendar getDateFromDate() {
