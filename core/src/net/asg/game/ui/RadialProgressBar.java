@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -33,6 +34,7 @@ public class RadialProgressBar extends Table{
     private boolean isClockwise;
     private float value;
     private float min, max;
+    private Skin skin;
 
     private Table cooldownDisplay;
     private TextureRegionDrawable cooldownTexture;
@@ -49,10 +51,12 @@ public class RadialProgressBar extends Table{
 
     public RadialProgressBar(float min, float max, boolean clockwise, Skin skin, String styleName) {
         this(min, max, clockwise, skin.get(styleName, RadialProgressBarStyle.class));
+        this.skin = skin;
     }
 
     public RadialProgressBar(float min, float max, boolean clockwise, Skin skin){
         this(min, max, clockwise, skin, "default");
+        this.skin = skin;
     }
 
     private void initialize(){
@@ -97,10 +101,15 @@ public class RadialProgressBar extends Table{
 
         Image cooldownTimer = new Image(cooldownTimer(remainingPercentage));
         Image downloadImage = new Image(style.download);
+
+        Label label = new Label("Work", skin);
         //cooldownTimer.setColor(color.r , color.g, color.b, color.a * parentAlpha);
         cooldownTimer.setBounds(x, y, width, height);
+
+        //cooldownTimer.
         cooldownTimer.draw(batch, color.a * parentAlpha);
         downloadImage.draw(batch, color.a * parentAlpha);
+        label.draw(batch, color.a * parentAlpha);
     }
 
     public float getValue(){
