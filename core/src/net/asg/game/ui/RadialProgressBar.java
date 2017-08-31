@@ -8,7 +8,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
@@ -30,17 +32,19 @@ public class RadialProgressBar extends Table{
 
     private static final float PREFERRED_RADIUS = 100;
     private static final float START_ANGLE = 90;
+    private static final float DEFAULT_BAR_SIZE = 4;
 
     private boolean isClockwise;
     private float value;
     private float min, max;
-    private Skin skin;
 
     private Table cooldownDisplay;
     private TextureRegionDrawable cooldownTexture;
 
     public RadialProgressBar(float min, float max, boolean clockwise, RadialProgressBarStyle style){
+        setDebug(true, true);
         setStyle(style);
+        setSize(getPrefWidth(), getPrefHeight());
 
         this.isClockwise = clockwise;
         this.min = this.value = min;
@@ -51,21 +55,19 @@ public class RadialProgressBar extends Table{
 
     public RadialProgressBar(float min, float max, boolean clockwise, Skin skin, String styleName) {
         this(min, max, clockwise, skin.get(styleName, RadialProgressBarStyle.class));
-        this.skin = skin;
     }
 
     public RadialProgressBar(float min, float max, boolean clockwise, Skin skin){
         this(min, max, clockwise, skin, "default");
-        this.skin = skin;
     }
 
     private void initialize(){
         setTouchable(Touchable.enabled);
 
         cooldownDisplay = new Table();
-        //cooldownDisplay.setPosition(0, 0);
-        //cooldownDisplay.setFillParent(true);
-        cooldownDisplay.setSize(getPrefWidth(), getPrefHeight());
+        cooldownDisplay.setFillParent(true);
+        cooldownDisplay.debugAll();
+        //cooldownDisplay.setSize(getPrefWidth(), getPrefHeight());
 
         addActor(cooldownDisplay);
     }
@@ -76,8 +78,8 @@ public class RadialProgressBar extends Table{
         }
         this.style = style;
 
+        setBackground(style.background);
         setColor(style.radialColor);
-        //invalidateHierarchy();
     }
 
     /** Returns the progress bar's style. Modifying the returned style may not have an effect until
@@ -88,6 +90,7 @@ public class RadialProgressBar extends Table{
 
     @Override
     public void draw(Batch batch, float parentAlpha){
+        validate();
         cooldownDisplay.clear();
         float remainingPercentage = getPercent();
 
@@ -95,21 +98,37 @@ public class RadialProgressBar extends Table{
         float y = getY();
         float width = getWidth();
         float height = getHeight();
-        Color color = getColor();
+        //Color color = getColor();
 
-        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
+        //batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
+
 
         Image cooldownTimer = new Image(cooldownTimer(remainingPercentage));
         Image downloadImage = new Image(style.download);
 
-        Label label = new Label("Work", skin);
-        //cooldownTimer.setColor(color.r , color.g, color.b, color.a * parentAlpha);
-        cooldownTimer.setBounds(x, y, width, height);
+        //downloadImage.setFillParent(true);
+        float dWidth = downloadImage.getWidth();
+        float dHeight = downloadImage.getHeight();
 
-        //cooldownTimer.
-        cooldownTimer.draw(batch, color.a * parentAlpha);
-        downloadImage.draw(batch, color.a * parentAlpha);
-        label.draw(batch, color.a * parentAlpha);
+        downloadImage.setWidth(dWidth - DEFAULT_BAR_SIZE);
+        downloadImage.setHeight(dHeight - DEFAULT_BAR_SIZE);
+
+        cooldownTimer.setPosition(x, y);
+
+        float cdX = cooldownTimer.getX();
+        float cdY = cooldownTimer.getY();
+
+        downloadImage.setPosition(x, y);
+
+
+        //downloadImage.set
+
+        //System.out.println("(" + x + "," + y + ")");
+        //System.out.println("downloadImage(" + downloadImage.getOriginX() + "," + downloadImage.getImageY() + ")");
+        //System.out.println("cooldownTimer(" + cooldownTimer.getOriginX() + "," + cooldownTimer.getImageY() + ")");
+
+        cooldownTimer.draw(batch, parentAlpha);
+        downloadImage.draw(batch, parentAlpha);
     }
 
     public float getValue(){
@@ -131,18 +150,37 @@ public class RadialProgressBar extends Table{
 
     @Override
     public float getPrefWidth(){
-        return PREFERRED_RADIUS;
+        float width = super.getPrefWidth();
+        if (style.background != null){
+            width = Math.max(width, style.background.getMinWidth());
+        }
+
+        if (style.download != null){
+            width = Math.max(width, style.download.getMinWidth());
+            //width = style.background == null ? width + DEFAULT_BAR_SIZE : width ;
+        }
+        return width;
     }
 
     @Override
     public float getPrefHeight(){
-        return PREFERRED_RADIUS;
+        float height = super.getPrefHeight();
+        if (style.background != null){
+            height = Math.max(height, style.background.getMinHeight());
+        }
+
+        if (style.download != null){
+            height = Math.max(height, style.download.getMinHeight());
+            //height = style.background == null ? height + DEFAULT_BAR_SIZE : height ;
+        }
+        return height;
     }
 
     private Drawable cooldownTimer(float remainingPercentage) {
         if (remainingPercentage > 1.0f || remainingPercentage < 0.0f) {
             return null;
         }
+
 
         float radius = Math.min(getWidth()/2, getHeight()/2);
         float angle = calculateAngle(remainingPercentage);

@@ -180,7 +180,10 @@ com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle: {
 	default-horizontal: { background: slider-bar, knob: slider-bar-knob, knobBefore: slider-bar-fill }
 },
 net.asg.game.ui.RadialProgressBar$RadialProgressBarStyle: {
-	default: { background: loading-bar, download: left-button, radialColor: { a: 0, b: 0, g: 1, r: 1 }}
+	default: {
+		download: left-button,
+		radialColor: { a: 1, b: 1, g: 0, r: 0}
+	}
 },
 com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
 	default: {

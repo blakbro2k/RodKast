@@ -121,7 +121,7 @@ public class PlayListStage extends RodkastStageAdapter {
                         .width(PlayListWidget.DEFAULT_DATE_WIDTH);
                 playList.add(widget.getTitleActor()).fill();
                 playList.add(widget.getDownloadButton()).height(PlayListWidget.DEFAULT_DATE_HEIGHT)
-                        .width(PlayListWidget.DEFAULT_DATE_WIDTH);
+                        .width(PlayListWidget.DEFAULT_DATE_WIDTH).expand();
                 playList.row();
             }
         }

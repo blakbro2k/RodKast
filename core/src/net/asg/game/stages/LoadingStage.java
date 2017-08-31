@@ -41,17 +41,16 @@ public class LoadingStage extends RodkastStageAdapter{
         main.add(loadingLabel);
         main.add(loadingBar);
 
-        /*
-        cooldownTimerBlue = new RadialProgressBar(true);
-        cooldownTimerBlue.setSize(100, 100);
-        //cooldownTimerBlue.setPosition(100, 100);
-        cooldownTimerBlue.setColor(Color.BLUE);
 
+
+        cooldownTimerBlue = new RadialProgressBar(0, 1, true, defaultSkin);
+        //cooldownTimerBlue.setSize(100, 100);
+        cooldownTimerBlue.setPosition(100, 100);
 
         System.out.println(cooldownTimerBlue);
         main.row();
-        main.add(RadialLabel);
-        main.add(cooldownTimerBlue);*/
+        //main.add(RadialLabel);
+        main.add(cooldownTimerBlue);
     }
 
     public void update(float value){

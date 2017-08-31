@@ -39,11 +39,9 @@ public class LoadingScreen extends RodKastScreenAdapter {
 
                 if (!stage.assets().isUpdateDone()) {
                     ((LoadingStage) stage).update(stage.assets().getProgress());
-
-                    if (!stage.isXmlLoaded()) {
-                        stage.loadXmlData();
-                    }
-                } else {
+                } else if (!stage.isXmlLoaded()) {
+                    stage.loadXmlData();
+                //}{
                     app.gotoHomeScreen();
                 }
             }
