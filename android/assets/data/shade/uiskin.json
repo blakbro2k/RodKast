@@ -196,8 +196,8 @@ net.asg.game.ui.RadialProgressBar$RadialProgressBarStyle: {
 	}
 
 	download: {
-		up: right-button,
-		down: right-button-down,
+		up: left-button,
+		down: left-button-down,
 		backgroundColor: { a: 1, b: 1, g: 0, r: 0},
 		timerColor: { a: 1, b: 1, g: 0, r: 0}
 	}

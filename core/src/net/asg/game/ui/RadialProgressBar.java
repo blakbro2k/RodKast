@@ -8,15 +8,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.Widget;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
@@ -38,7 +38,6 @@ public class RadialProgressBar extends Table{
     private float value;
     private float min, max;
 
-    private Table cooldownDisplay;
     private TextureRegionDrawable cooldownTexture;
     private Button downloadButton;
 
@@ -63,13 +62,12 @@ public class RadialProgressBar extends Table{
     }
 
     private void initialize(){
-        //setTouchable(Touchable.enabled);
+        setTouchable(Touchable.enabled);
 
-        cooldownDisplay = new Table();
-        cooldownDisplay.setFillParent(true);
-        cooldownDisplay.debugAll();
+        //Table cooldownDisplay = new Table();
+        //cooldownDisplay.setFillParent(true);
 
-        addActor(cooldownDisplay);
+        //addActor(cooldownDisplay);
     }
 
     public void setStyle (RadialProgressBarStyle style) {
@@ -81,11 +79,9 @@ public class RadialProgressBar extends Table{
         }
         this.style = style;
 
-        //draw download button
         if(style.up != null){
             downloadButton = createDownloadButton();
         }
-        //setBackground(style.background);
     }
 
     /** Returns the progress bar's style. Modifying the returned style may not have an effect until
@@ -97,7 +93,7 @@ public class RadialProgressBar extends Table{
     @Override
     public void draw(Batch batch, float parentAlpha){
         validate();
-        cooldownDisplay.clear();
+        //cooldownDisplay.clear();
 
         //draw background
         Color color = getColor();
@@ -109,7 +105,7 @@ public class RadialProgressBar extends Table{
         //draw background color circle
         if(style.backgroundColor != null){
             setColor(style.backgroundColor);
-            //create a filled Circle to draw
+            //TODO: create a filled Circle to draw
         }
 
         //draw timer color
@@ -139,6 +135,20 @@ public class RadialProgressBar extends Table{
 
     private Button createDownloadButton() {
         return new Button(style.up, style.down);
+    }
+
+    /** Add a listener to receive events that {@link #hit(float, float, boolean) hit} this actor. See {@link #fire(Event)}.
+     * @see InputListener
+     * @see ClickListener */
+    public boolean addListener (EventListener listener) {
+        if (listener == null){
+            throw new IllegalArgumentException("listener cannot be null.");
+        }
+        if(downloadButton != null){
+            downloadButton.addListener(listener);
+            return true;
+        }
+        return false;
     }
 
     public float getValue(){

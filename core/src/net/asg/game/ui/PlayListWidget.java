@@ -47,7 +47,7 @@ public class PlayListWidget extends Table{
         }
 
         this.labelStyle = skin.get(labelStyle, LabelStyle.class);
-        this.downloadButton = new RadialProgressBar(0, 1, true, skin);
+        this.downloadButton =  new RadialProgressBar(0, 1, true, skin, "download");
         this.episode = episode;
 
         initialize();
@@ -58,7 +58,7 @@ public class PlayListWidget extends Table{
 
         add(getDateActor()).expand().fill();
         add(getTitleActor()).pad(4,2,2,4);
-        add(getDownloadButton()).expand().fill();
+        add(getDownloadButton());
     }
 
     public PlayListWidget(RodkastEpisode episode, Skin skin){
@@ -96,7 +96,7 @@ public class PlayListWidget extends Table{
     }
 
     public RadialProgressBar getDownloadButton(){
-            return downloadButton;
+        return downloadButton;
     }
 
     private Calendar getDateFromDate() {

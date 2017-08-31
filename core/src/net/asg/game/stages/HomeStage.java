@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.asg.game.RodKastApplication;
+import net.asg.game.ui.RadialProgressBar;
 import net.asg.game.utils.MessageCatalog;
 
 /**

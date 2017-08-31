@@ -109,21 +109,23 @@ public class PlayListStage extends RodkastStageAdapter {
                     }
                 });
 
-                RadialProgressBar downloadButton = widget.getDownloadButton();
+                final RadialProgressBar downloadButton = widget.getDownloadButton();
+                //System.out.println("dlButton: " + downloadButton);
+
                 downloadButton.setValue(AudioUtils.getInstance().getAudioDownloadProgressValue(episode));
-                /*downloadButton.getDownloadButton().addListener(new ClickListener()
+                downloadButton.addListener(new ClickListener()
                 {
                     @Override
                     public void clicked (InputEvent event, float x, float y) {
-                        //_episodePlayer.download(episode, downloadButton);
+                        _episodePlayer.download(episode, downloadButton);
                     }
-                });*/
+                });
 
                 playList.add(widget.getDateActor()).expand().height(PlayListWidget.DEFAULT_DATE_HEIGHT)
                         .width(PlayListWidget.DEFAULT_DATE_WIDTH);
                 playList.add(widget.getTitleActor()).fill();
                 playList.add(widget.getDownloadButton()).height(PlayListWidget.DEFAULT_DATE_HEIGHT)
-                        .width(PlayListWidget.DEFAULT_DATE_WIDTH).expand();
+                        .width(PlayListWidget.DEFAULT_DATE_WIDTH).expand().fill();
                 playList.row();
             }
         }
