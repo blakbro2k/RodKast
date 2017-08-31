@@ -30,9 +30,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 public class RadialProgressBar extends Table{
     private RadialProgressBarStyle style;
 
-    private static final float PREFERRED_RADIUS = 100;
+    private static final float PREFERRED_RADIUS = 40;
     private static final float START_ANGLE = 90;
-    private static final float DEFAULT_BAR_SIZE = 4;
+    private static final float DEFAULT_BAR_SIZE = 6;
 
     private boolean isClockwise;
     private float value;
@@ -40,6 +40,7 @@ public class RadialProgressBar extends Table{
 
     private Table cooldownDisplay;
     private TextureRegionDrawable cooldownTexture;
+    private Button downloadButton;
 
     public RadialProgressBar(float min, float max, boolean clockwise, RadialProgressBarStyle style){
         setDebug(true, true);
@@ -62,12 +63,11 @@ public class RadialProgressBar extends Table{
     }
 
     private void initialize(){
-        setTouchable(Touchable.enabled);
+        //setTouchable(Touchable.enabled);
 
         cooldownDisplay = new Table();
         cooldownDisplay.setFillParent(true);
         cooldownDisplay.debugAll();
-        //cooldownDisplay.setSize(getPrefWidth(), getPrefHeight());
 
         addActor(cooldownDisplay);
     }
@@ -76,10 +76,16 @@ public class RadialProgressBar extends Table{
         if (style == null){
             throw new IllegalArgumentException("style cannot be null.");
         }
+        if (style.timerColor == null){
+            throw new IllegalArgumentException("timerColor in style not found.");
+        }
         this.style = style;
 
-        setBackground(style.background);
-        setColor(style.radialColor);
+        //draw download button
+        if(style.up != null){
+            downloadButton = createDownloadButton();
+        }
+        //setBackground(style.background);
     }
 
     /** Returns the progress bar's style. Modifying the returned style may not have an effect until
@@ -92,43 +98,47 @@ public class RadialProgressBar extends Table{
     public void draw(Batch batch, float parentAlpha){
         validate();
         cooldownDisplay.clear();
+
+        //draw background
+        Color color = getColor();
+        color.a *= parentAlpha;
+        if (style.background != null) {
+            setBackground(style.background);
+        }
+
+        //draw background color circle
+        if(style.backgroundColor != null){
+            setColor(style.backgroundColor);
+            //create a filled Circle to draw
+        }
+
+        //draw timer color
         float remainingPercentage = getPercent();
 
         float x = getX();
         float y = getY();
         float width = getWidth();
         float height = getHeight();
-        //Color color = getColor();
-
-        //batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
-
 
         Image cooldownTimer = new Image(cooldownTimer(remainingPercentage));
-        Image downloadImage = new Image(style.download);
-
-        //downloadImage.setFillParent(true);
-        float dWidth = downloadImage.getWidth();
-        float dHeight = downloadImage.getHeight();
-
-        downloadImage.setWidth(dWidth - DEFAULT_BAR_SIZE);
-        downloadImage.setHeight(dHeight - DEFAULT_BAR_SIZE);
-
         cooldownTimer.setPosition(x, y);
 
-        float cdX = cooldownTimer.getX();
-        float cdY = cooldownTimer.getY();
-
-        downloadImage.setPosition(x, y);
-
-
-        //downloadImage.set
-
-        //System.out.println("(" + x + "," + y + ")");
-        //System.out.println("downloadImage(" + downloadImage.getOriginX() + "," + downloadImage.getImageY() + ")");
-        //System.out.println("cooldownTimer(" + cooldownTimer.getOriginX() + "," + cooldownTimer.getImageY() + ")");
-
+        drawBackground(batch, parentAlpha, x, y);
+        setColor(style.timerColor);
         cooldownTimer.draw(batch, parentAlpha);
-        downloadImage.draw(batch, parentAlpha);
+
+        //draw download button;
+        if(downloadButton != null){
+            //draw download button
+            downloadButton = createDownloadButton();
+            downloadButton.setBounds(x + DEFAULT_BAR_SIZE/2, y + DEFAULT_BAR_SIZE/2,
+                    width - DEFAULT_BAR_SIZE, height - DEFAULT_BAR_SIZE);
+            downloadButton.draw(batch, parentAlpha);
+        }
+    }
+
+    private Button createDownloadButton() {
+        return new Button(style.up, style.down);
     }
 
     public float getValue(){
@@ -150,30 +160,54 @@ public class RadialProgressBar extends Table{
 
     @Override
     public float getPrefWidth(){
-        float width = super.getPrefWidth();
+        float width = super.getWidth();
+        width = width < 1 ? PREFERRED_RADIUS : width;
         if (style.background != null){
             width = Math.max(width, style.background.getMinWidth());
         }
 
-        if (style.download != null){
-            width = Math.max(width, style.download.getMinWidth());
-            //width = style.background == null ? width + DEFAULT_BAR_SIZE : width ;
+        if (style.up != null){
+            width = Math.max(width, style.up.getMinHeight());
+        }
+
+        if (style.down != null){
+            width = Math.max(width, style.down.getMinHeight());
+        }
+
+        if (style.over != null){
+            width = Math.max(width, style.over.getMinHeight());
         }
         return width;
     }
 
     @Override
     public float getPrefHeight(){
-        float height = super.getPrefHeight();
+        float height = super.getHeight();
+        height = height < 1 ? PREFERRED_RADIUS : height;
         if (style.background != null){
             height = Math.max(height, style.background.getMinHeight());
         }
 
-        if (style.download != null){
-            height = Math.max(height, style.download.getMinHeight());
-            //height = style.background == null ? height + DEFAULT_BAR_SIZE : height ;
+        if (style.up != null){
+            height = Math.max(height, style.up.getMinHeight());
+        }
+
+        if (style.down != null){
+            height = Math.max(height, style.down.getMinHeight());
+        }
+
+        if (style.over != null){
+            height = Math.max(height, style.over.getMinHeight());
         }
         return height;
+    }
+
+    public Button getDownloadButton(){
+        return downloadButton;
+    }
+
+    public void setDownloadButton(Button button){
+        downloadButton = button;
     }
 
     private Drawable cooldownTimer(float remainingPercentage) {
@@ -196,6 +230,7 @@ public class RadialProgressBar extends Table{
             float sin = MathUtils.sin(theta);
             float cx = radius * MathUtils.cos(START_ANGLE * MathUtils.degreesToRadians);
             float cy = radius * MathUtils.sin((-1 * START_ANGLE) * MathUtils.degreesToRadians);
+
 
             display.setColor(getColor());
 
@@ -237,22 +272,34 @@ public class RadialProgressBar extends Table{
     }
 
     static public class RadialProgressBarStyle {
-        public Drawable download;
-        /** The progress bar background Optional. */
+        public Drawable up, down, over;
+        /** The progress bar download Button Optional. */
         public Drawable background;
-        public Color radialColor;
+        /** The progress bar background Optional. */
+        public Color backgroundColor;
+        public Color timerColor;
 
         public RadialProgressBarStyle () {
         }
 
-        public RadialProgressBarStyle (Drawable background, Drawable download, Color radialColor) {
-            this.background = background;
-            this.download = download;
-            this.radialColor = radialColor;
+        public RadialProgressBarStyle (Drawable up, Drawable down, Drawable over, Color backgroundColor, Color timerColor) {
+            this.up = up;
+            this.up = down;
+            this.up = over;
+            this.backgroundColor = backgroundColor;
+            this.timerColor = timerColor;
+        }
+
+        public RadialProgressBarStyle (Drawable up, Color backgroundColor, Color timerColor) {
+            this(up, null, null, backgroundColor, timerColor);
+        }
+
+        public RadialProgressBarStyle (Color backgroundColor, Color timerColor) {
+            this(null, backgroundColor, timerColor);
         }
 
         public RadialProgressBarStyle (RadialProgressBar.RadialProgressBarStyle style) {
-            this(style.background, style.download, style.radialColor);
+            this(style.up, style.down, style.over, style.backgroundColor, style.timerColor);
         }
     }
 }

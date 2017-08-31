@@ -15,6 +15,7 @@ import net.asg.game.RodKastApplication;
 import net.asg.game.ui.MusicPlayerWidget;
 import net.asg.game.ui.PlayListWidget;
 import net.asg.game.ui.RadialProgressBar;
+import net.asg.game.utils.AudioUtils;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.MessageCatalog;
 import net.asg.game.utils.parser.RodkastEpisode;
@@ -108,14 +109,15 @@ public class PlayListStage extends RodkastStageAdapter {
                     }
                 });
 
-                final RadialProgressBar downloadButton = widget.getDownloadButton();
-                downloadButton.addListener(new ClickListener()
+                RadialProgressBar downloadButton = widget.getDownloadButton();
+                downloadButton.setValue(AudioUtils.getInstance().getAudioDownloadProgressValue(episode));
+                /*downloadButton.getDownloadButton().addListener(new ClickListener()
                 {
                     @Override
                     public void clicked (InputEvent event, float x, float y) {
-                        _episodePlayer.download(episode, downloadButton);
+                        //_episodePlayer.download(episode, downloadButton);
                     }
-                });
+                });*/
 
                 playList.add(widget.getDateActor()).expand().height(PlayListWidget.DEFAULT_DATE_HEIGHT)
                         .width(PlayListWidget.DEFAULT_DATE_WIDTH);

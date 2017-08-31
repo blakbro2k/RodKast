@@ -59,7 +59,6 @@ public class PlayListWidget extends Table{
         add(getDateActor()).expand().fill();
         add(getTitleActor()).pad(4,2,2,4);
         add(getDownloadButton()).expand().fill();
-        //add(new Label("Work", labelStyle));
     }
 
     public PlayListWidget(RodkastEpisode episode, Skin skin){
@@ -91,14 +90,12 @@ public class PlayListWidget extends Table{
             Table date = new Table();
             date.add(createMonthDay(getDateFromDate())).fill().expand();
             dateActor = date;
-            //dateActor = new Table(createMonthDay(getDateFromDate()));
         }
 
         return dateActor;
     }
 
     public RadialProgressBar getDownloadButton(){
-            //return new Label("work", labelStyle);
             return downloadButton;
     }
 

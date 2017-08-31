@@ -216,7 +216,7 @@ public class AudioUtils {
         //TODO: error retry if network is unavailibly
 
             if(!isDownloaded){
-                beginDownload(episode);
+                beginDownload(episode, downloadButton);
             }
     }
 
@@ -228,7 +228,7 @@ public class AudioUtils {
         return filePath.substring(filePath.lastIndexOf('/') + 1);
     }
 
-    private void beginDownload(RodkastEpisode episode) throws GdxRuntimeException{
+    private void beginDownload(RodkastEpisode episode, RadialProgressBar downloadButton) throws GdxRuntimeException{
         if(episode == null) {
             throw new RuntimeException("Invalid episode");
         }
@@ -241,15 +241,28 @@ public class AudioUtils {
         request.setUrl(episodeLink.toString());
 
         // Send the request, listen for the response
-        Gdx.net.sendHttpRequest(request, createNewRodKastListener(getFileFromURL(episodeLink)));
+        Gdx.net.sendHttpRequest(request, createNewRodKastListener(getFileFromURL(episodeLink), downloadButton));
     }
 
-    public void addAudioToIndex(String fileName){
+    public float getAudioDownloadProgressValue(RodkastEpisode episode){
+        if(episode == null){
+            return 0;
+        }
+
+        EpisodeAudio audioFile = getAudioFromIndex(getEpisodeAudioFile(episode));
+
+        if(audioFile != null){
+            return audioFile.getProgress();
+        }
+        return 0;
+    }
+
+    public void addAudioToIndex(String fileName, RadialProgressBar downloadButton){
         if(fileName != null){
             EpisodeAudio audio = _audioIndex.get(fileName);
 
             if(audio == null){
-                _audioIndex.put(fileName, new EpisodeAudio(fileName));
+                _audioIndex.put(fileName, new EpisodeAudio(fileName, downloadButton));
             }
         }
     }
@@ -270,12 +283,12 @@ public class AudioUtils {
     }
 
 
-    private HttpResponseListener createNewRodKastListener(final String fileName) throws GdxRuntimeException{
+    private HttpResponseListener createNewRodKastListener(final String fileName, RadialProgressBar downloadButton) throws GdxRuntimeException{
         if(fileName == null){
             throw new GdxRuntimeException("Episode not found");
         }
 
-        AudioUtils.getInstance().addAudioToIndex(fileName);
+        AudioUtils.getInstance().addAudioToIndex(fileName, downloadButton);
 
         return new HttpResponseListener() {
             @Override
@@ -299,7 +312,7 @@ public class AudioUtils {
                         read += count;
 
                         // Update the UI with the download progress
-                        System.out.println("float" + ((double) read / (double) length));
+                        //System.out.println("float: " + ((double) read / (double) length));
                         final int progress = ((int) (((double) read / (double) length) * 100));
                         final String progressString = progress == 100 ? "Click to download" : progress + "%";
 
@@ -389,6 +402,7 @@ public class AudioUtils {
         private boolean isDownloadComplete;
         public float progress;
         private byte[] fileBytesBuffer;
+        private RadialProgressBar downloadButton;
 
         public long duration;
         private String title;
@@ -399,10 +413,12 @@ public class AudioUtils {
         private String comment;
         //private Mpg123Decoder decoder;
 
-        EpisodeAudio(String episodeName){
+        EpisodeAudio(String episodeName, RadialProgressBar downloadButton){
             System.out.println("added " + episodeName + "to Download index");
 
+            this.downloadButton = downloadButton;
 
+            //this.title = episodeName
             /*
             File file = new File(filename);
             AudioFileFormat baseFileFormat = null;
@@ -428,12 +444,17 @@ public class AudioUtils {
         }
 
         public void updateProgres(float value) {
-            this.isDownloadComplete = value > 100;
-            this.progress = value;
+            isDownloadComplete = value > 100;
+            progress = value;
+            downloadButton.setValue(value);
         }
 
         public void updateAudioLength(long value) {
             this.duration = value;
+        }
+
+        public float getProgress(){
+            return progress;
         }
     }
 }
