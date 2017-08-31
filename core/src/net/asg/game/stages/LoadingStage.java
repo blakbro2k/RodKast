@@ -34,21 +34,24 @@ public class LoadingStage extends RodkastStageAdapter{
 
     private void setUpLoadingBar(Table main){
         Label loadingLabel = new Label(MessageCatalog.LOADING_MSG, defaultScreenLabelStyle);
-        Label RadialLabel = new Label(MessageCatalog.LOADING_MSG, defaultScreenLabelStyle);
+        //Label RadialLabel = new Label(MessageCatalog.LOADING_MSG, defaultScreenLabelStyle);
 
         loadingBar = new ProgressBar(0, 1, 0.1f, false, defaultSkin);
 
+        main.add(loadingLabel);
+        main.add(loadingBar);
+
+        /*
         cooldownTimerBlue = new RadialProgressBar(true);
         cooldownTimerBlue.setSize(100, 100);
         //cooldownTimerBlue.setPosition(100, 100);
         cooldownTimerBlue.setColor(Color.BLUE);
 
-        main.add(loadingLabel);
-        main.add(loadingBar);
+
         System.out.println(cooldownTimerBlue);
         main.row();
         main.add(RadialLabel);
-        main.add(cooldownTimerBlue);
+        main.add(cooldownTimerBlue);*/
     }
 
     public void update(float value){

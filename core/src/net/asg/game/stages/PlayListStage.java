@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.asg.game.RodKastApplication;
@@ -107,14 +108,12 @@ public class PlayListStage extends RodkastStageAdapter {
                     }
                 });
 
-                //Button button = widget.getDownloadButton();
-                RadialProgressBar button = widget.getDownloadButton();
-
-                button.addListener(new ClickListener()
+                final RadialProgressBar downloadButton = widget.getDownloadButton();
+                downloadButton.addListener(new ClickListener()
                 {
                     @Override
                     public void clicked (InputEvent event, float x, float y) {
-                        _episodePlayer.download(episode);
+                        _episodePlayer.download(episode, downloadButton);
                     }
                 });
 

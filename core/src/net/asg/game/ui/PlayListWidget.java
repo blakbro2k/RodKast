@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
@@ -22,13 +21,12 @@ import java.util.Calendar;
  * Created by Blakbro2k on 8/7/2017.
  */
 
-public class PlayListWidget extends Table {
+public class PlayListWidget extends Table{
     public final static int DEFAULT_DATE_WIDTH = 50;
     public final static int DEFAULT_DATE_HEIGHT = 50;
     public final static int DEFAULT_PADDING = 550;
 
     private LabelStyle labelStyle;
-    //private Button downloadButton;
     private RadialProgressBar downloadButton;
     private RodkastEpisode episode;
     private Table dateActor;
@@ -48,12 +46,8 @@ public class PlayListWidget extends Table {
             throw new IllegalArgumentException(MessageCatalog.NULL_LABEL_STLYE_MSG);
         }
 
-        //this.downloadButton = new Button(skin.get(MenuProvider.RIGHT_BUTTON, ButtonStyle.class));
-        this.downloadButton = new RadialProgressBar(true);
-        this.downloadButton.setSize(50, 50);
-        //cooldownTimerBlue.setPosition(100, 100);
-        this.downloadButton.setColor(Color.BLUE);
         this.labelStyle = skin.get(labelStyle, LabelStyle.class);
+        this.downloadButton = new RadialProgressBar(0, 1, true, skin);
         this.episode = episode;
 
         initialize();
@@ -64,7 +58,8 @@ public class PlayListWidget extends Table {
 
         add(getDateActor()).expand().fill();
         add(getTitleActor()).pad(4,2,2,4);
-        add(getDownloadButton());
+        add(getDownloadButton()).expand().fill();
+        //add(new Label("Work", labelStyle));
     }
 
     public PlayListWidget(RodkastEpisode episode, Skin skin){
@@ -103,6 +98,7 @@ public class PlayListWidget extends Table {
     }
 
     public RadialProgressBar getDownloadButton(){
+            //return new Label("work", labelStyle);
             return downloadButton;
     }
 
