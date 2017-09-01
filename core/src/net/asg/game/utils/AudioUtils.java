@@ -206,7 +206,7 @@ public class AudioUtils {
     }
 
 
-    public void dowloadEpisode(Utils.EpisodeEncapsulation encapsulation) {
+    public void dowloadEpisode(Utils.EpisodeEncapsulation encapsulation){
         if(encapsulation == null){
             return;
         }
@@ -231,7 +231,7 @@ public class AudioUtils {
         return filePath.substring(filePath.lastIndexOf('/') + 1);
     }
 
-    private void beginDownload(Utils.EpisodeEncapsulation encap) throws GdxRuntimeException{
+    private void beginDownload(Utils.EpisodeEncapsulation encap){
         if(encap == null) {
             throw new RuntimeException("Invalid episode");
         }
@@ -250,8 +250,12 @@ public class AudioUtils {
         request.setTimeOut(GlobalConstants.HTTP_REQUEST_TIMEOUT);
         request.setUrl(episodeLink.toString());
 
-        // Send the request, listen for the response
-        Gdx.net.sendHttpRequest(request, createNewRodKastListener(getFileFromURL(episodeLink), progressBar));
+        try {
+            // Send the request, listen for the response
+            Gdx.net.sendHttpRequest(request, createNewRodKastListener(getFileFromURL(episodeLink), progressBar));
+        } catch (GdxRuntimeException e){
+            throw new GdxRuntimeException(e);
+        }
     }
 
     public float getAudioDownloadProgressValue(RodkastEpisode episode){

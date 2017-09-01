@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import net.asg.game.providers.MenuProvider;
 import net.asg.game.utils.AudioUtils;
@@ -131,7 +132,7 @@ public class MusicPlayerWidget extends Container {
         setPlayerTitle();
     }
 
-    public void download(Utils.EpisodeEncapsulation episode) {
+    public void download(Utils.EpisodeEncapsulation episode) throws GdxRuntimeException{
         if(episode == null){
             throw new RuntimeException("No episode found");
         }
