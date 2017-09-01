@@ -131,12 +131,12 @@ public class MusicPlayerWidget extends Container {
         setPlayerTitle();
     }
 
-    public void download(RodkastEpisode episode, RadialProgressBar downloadButton) {
+    public void download(Utils.EpisodeEncapsulation episode) {
         if(episode == null){
             throw new RuntimeException("No episode found");
         }
 
-        AudioUtils.getInstance().dowloadEpisode(episode, downloadButton);
+        AudioUtils.getInstance().dowloadEpisode(episode);
         //button.set
     }
 

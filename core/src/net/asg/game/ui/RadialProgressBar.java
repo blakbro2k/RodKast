@@ -32,14 +32,12 @@ public class RadialProgressBar extends Table{
 
     private static final float PREFERRED_RADIUS = 40;
     private static final float START_ANGLE = 90;
-    private static final float DEFAULT_BAR_SIZE = 6;
 
     private boolean isClockwise;
     private float value;
     private float min, max;
 
     private TextureRegionDrawable cooldownTexture;
-    private Button downloadButton;
 
     public RadialProgressBar(float min, float max, boolean clockwise, RadialProgressBarStyle style){
         setDebug(true, true);
@@ -62,7 +60,7 @@ public class RadialProgressBar extends Table{
     }
 
     private void initialize(){
-        setTouchable(Touchable.enabled);
+        //setTouchable(Touchable.enabled);
 
         //Table cooldownDisplay = new Table();
         //cooldownDisplay.setFillParent(true);
@@ -78,10 +76,6 @@ public class RadialProgressBar extends Table{
             throw new IllegalArgumentException("timerColor in style not found.");
         }
         this.style = style;
-
-        if(style.up != null){
-            downloadButton = createDownloadButton();
-        }
     }
 
     /** Returns the progress bar's style. Modifying the returned style may not have an effect until
@@ -122,33 +116,6 @@ public class RadialProgressBar extends Table{
         drawBackground(batch, parentAlpha, x, y);
         setColor(style.timerColor);
         cooldownTimer.draw(batch, parentAlpha);
-
-        //draw download button;
-        if(downloadButton != null){
-            //draw download button
-            downloadButton = createDownloadButton();
-            downloadButton.setBounds(x + DEFAULT_BAR_SIZE/2, y + DEFAULT_BAR_SIZE/2,
-                    width - DEFAULT_BAR_SIZE, height - DEFAULT_BAR_SIZE);
-            downloadButton.draw(batch, parentAlpha);
-        }
-    }
-
-    private Button createDownloadButton() {
-        return new Button(style.up, style.down);
-    }
-
-    /** Add a listener to receive events that {@link #hit(float, float, boolean) hit} this actor. See {@link #fire(Event)}.
-     * @see InputListener
-     * @see ClickListener */
-    public boolean addListener (EventListener listener) {
-        if (listener == null){
-            throw new IllegalArgumentException("listener cannot be null.");
-        }
-        if(downloadButton != null){
-            downloadButton.addListener(listener);
-            return true;
-        }
-        return false;
     }
 
     public float getValue(){
@@ -175,18 +142,6 @@ public class RadialProgressBar extends Table{
         if (style.background != null){
             width = Math.max(width, style.background.getMinWidth());
         }
-
-        if (style.up != null){
-            width = Math.max(width, style.up.getMinHeight());
-        }
-
-        if (style.down != null){
-            width = Math.max(width, style.down.getMinHeight());
-        }
-
-        if (style.over != null){
-            width = Math.max(width, style.over.getMinHeight());
-        }
         return width;
     }
 
@@ -197,27 +152,7 @@ public class RadialProgressBar extends Table{
         if (style.background != null){
             height = Math.max(height, style.background.getMinHeight());
         }
-
-        if (style.up != null){
-            height = Math.max(height, style.up.getMinHeight());
-        }
-
-        if (style.down != null){
-            height = Math.max(height, style.down.getMinHeight());
-        }
-
-        if (style.over != null){
-            height = Math.max(height, style.over.getMinHeight());
-        }
         return height;
-    }
-
-    public Button getDownloadButton(){
-        return downloadButton;
-    }
-
-    public void setDownloadButton(Button button){
-        downloadButton = button;
     }
 
     private Drawable cooldownTimer(float remainingPercentage) {
@@ -292,24 +227,13 @@ public class RadialProgressBar extends Table{
         public RadialProgressBarStyle () {
         }
 
-        public RadialProgressBarStyle (Drawable up, Drawable down, Drawable over, Color backgroundColor, Color timerColor) {
-            this.up = up;
-            this.up = down;
-            this.up = over;
+        public RadialProgressBarStyle (Color backgroundColor, Color timerColor) {
             this.backgroundColor = backgroundColor;
             this.timerColor = timerColor;
         }
 
-        public RadialProgressBarStyle (Drawable up, Color backgroundColor, Color timerColor) {
-            this(up, null, null, backgroundColor, timerColor);
-        }
-
-        public RadialProgressBarStyle (Color backgroundColor, Color timerColor) {
-            this(null, backgroundColor, timerColor);
-        }
-
         public RadialProgressBarStyle (RadialProgressBar.RadialProgressBarStyle style) {
-            this(style.up, style.down, style.over, style.backgroundColor, style.timerColor);
+            this(style.backgroundColor, style.timerColor);
         }
     }
 }

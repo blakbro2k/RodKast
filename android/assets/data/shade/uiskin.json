@@ -73,6 +73,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 	sound: { up: sound-off, down: sound-down, checked: sound },
 	toggle: { up: toggle-button-off, down: toggle-button-down, checked: toggle-button },
 	right: { up: right-button, down: right-button-down }
+	download: { up: left-button, down: left-button-down }
 },
 com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
 	default: {
@@ -193,13 +194,6 @@ net.asg.game.ui.RadialProgressBar$RadialProgressBarStyle: {
 	backgroundcolor: {
 		backgroundColor: { a: 1, b: 1, g: 0, r: 0},
 		timerColor: { a: 1, b: 0.5, g: 0.7, r: 0}
-	}
-
-	download: {
-		up: left-button,
-		down: left-button-down,
-		backgroundColor: { a: 1, b: 1, g: 0, r: 0},
-		timerColor: { a: 1, b: 1, g: 0, r: 0}
 	}
 },
 com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {

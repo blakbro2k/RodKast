@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import net.asg.game.RodKastApplication;
 import net.asg.game.screens.RodKastScreenAdapter;
 import net.asg.game.ui.ExitDialog;
+import net.asg.game.ui.RadialProgressBar;
 import net.asg.game.utils.parser.RodkastEpisode;
 
 import java.io.IOException;
@@ -199,6 +200,24 @@ public class Utils {
             }
         } catch (IOException e) {
             throw new GdxRuntimeException(e);
+        }
+    }
+
+     public static class EpisodeEncapsulation {
+        RodkastEpisode episode;
+        RadialProgressBar progressBar;
+
+        public EpisodeEncapsulation(RodkastEpisode episode, RadialProgressBar progressBar){
+            this.episode = episode;
+            this.progressBar = progressBar;
+        }
+
+        public RadialProgressBar getProgressBar() {
+            return progressBar;
+        }
+
+        public RodkastEpisode getEpisode() {
+            return episode;
         }
     }
 }

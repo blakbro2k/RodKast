@@ -8,16 +8,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.asg.game.RodKastApplication;
 import net.asg.game.ui.MusicPlayerWidget;
 import net.asg.game.ui.PlayListWidget;
-import net.asg.game.ui.RadialProgressBar;
+import net.asg.game.ui.RadialDownloadButtonGroup;
 import net.asg.game.utils.AudioUtils;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.MessageCatalog;
+import net.asg.game.utils.Utils;
 import net.asg.game.utils.parser.RodkastEpisode;
 
 import java.util.List;
@@ -95,40 +96,38 @@ public class PlayListStage extends RodkastStageAdapter {
         Table playList = new Table();
         playList.debugAll();
 
-        for(final RodkastEpisode episode : episodes){
-            if(episode != null){
+        for(RodkastEpisode episode : episodes)
+            if (episode != null) {
 
                 PlayListWidget widget = new PlayListWidget(episode, defaultSkin);
                 widget.debugAll();
 
-                widget.addListener(new ClickListener()
-                {
+                final Utils.EpisodeEncapsulation epCap = new Utils.EpisodeEncapsulation(episode, widget.getDownloadProgressBar());
+
+                widget.addListener(new ClickListener() {
                     @Override
-                    public void clicked (InputEvent event, float x, float y) {
-                        _episodePlayer.setEpisode(episode);
+                    public void clicked(InputEvent event, float x, float y) {
+                        _episodePlayer.setEpisode(epCap.getEpisode());
                     }
                 });
 
-                final RadialProgressBar downloadButton = widget.getDownloadButton();
-                //System.out.println("dlButton: " + downloadButton);
+                RadialDownloadButtonGroup progressGroup = widget.getDownloadGroup();
 
-                downloadButton.setValue(AudioUtils.getInstance().getAudioDownloadProgressValue(episode));
-                downloadButton.addListener(new ClickListener()
-                {
+                progressGroup.setValue(AudioUtils.getInstance().getAudioDownloadProgressValue(episode));
+                progressGroup.addListener(new ClickListener() {
                     @Override
-                    public void clicked (InputEvent event, float x, float y) {
-                        _episodePlayer.download(episode, downloadButton);
+                    public void clicked(InputEvent event, float x, float y) {
+                        _episodePlayer.download(epCap);
                     }
                 });
 
                 playList.add(widget.getDateActor()).expand().height(PlayListWidget.DEFAULT_DATE_HEIGHT)
                         .width(PlayListWidget.DEFAULT_DATE_WIDTH);
                 playList.add(widget.getTitleActor()).fill();
-                playList.add(widget.getDownloadButton()).height(PlayListWidget.DEFAULT_DATE_HEIGHT)
+                playList.add(widget.getDownloadGroup()).height(PlayListWidget.DEFAULT_DATE_HEIGHT)
                         .width(PlayListWidget.DEFAULT_DATE_WIDTH).expand().fill();
                 playList.row();
             }
-        }
         return playList;
     }
 }
