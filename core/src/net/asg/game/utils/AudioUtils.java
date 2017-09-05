@@ -74,7 +74,15 @@ public class AudioUtils {
             return false;
         }
 
-        String rodKastEpisode = getFullFilePath(getFileFromURL(episode.getMediaLink()));
+        return isDownloaded(getFileFromURL(episode.getMediaLink()));
+    }
+
+    private boolean isDownloaded(String episodeName) {
+        if(episodeName == null){
+            return false;
+        }
+
+        String rodKastEpisode = getFullFilePath(episodeName);
         return getExternalPref()? Gdx.files.external(rodKastEpisode).exists() : Gdx.files.internal(rodKastEpisode).exists();
     }
 
@@ -163,6 +171,7 @@ public class AudioUtils {
                 addAudio(audioName, episodeAudio);
             }
 
+            //FIXME: episodeAudio might not exist
             if(episodeAudio.isPlaying()){
                 episodeAudio.pause();
             } else {
@@ -206,11 +215,11 @@ public class AudioUtils {
     }
 
 
-    public void dowloadEpisode(Utils.EpisodeEncapsulation encapsulation){
-        if(encapsulation == null){
+    public void dowloadEpisode(RodkastEpisode episode){
+        if(episode == null){
             return;
         }
-            boolean isDownloaded = isDownloaded(encapsulation.getEpisode());
+            boolean isDownloaded = isDownloaded(episode);
         //TODO: Add temp download functionality
         //TODO: it should download as ._temp
         //TODO: count all ._temp if exist restart downloads.
@@ -219,7 +228,7 @@ public class AudioUtils {
         //TODO: error retry if network is unavailibly
 
             if(!isDownloaded){
-                beginDownload(encapsulation);
+                beginDownload(episode);
             }
     }
 
@@ -231,16 +240,9 @@ public class AudioUtils {
         return filePath.substring(filePath.lastIndexOf('/') + 1);
     }
 
-    private void beginDownload(Utils.EpisodeEncapsulation encap){
-        if(encap == null) {
+    private void beginDownload(RodkastEpisode episode){
+        if(episode == null) {
             throw new RuntimeException("Invalid episode");
-        }
-
-        RodkastEpisode episode = encap.getEpisode();
-        RadialProgressBar progressBar = encap.getProgressBar();
-
-        if(episode == null){
-            return;
         }
 
         URL episodeLink = episode.getMediaLink();
@@ -252,21 +254,19 @@ public class AudioUtils {
 
         try {
             // Send the request, listen for the response
-            Gdx.net.sendHttpRequest(request, createNewRodKastListener(getFileFromURL(episodeLink), progressBar));
+            Gdx.net.sendHttpRequest(request, createNewRodKastListener(getFileFromURL(episodeLink)));
         } catch (GdxRuntimeException e){
             throw new GdxRuntimeException(e);
         }
     }
 
     public float getAudioDownloadProgressValue(RodkastEpisode episode){
-        if(episode == null){
-            return 0;
-        }
+        if(episode != null){
+            EpisodeAudio audioFile = getAudioFromIndex(getEpisodeAudioFile(episode));
 
-        EpisodeAudio audioFile = getAudioFromIndex(getEpisodeAudioFile(episode));
-
-        if(audioFile != null){
-            return audioFile.getProgress();
+            if(audioFile != null){
+                return audioFile.getProgress();
+            }
         }
         return 0;
     }
@@ -297,8 +297,8 @@ public class AudioUtils {
     }
 
 
-    private HttpResponseListener createNewRodKastListener(final String fileName, final RadialProgressBar progressBar) throws GdxRuntimeException{
-        if(fileName == null || progressBar == null){
+    private HttpResponseListener createNewRodKastListener(final String fileName) throws GdxRuntimeException{
+        if(fileName == null){
             throw new GdxRuntimeException("Episode not found");
         }
 
@@ -330,9 +330,8 @@ public class AudioUtils {
                         final int progress = ((int) (((double) read / (double) length) * 100));
                         final String progressString = progress == 100 ? "Click to download" : progress + "%";
 
-
                         audioIndexObject.updateProgres(progress);
-                        progressBar.setValue(progress);
+                        //progressBar.setValue(progress);
 
                         // Since we are downloading on a background thread, post a runnable to touch ui
                         Gdx.app.postRunnable(new Runnable() {
@@ -362,6 +361,7 @@ public class AudioUtils {
                 Gdx.app.postRunnable(new Runnable() {
                     @Override
                     public void run () {
+                        ErrorUtils.getInstance().showErrorPopup(t);
                         throw new GdxRuntimeException(t);
                     }
                 });
@@ -383,28 +383,6 @@ public class AudioUtils {
             return Gdx.audio.newMusic(Gdx.files.external(rodKastEpisode));
         } else {
             return Gdx.audio.newMusic(Gdx.files.internal(rodKastEpisode));
-        }
-    }
-
-    private class RodkastEpisodeHttpResponseListener implements HttpResponseListener {
-
-        public RodkastEpisodeHttpResponseListener(){
-
-        }
-
-        @Override
-        public void handleHttpResponse(HttpResponse httpResponse) throws GdxRuntimeException {
-
-        }
-
-        @Override
-        public void failed(Throwable t) {
-
-        }
-
-        @Override
-        public void cancelled() {
-
         }
     }
 
@@ -431,6 +409,9 @@ public class AudioUtils {
         EpisodeAudio(String episodeName){
             System.out.println("added " + episodeName + "to Download index");
 
+            if(isDownloaded(episodeName)){
+                progress = 100;
+            }
             //this.downloadButton = downloadButton;
 
             //this.title = episodeName
@@ -469,7 +450,7 @@ public class AudioUtils {
         }
 
         public float getProgress(){
-            return progress;
+            return progress * .01f;
         }
     }
 }

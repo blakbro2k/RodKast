@@ -106,6 +106,13 @@ public class RodkastStageAdapter extends Stage {
         errorDialog.show(this);
     }
 
+    public void hideErrorMessage(){
+        if(errorDialog != null){
+            errorDialog.hide();
+            errorDialog = null;
+        }
+    }
+
     public void loadXmlData() throws GdxRuntimeException {
         try{
             if(xmlHandler == null){

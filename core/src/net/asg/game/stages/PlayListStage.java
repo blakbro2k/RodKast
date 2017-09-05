@@ -3,22 +3,16 @@ package net.asg.game.stages;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.asg.game.RodKastApplication;
 import net.asg.game.ui.MusicPlayerWidget;
 import net.asg.game.ui.PlayListWidget;
 import net.asg.game.ui.RadialDownloadButtonGroup;
-import net.asg.game.utils.AudioUtils;
 import net.asg.game.utils.GlobalConstants;
-import net.asg.game.utils.MessageCatalog;
-import net.asg.game.utils.Utils;
 import net.asg.game.utils.parser.RodkastEpisode;
 
 import java.util.List;
@@ -54,7 +48,6 @@ public class PlayListStage extends RodkastStageAdapter {
     }
 
     private void setUpPlayListWindow(Table main, List<RodkastEpisode> episodeList) {
-        Label paneLabel = new Label(MessageCatalog.ADMOB_WINDOW_MSG, defaultScreenLabelStyle);
         Actor playList = setUpPlayListActor(episodeList);
 
         ScrollPane pane = new ScrollPane(playList);
@@ -64,9 +57,7 @@ public class PlayListStage extends RodkastStageAdapter {
     }
 
     private void setUpPlayerWindow(Table main, List<RodkastEpisode> episodeList) {
-        Label nameLabel = new Label(MessageCatalog.PLAYER_WINDOW_MSG, defaultScreenLabelStyle);
-
-        RodkastEpisode defaultEpisode = null;
+        RodkastEpisode defaultEpisode = null; //TODO: Add getLastPlayed Preference to AudioUtils
 
         if(episodeList != null) {
             defaultEpisode = episodeList.get(0);
@@ -95,36 +86,32 @@ public class PlayListStage extends RodkastStageAdapter {
     private Actor setUpPlayListActor(List<RodkastEpisode> episodes) {
         Table playList = new Table();
         playList.debugAll();
+        //com.badlogic.gdx.scenes.scene2d.ui.List test = new com.badlogic.gdx.scenes.scene2d.ui.List<>();
 
-        for(RodkastEpisode episode : episodes)
+        for(final RodkastEpisode episode : episodes)
             if (episode != null) {
 
                 PlayListWidget widget = new PlayListWidget(episode, defaultSkin);
                 widget.debugAll();
 
-                final Utils.EpisodeEncapsulation epCap = new Utils.EpisodeEncapsulation(episode, widget.getDownloadProgressBar());
+                //final Utils.EpisodeEncapsulation epCap = new Utils.EpisodeEncapsulation(episode, widget.getDownloadProgressBar());
 
                 widget.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        _episodePlayer.setEpisode(epCap.getEpisode());
+                        _episodePlayer.setEpisode(episode);
                     }
                 });
 
-                RadialDownloadButtonGroup progressGroup = widget.getDownloadGroup();
+                RadialDownloadButtonGroup progressGroup = widget.getDownloadActor();
 
-                progressGroup.setValue(AudioUtils.getInstance().getAudioDownloadProgressValue(episode));
-                progressGroup.addListener(new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        _episodePlayer.download(epCap);
-                    }
-                });
+                //progressGroup.setValue(AudioUtils.getInstance().getAudioDownloadProgressValue(episode));
+                //progressGroup
 
                 playList.add(widget.getDateActor()).expand().height(PlayListWidget.DEFAULT_DATE_HEIGHT)
                         .width(PlayListWidget.DEFAULT_DATE_WIDTH);
                 playList.add(widget.getTitleActor()).fill();
-                playList.add(widget.getDownloadGroup()).height(PlayListWidget.DEFAULT_DATE_HEIGHT)
+                playList.add(widget.getDownloadActor()).height(PlayListWidget.DEFAULT_DATE_HEIGHT)
                         .width(PlayListWidget.DEFAULT_DATE_WIDTH).expand().fill();
                 playList.row();
             }

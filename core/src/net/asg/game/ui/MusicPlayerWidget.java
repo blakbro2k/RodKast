@@ -132,15 +132,6 @@ public class MusicPlayerWidget extends Container {
         setPlayerTitle();
     }
 
-    public void download(Utils.EpisodeEncapsulation episode) throws GdxRuntimeException{
-        if(episode == null){
-            throw new RuntimeException("No episode found");
-        }
-
-        AudioUtils.getInstance().dowloadEpisode(episode);
-        //button.set
-    }
-
     @Override
     public boolean addListener (EventListener listener) {
         boolean success = false;

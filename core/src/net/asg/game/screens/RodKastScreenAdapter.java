@@ -68,7 +68,7 @@ public abstract class RodKastScreenAdapter implements Screen, Disposable{
         }
     }
 
-    public Stage getStage(){
+    public RodkastStageAdapter getStage(){
         return stage;
     }
 

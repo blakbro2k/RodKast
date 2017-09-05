@@ -2,14 +2,17 @@ package net.asg.game.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import net.asg.game.providers.MenuProvider;
+import net.asg.game.utils.AudioUtils;
 import net.asg.game.utils.MessageCatalog;
 import net.asg.game.utils.Utils;
 import net.asg.game.utils.parser.RodkastEpisode;
@@ -24,7 +27,7 @@ public class PlayListWidget extends Table{
     public final static int DEFAULT_DATE_WIDTH = 50;
     public final static int DEFAULT_DATE_HEIGHT = 50;
     public final static int DEFAULT_PADDING = 550;
-    public final static String PROGRESS_ACTOR_NAME = "progress";
+    public final static String PROGRESS_ACTOR_NAME = "radialProgressBar";
     public final static String DOWNLOAD_ACTOR_NAME = "download";
 
     private LabelStyle labelStyle;
@@ -52,8 +55,12 @@ public class PlayListWidget extends Table{
         this.labelStyle = skin.get(labelStyle, LabelStyle.class);
         this.downloadProgressBar =  new RadialProgressBar(0, 1, true, skin);
         downloadProgressBar.setName(PROGRESS_ACTOR_NAME);
-        this.downloadButtons =  new Button(skin, DOWNLOAD_ACTOR_NAME);
+        this.downloadButtons = new Button(skin, DOWNLOAD_ACTOR_NAME);
         downloadButtons.setName(DOWNLOAD_ACTOR_NAME);
+        //TODO: Setup a Runnable if download button is pressed and progress is not 100.  Check if value changed
+        //fire even if so
+        //TODO: capture change even from value change
+
         this.downloadButtonGroup = new RadialDownloadButtonGroup(downloadProgressBar, downloadButtons);
         this.episode = episode;
 
@@ -65,7 +72,16 @@ public class PlayListWidget extends Table{
 
         add(getDateActor()).expand().fill();
         add(getTitleActor()).pad(4,2,2,4);
-        add(getDownloadGroup());
+
+        RadialDownloadButtonGroup downloadButtonActor = getDownloadActor();
+        downloadButtonActor.setValue(.5f);//AudioUtils.getInstance().getAudioDownloadProgressValue(episode));
+        downloadButtonActor.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        download(episode);
+                    }
+                });
+        add(downloadButtonActor).expand();
     }
 
     public PlayListWidget(RodkastEpisode episode, Skin skin){
@@ -86,7 +102,6 @@ public class PlayListWidget extends Table{
             if(titleActor == null){
                 titleActor = new Label(Utils.getTitleFromEpisode(episode), labelStyle);
             }
-
             return titleActor;
         }
         return new Label("Title Not Loaded", labelStyle);
@@ -102,7 +117,7 @@ public class PlayListWidget extends Table{
         return dateActor;
     }
 
-    public RadialDownloadButtonGroup getDownloadGroup(){
+    public RadialDownloadButtonGroup getDownloadActor(){
         return downloadButtonGroup;
     }
 
@@ -124,7 +139,6 @@ public class PlayListWidget extends Table{
 
     private Table createMonthDay(Calendar pubDate) {
         Table mTable = new Table();
-        //mTable.top();
 
         if(pubDate != null){
             Label monthLabel = new Label(Utils.getThreeLetterMonth(pubDate.get(Calendar.MONTH)), labelStyle);
@@ -140,6 +154,14 @@ public class PlayListWidget extends Table{
         }
 
         return mTable;
+    }
+
+    public void download(RodkastEpisode episode) throws GdxRuntimeException {
+        if(episode == null){
+            throw new RuntimeException("No episode found");
+        }
+        System.out.println("progrest: " + AudioUtils.getInstance().getAudioDownloadProgressValue(episode));
+        AudioUtils.getInstance().dowloadEpisode(episode);
     }
 
     @Override

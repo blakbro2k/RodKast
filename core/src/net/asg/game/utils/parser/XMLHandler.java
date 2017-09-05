@@ -2,6 +2,7 @@ package net.asg.game.utils.parser;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 
@@ -10,8 +11,6 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -31,26 +30,26 @@ public class XMLHandler implements Disposable{
         return urlLink.openConnection().getInputStream();
     }
 
-    public void getTotalRssFeed() throws IOException {
-        InputStream inputStream = getXMLstream();
-        if(inputStream != null){
+    public void getTotalRssFeed() throws GdxRuntimeException {
             try {
-                XmlReader reader = new XmlReader();
-                xmlElements = reader.parse(inputStream);
-                isFeedFetched = true;
+                InputStream inputStream = getXMLstream();
+
+                if(inputStream != null) {
+                    XmlReader reader = new XmlReader();
+                    xmlElements = reader.parse(inputStream);
+                    isFeedFetched = true;
+                    inputStream.close();
+                }
             } catch (IOException e) {
-                throw new IOException(e);
-            } finally {
-                inputStream.close();
+                throw new GdxRuntimeException(e);
             }
-        }
     }
 
     public boolean isFetched(){
         return isFeedFetched;
     }
 
-    public RodkastChannel buildChannel() throws IOException, ParseException {
+    public RodkastChannel buildChannel() throws GdxRuntimeException {
             if(!isFeedFetched){
                 getTotalRssFeed();
             }

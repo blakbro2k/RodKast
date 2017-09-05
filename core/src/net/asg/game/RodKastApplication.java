@@ -12,6 +12,7 @@ import net.asg.game.screens.PodPlayerScreen;
 import net.asg.game.screens.LoadingScreen;
 import net.asg.game.screens.RodKastScreenAdapter;
 import net.asg.game.utils.AudioUtils;
+import net.asg.game.utils.ErrorUtils;
 import net.asg.game.utils.GameEventListener;
 import net.asg.game.utils.MessageCatalog;
 import net.asg.game.utils.Utils;
@@ -107,6 +108,7 @@ public class RodKastApplication extends Game {
 	}
 
 	public void gotoLoadingScreen() {
+		ErrorUtils.getInstance().setApplication(this);
 		if(loadingScreen == null){
 			loadingScreen = new LoadingScreen(this);
 		}

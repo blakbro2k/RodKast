@@ -15,7 +15,6 @@ import net.asg.game.utils.MessageCatalog;
 
 public class LoadingStage extends RodkastStageAdapter{
     private ProgressBar loadingBar;
-    public RadialProgressBar cooldownTimerBlue = new RadialProgressBar(0,1,true,defaultSkin);
 
     public LoadingStage(RodKastApplication app) {
         super(app);
@@ -38,17 +37,11 @@ public class LoadingStage extends RodkastStageAdapter{
 
         main.add(loadingLabel);
         main.add(loadingBar);
-        main.row();
-        main.add(cooldownTimerBlue);
     }
 
     public void update(float value){
         if(loadingBar != null){
             loadingBar.setValue(value);
-        }
-
-        if(cooldownTimerBlue != null){
-            cooldownTimerBlue.setValue(value);
         }
     }
 }

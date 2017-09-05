@@ -138,7 +138,7 @@ public class RadialProgressBar extends Table{
     @Override
     public float getPrefWidth(){
         float width = super.getWidth();
-        width = width < 1 ? PREFERRED_RADIUS : width;
+        width = width < PREFERRED_RADIUS ? PREFERRED_RADIUS : width;
         if (style.background != null){
             width = Math.max(width, style.background.getMinWidth());
         }
@@ -148,7 +148,7 @@ public class RadialProgressBar extends Table{
     @Override
     public float getPrefHeight(){
         float height = super.getHeight();
-        height = height < 1 ? PREFERRED_RADIUS : height;
+        height = height < PREFERRED_RADIUS ? PREFERRED_RADIUS : height;
         if (style.background != null){
             height = Math.max(height, style.background.getMinHeight());
         }
@@ -185,7 +185,9 @@ public class RadialProgressBar extends Table{
                 float temp = cx;
                 cx = cos * cx - sin * cy;
                 cy = sin * temp + cos * cy;
-                display.fillTriangle((int) getWidth()/2, (int) getHeight()/2, (int) (getWidth()/2 + pcx), (int) (getHeight()/2 + pcy), (int) (getWidth()/2 + cx), (int) (getHeight()/2 + cy));
+                display.fillTriangle((int) getWidth()/2, (int) getHeight()/2,
+                        (int) (getWidth()/2 + pcx), (int) (getHeight()/2 + pcy),
+                        (int) (getWidth()/2 + cx), (int) (getHeight()/2 + cy));
             }
 
             display.setBlending(Blending.None);
@@ -217,7 +219,6 @@ public class RadialProgressBar extends Table{
     }
 
     static public class RadialProgressBarStyle {
-        public Drawable up, down, over;
         /** The progress bar download Button Optional. */
         public Drawable background;
         /** The progress bar background Optional. */

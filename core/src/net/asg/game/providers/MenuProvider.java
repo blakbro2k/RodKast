@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Disposable;
-import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
 
 import net.asg.game.utils.MessageCatalog;
 import net.asg.game.utils.Utils;

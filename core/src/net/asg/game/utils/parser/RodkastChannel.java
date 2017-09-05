@@ -1,6 +1,7 @@
 package net.asg.game.utils.parser;
 
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.XmlReader;
 
 import java.net.MalformedURLException;
@@ -23,15 +24,19 @@ public class RodkastChannel implements Disposable{
     private List<RodkastEpisode> episodes;
     private Map<String,XMLImage> images;
 
-    public RodkastChannel(XmlReader.Element elem) throws MalformedURLException, ParseException {
-        if (elem != null) {
-            this.title = RodkastItemModel.getRssTitle(elem);
-            this.link = RodkastItemModel.getRssUrl(elem);
-            this.lastBuildDate = RodkastItemModel.getLastBuildDate(elem);
-            this.language = RodkastItemModel.getRssLanguage(elem);
-            this.description = RodkastItemModel.getRssDescription(elem);
-            //this.images = RodkastItemModel.getRssImages(elem);
-            this.episodes = RodkastItemModel.getCompleteEpisodesList(elem);
+    public RodkastChannel(XmlReader.Element elem) throws GdxRuntimeException{
+        try{
+            if (elem != null) {
+                this.title = RodkastItemModel.getRssTitle(elem);
+                this.link = RodkastItemModel.getRssUrl(elem);
+                this.lastBuildDate = RodkastItemModel.getLastBuildDate(elem);
+                this.language = RodkastItemModel.getRssLanguage(elem);
+                this.description = RodkastItemModel.getRssDescription(elem);
+                //this.images = RodkastItemModel.getRssImages(elem);
+                this.episodes = RodkastItemModel.getCompleteEpisodesList(elem);
+            }
+        } catch (MalformedURLException | ParseException e){
+            throw new GdxRuntimeException(e);
         }
     }
 
