@@ -1,5 +1,6 @@
 package net.asg.game.utils.parser;
 
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.XmlReader;
@@ -8,7 +9,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,7 +21,7 @@ public class RodkastChannel implements Disposable{
     private String description;
     private Calendar lastBuildDate;
     private String language;
-    private List<RodkastEpisode> episodes;
+    private Array<RodkastEpisode> episodes;
     private Map<String,XMLImage> images;
 
     public RodkastChannel(XmlReader.Element elem) throws GdxRuntimeException{
@@ -55,7 +55,7 @@ public class RodkastChannel implements Disposable{
     public String getDescription(){
         return description;
     }
-    public List<RodkastEpisode> getEpisodes() {
+    public Array<RodkastEpisode> getEpisodes() {
         return episodes;
     }
     /*public String getTitle(){

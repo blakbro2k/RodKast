@@ -1,7 +1,6 @@
 package net.asg.game.utils;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Net;
 import com.badlogic.gdx.Net.HttpMethods;
 import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.Net.HttpResponse;
@@ -19,9 +18,6 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.util.Hashtable;
 import java.util.Map;
-
-//import org.tritonus.share.sampled.TAudioFormat;
-//import org.tritonus.share.sampled.file.TAudioFileFormat;
 
 public class AudioUtils {
     private static final String CONTENT_LENGTH = "Content-Length";
@@ -141,7 +137,7 @@ public class AudioUtils {
 
     public void playEpisode(RodkastEpisode episode) {
         if(isDownloaded(episode)){
-            String currentEpisodeName = getEpisodeAudioFile(episode);
+            String currentEpisodeName = getEpisodeAudioFileName(episode);
 
             if(!isCurrentlyPlaying(currentEpisodeName)){
                 pauseCurrentEpisode();
@@ -154,11 +150,10 @@ public class AudioUtils {
 
 
     public void setEpisodePosition(RodkastEpisode episode) {
-        String currentEpisodeName = getEpisodeAudioFile(episode);
+        String currentEpisodeName = getEpisodeAudioFileName(episode);
 
         if(isCurrentlyPlaying(currentEpisodeName)){
             System.out.println("TODO: Changing Position");
-
         }
     }
 
@@ -207,7 +202,7 @@ public class AudioUtils {
         }
     }
 
-    private String getEpisodeAudioFile(RodkastEpisode episode){
+    private String getEpisodeAudioFileName(RodkastEpisode episode){
         if(episode == null){
             return null;
         }
@@ -252,6 +247,8 @@ public class AudioUtils {
         request.setTimeOut(GlobalConstants.HTTP_REQUEST_TIMEOUT);
         request.setUrl(episodeLink.toString());
 
+        AudioUtils.getInstance().addAudioToIndex(episode);
+
         try {
             // Send the request, listen for the response
             Gdx.net.sendHttpRequest(request, createNewRodKastListener(getFileFromURL(episodeLink)));
@@ -262,7 +259,7 @@ public class AudioUtils {
 
     public float getAudioDownloadProgressValue(RodkastEpisode episode){
         if(episode != null){
-            EpisodeAudio audioFile = getAudioFromIndex(getEpisodeAudioFile(episode));
+            EpisodeAudio audioFile = getAudioFromIndex(getEpisodeAudioFileName(episode));
 
             if(audioFile != null){
                 return audioFile.getProgress();
@@ -271,12 +268,24 @@ public class AudioUtils {
         return 0;
     }
 
-    public void addAudioToIndex(String fileName){
+    /*public void addAudioToIndex(String fileName){
         if(fileName != null){
             EpisodeAudio audio = _audioIndex.get(fileName);
 
             if(audio == null){
                 _audioIndex.put(fileName, new EpisodeAudio(fileName));
+            }
+        }
+    }*/
+
+    public void addAudioToIndex(RodkastEpisode episode){
+        if(episode != null){
+            String episodeName = getEpisodeAudioFileName(episode);
+
+            EpisodeAudio audio = _audioIndex.get(episodeName);
+
+            if(audio == null){
+                _audioIndex.put(episodeName, new EpisodeAudio(episode));
             }
         }
     }
@@ -288,7 +297,6 @@ public class AudioUtils {
         return null;
     }
 
-
     public String getFullFilePath(String fileName){
         if(fileName == null){
             fileName = "";
@@ -296,13 +304,12 @@ public class AudioUtils {
         return getStorageFolderPref() + "\\" + fileName;
     }
 
-
     private HttpResponseListener createNewRodKastListener(final String fileName) throws GdxRuntimeException{
         if(fileName == null){
             throw new GdxRuntimeException("Episode not found");
         }
 
-        AudioUtils.getInstance().addAudioToIndex(fileName);
+        //AudioUtils.getInstance().addAudioToIndex(fileName);
 
         return new HttpResponseListener() {
             @Override
@@ -311,10 +318,11 @@ public class AudioUtils {
                 long length = Long.parseLong(httpResponse.getHeader(CONTENT_LENGTH));
                 EpisodeAudio audioIndexObject = AudioUtils.getInstance().getAudioFromIndex(fileName);
                 audioIndexObject.updateAudioLength(length);
+                audioIndexObject.setFilePath(getFullFilePath(fileName));
 
                 // We're going to download the file to external storage, create the streams
                 InputStream is = httpResponse.getResultAsStream();
-                OutputStream os = Gdx.files.external(getFullFilePath(fileName)).write(false);
+                OutputStream os = Gdx.files.external(audioIndexObject.getFilePath()).write(false);
 
                 byte[] bytes = new byte[1024];
                 int count;
@@ -326,15 +334,19 @@ public class AudioUtils {
                         read += count;
 
                         // Update the UI with the download progress
-                        //System.out.println("float: " + ((double) read / (double) length));
+                        // System.out.println("float: " + ((double) read / (double) length));
                         final int progress = ((int) (((double) read / (double) length) * 100));
                         final String progressString = progress == 100 ? "Click to download" : progress + "%";
 
                         audioIndexObject.updateProgres(progress);
+
+                        if(progress == 100){
+                            audioIndexObject.setTotalFileLength(length);
+                        }
                         //progressBar.setValue(progress);
 
                         // Since we are downloading on a background thread, post a runnable to touch ui
-                        Gdx.app.postRunnable(new Runnable() {
+                        /*Gdx.app.postRunnable(new Runnable() {
                             @Override
                             public void run () {
                                 if (progress == 100) {
@@ -347,7 +359,7 @@ public class AudioUtils {
                                 //ystem.out.println(progressString);
                                 //button.setText(progressString);
                             }
-                        });
+                        });*/
                     }
                 } catch (IOException e) {
                     throw new GdxRuntimeException(e);
@@ -361,8 +373,9 @@ public class AudioUtils {
                 Gdx.app.postRunnable(new Runnable() {
                     @Override
                     public void run () {
-                        ErrorUtils.getInstance().showErrorPopup(t);
-                        throw new GdxRuntimeException(t);
+                        //ErrorUtils.getInstance().showErrorPopup(t);
+                        //throw new GdxRuntimeException(t);
+                        Gdx.app.log("Error",t.getMessage());
                     }
                 });
             }
@@ -388,12 +401,13 @@ public class AudioUtils {
 
     private class EpisodeAudio{
         private float position;
-        private String filePath;
-        private boolean isPlaying;
         private float totalFileLength;
+        private float progress;
+        private String filePath;
         private String type;
+        private String episodeName;
+        private boolean isPlaying;
         private boolean isDownloadComplete;
-        public float progress;
         private byte[] fileBytesBuffer;
         private RadialProgressBar downloadButton;
 
@@ -406,12 +420,17 @@ public class AudioUtils {
         private String comment;
         //private Mpg123Decoder decoder;
 
-        EpisodeAudio(String episodeName){
-            System.out.println("added " + episodeName + "to Download index");
+        EpisodeAudio(RodkastEpisode episode){
+            System.out.println("added " + episode + "to Download index");
+
+            this.episodeName = getEpisodeAudioFileName(episode);
 
             if(isDownloaded(episodeName)){
                 progress = 100;
             }
+
+            position = 0;
+            isPlaying = false;
             //this.downloadButton = downloadButton;
 
             //this.title = episodeName
@@ -451,6 +470,26 @@ public class AudioUtils {
 
         public float getProgress(){
             return progress * .01f;
+        }
+
+        public float getPosition(){
+            return position;
+        }
+
+        public boolean isPlaying(){
+            return isPlaying;
+        }
+
+        public void setTotalFileLength(float length){
+            this.totalFileLength = length;
+        }
+
+        public void setFilePath(String fullFilePath) {
+            this.filePath = fullFilePath;
+        }
+
+        public String getFilePath() {
+            return filePath;
         }
     }
 }

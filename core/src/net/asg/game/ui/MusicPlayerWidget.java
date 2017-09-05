@@ -97,7 +97,6 @@ public class MusicPlayerWidget extends Container {
             main = new Table();
         }
 
-
         main.reset();
         main.add(image).left().fill().width(70);
         main.add(getTitleActor()).fill().expand();

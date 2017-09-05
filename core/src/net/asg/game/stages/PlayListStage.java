@@ -4,9 +4,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 
 import net.asg.game.RodKastApplication;
 import net.asg.game.ui.MusicPlayerWidget;
@@ -14,8 +16,6 @@ import net.asg.game.ui.PlayListWidget;
 import net.asg.game.ui.RadialDownloadButtonGroup;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.parser.RodkastEpisode;
-
-import java.util.List;
 
 /**
  * Created by Blakbro2k on 7/23/2017.
@@ -36,7 +36,7 @@ public class PlayListStage extends RodkastStageAdapter {
         main.top();
         main.debugAll();
 
-        List<RodkastEpisode> episodeList = getEpisodelist();
+        Array<RodkastEpisode> episodeList = getEpisodelist();
 
         setUpStageTitleWindow(main, true);
         setUpPlayerWindow(main, episodeList);
@@ -47,7 +47,7 @@ public class PlayListStage extends RodkastStageAdapter {
         setInputProcessor();
     }
 
-    private void setUpPlayListWindow(Table main, List<RodkastEpisode> episodeList) {
+    private void setUpPlayListWindow(Table main, Array<RodkastEpisode> episodeList) {
         Actor playList = setUpPlayListActor(episodeList);
 
         ScrollPane pane = new ScrollPane(playList);
@@ -56,7 +56,7 @@ public class PlayListStage extends RodkastStageAdapter {
         main.add(pane).height(getBannerOffSet() * PLAYLIST_WINDOW_SIZE).colspan(COLSPAN);
     }
 
-    private void setUpPlayerWindow(Table main, List<RodkastEpisode> episodeList) {
+    private void setUpPlayerWindow(Table main, Array<RodkastEpisode> episodeList) {
         RodkastEpisode defaultEpisode = null; //TODO: Add getLastPlayed Preference to AudioUtils
 
         if(episodeList != null) {
@@ -83,10 +83,11 @@ public class PlayListStage extends RodkastStageAdapter {
         main.add(_episodePlayer).height(getBannerOffSet() * PLAYER_WINDOW_SIZE).fillX().expandX().colspan(COLSPAN);
     }
 
-    private Actor setUpPlayListActor(List<RodkastEpisode> episodes) {
+    private Actor setUpPlayListActor(Array<RodkastEpisode> episodes) {
         Table playList = new Table();
         playList.debugAll();
-        //com.badlogic.gdx.scenes.scene2d.ui.List test = new com.badlogic.gdx.scenes.scene2d.ui.List<>();
+
+        //Array<PlayListWidget> pList = new Array<>();
 
         for(final RodkastEpisode episode : episodes)
             if (episode != null) {
@@ -108,13 +109,15 @@ public class PlayListStage extends RodkastStageAdapter {
                 //progressGroup.setValue(AudioUtils.getInstance().getAudioDownloadProgressValue(episode));
                 //progressGroup
 
-                playList.add(widget.getDateActor()).expand().height(PlayListWidget.DEFAULT_DATE_HEIGHT)
-                        .width(PlayListWidget.DEFAULT_DATE_WIDTH);
+                //pList.add(widget);
+
+                playList.add(widget.getDateActor()).expand().height(PlayListWidget.DEFAULT_DATE_HEIGHT).width(PlayListWidget.DEFAULT_DATE_WIDTH);
                 playList.add(widget.getTitleActor()).fill();
-                playList.add(widget.getDownloadActor()).height(PlayListWidget.DEFAULT_DATE_HEIGHT)
-                        .width(PlayListWidget.DEFAULT_DATE_WIDTH).expand().fill();
+                playList.add(widget.getDownloadActor()).height(PlayListWidget.DEFAULT_DATE_HEIGHT).width(PlayListWidget.DEFAULT_DATE_WIDTH).expand().fill();
                 playList.row();
             }
+        //List<Table> uiList = new List<Table>(defaultSkin);
+        //uiList.setItems(pList);
         return playList;
     }
 }

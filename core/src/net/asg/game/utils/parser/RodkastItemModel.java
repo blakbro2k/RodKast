@@ -10,11 +10,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -84,7 +82,7 @@ class RodkastItemModel{
                 elem.getAttribute(XMLEnclosure.URL_ATTRIBUTE));
     }
 
-    public static List<RodkastEpisode> getCompleteEpisodesList(Element element) throws MalformedURLException, ParseException {
+    public static Array<RodkastEpisode> getCompleteEpisodesList(Element element) throws MalformedURLException, ParseException {
         if(element != null){
             Array<Element> items = element.getChildrenByName(RodkastItemModel.RSS_ITEM);
 
@@ -93,11 +91,11 @@ class RodkastItemModel{
         return null;
     }
 
-    private static List<RodkastEpisode> buildRodkestEpisodes(Array<Element> items) throws MalformedURLException, ParseException {
-        List<RodkastEpisode> episodes = null;
+    private static Array<RodkastEpisode> buildRodkestEpisodes(Array<Element> items) throws MalformedURLException, ParseException {
+        Array<RodkastEpisode> episodes = null;
 
         if(items != null){
-            episodes = new ArrayList<>();
+            episodes = new Array<>();
             for(Element item : items){
                 if(item != null){
                     episodes.add(new RodkastEpisode(item));

@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
@@ -30,8 +31,6 @@ import net.asg.game.utils.parser.RodkastEpisode;
 import net.asg.game.utils.parser.XMLHandler;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.List;
 
 /**
  * Created by Blakbro2k on 7/26/2017.
@@ -119,7 +118,7 @@ public class RodkastStageAdapter extends Stage {
                 xmlHandler = new XMLHandler();
             }
             rssChannel = xmlHandler.buildChannel();
-        } catch (IOException | ParseException e) {
+        } catch (IOException e) {
             throw new GdxRuntimeException(e);
         }
     }
@@ -151,7 +150,7 @@ public class RodkastStageAdapter extends Stage {
         return true;
     }
 
-    List<RodkastEpisode> getEpisodelist(){
+    Array<RodkastEpisode> getEpisodelist(){
         if(rssChannel == null){
             loadAssets();
         }
