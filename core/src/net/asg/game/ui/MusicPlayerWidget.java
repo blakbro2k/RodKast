@@ -134,12 +134,10 @@ public class MusicPlayerWidget extends Container {
 
     @Override
     public boolean addListener (EventListener listener) {
-        boolean success = false;
-        this.listener = listener;
-
         if(listener != null && titleActor != null){
-            success = titleActor.addListener(this.listener);
+            this.listener = listener;
+            return titleActor.addListener(this.listener);
         }
-        return success;
+        return false;
     }
 }
