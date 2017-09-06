@@ -1,6 +1,5 @@
 package net.asg.game.utils.parser;
 
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.XmlReader;
@@ -10,8 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.ParseException;
-
 
 /**
  * Created by eboateng on 7/19/2017.
