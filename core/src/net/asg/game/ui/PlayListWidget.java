@@ -74,14 +74,20 @@ public class PlayListWidget extends Table{
         add(getTitleActor()).pad(4,2,2,4);
 
         RadialDownloadButtonGroup downloadButtonActor = getDownloadActor();
-        downloadButtonActor.setValue(.5f);//AudioUtils.getInstance().getAudioDownloadProgressValue(episode));
+        //downloadButtonActor.setValue(AudioUtils.getInstance().getAudioDownloadProgressValue(episode));
+
+        float value = (float) (Math.random() * 1);
+        System.out.println("value: " + value);
+        downloadButtonActor.setValue(value);
+
+
         downloadButtonActor.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         download(episode);
                     }
                 });
-        add(downloadButtonActor).expand();
+        add(downloadButtonActor);
     }
 
     public PlayListWidget(RodkastEpisode episode, Skin skin){

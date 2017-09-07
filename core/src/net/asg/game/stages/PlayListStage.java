@@ -27,6 +27,7 @@ public class PlayListStage extends RodkastStageAdapter {
     private static final float PLAYLIST_PADDING = 4f;
     private static final String MUSICPLAYER_NAME = "musicplayer";
     private MusicPlayerWidget _episodePlayer;
+    private Array<RodkastEpisode> episodeList;
 
     public PlayListStage(RodKastApplication app){
         super(app);
@@ -36,10 +37,12 @@ public class PlayListStage extends RodkastStageAdapter {
         main.top();
         main.debugAll();
 
-        Array<RodkastEpisode> episodeList = getEpisodelist();
+        if(episodeList == null){
+            episodeList = getEpisodelist();
+        }
 
         setUpStageTitleWindow(main, true);
-        setUpPlayerWindow(main, episodeList);
+        setUpPlayerWindow(main);
         setUpPlayListWindow(main, episodeList);
         setUpAdMobWindow(main);
 
@@ -56,7 +59,7 @@ public class PlayListStage extends RodkastStageAdapter {
         main.add(pane).height(getBannerOffSet() * PLAYLIST_WINDOW_SIZE).colspan(COLSPAN);
     }
 
-    private void setUpPlayerWindow(Table main, Array<RodkastEpisode> episodeList) {
+    private void setUpPlayerWindow(Table main) {
         RodkastEpisode defaultEpisode = null; //TODO: Add getLastPlayed Preference to AudioUtils
 
         if(episodeList != null) {
@@ -79,8 +82,10 @@ public class PlayListStage extends RodkastStageAdapter {
             }
         });
 
+        _episodePlayer.setHeight(getBannerOffSet() * PLAYER_WINDOW_SIZE);
+
         main.row();
-        main.add(_episodePlayer).height(getBannerOffSet() * PLAYER_WINDOW_SIZE).fillX().expandX().colspan(COLSPAN);
+        main.add(_episodePlayer).colspan(COLSPAN).setActorHeight(getBannerOffSet() * PLAYER_WINDOW_SIZE);//.height(getBannerOffSet() * PLAYER_WINDOW_SIZE).fillX().expandX().colspan(COLSPAN);
     }
 
     private Actor setUpPlayListActor(Array<RodkastEpisode> episodes) {

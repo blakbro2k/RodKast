@@ -98,9 +98,11 @@ public class MusicPlayerWidget extends Container {
         }
 
         main.reset();
-        main.add(image).left().fill().width(70);
-        main.add(getTitleActor()).fill().expand();
-        main.add(playButton).right().fill().width(70);
+        System.out.println("image: " + image.getWidth());
+        main.add(image).left().fill().width(image.getWidth());
+        main.add(getTitleActor()).fill();
+        System.out.println("playButton: " + playButton.getWidth());
+        main.add(playButton).right().fill().width(140);
 
         addListener(listener);
 
@@ -116,7 +118,6 @@ public class MusicPlayerWidget extends Container {
             titleActor.row();
             titleActor.add(seekerBar).expandX().fill();
         }
-
         return titleActor;
     }
 
@@ -126,7 +127,7 @@ public class MusicPlayerWidget extends Container {
 
     public void setEpisode(RodkastEpisode episode){
         this.episode = episode;
-        titleActor.clear();
+        //titleActor.clear();
         this.titleActor = null;
         setPlayerTitle();
     }

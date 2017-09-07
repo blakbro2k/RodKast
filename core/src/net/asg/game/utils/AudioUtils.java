@@ -426,7 +426,10 @@ public class AudioUtils {
             this.episodeName = getEpisodeAudioFileName(episode);
 
             if(isDownloaded(episodeName)){
-                progress = 100;
+                progress = 1;
+            } else {
+                progress = (float) Math.round(Math.random() * 1);
+                System.out.println("round: " + progress);
             }
 
             position = 0;
@@ -459,7 +462,7 @@ public class AudioUtils {
         }
 
         public void updateProgres(float value) {
-            isDownloadComplete = value > 100;
+            isDownloadComplete = value >= 1;
             progress = value;
             //downloadButton.setValue(value);
         }
@@ -469,7 +472,7 @@ public class AudioUtils {
         }
 
         public float getProgress(){
-            return progress * .01f;
+            return progress;
         }
 
         public float getPosition(){
@@ -482,6 +485,10 @@ public class AudioUtils {
 
         public void setTotalFileLength(float length){
             this.totalFileLength = length;
+        }
+
+        public float getTotalFileLength(){
+            return totalFileLength;
         }
 
         public void setFilePath(String fullFilePath) {
