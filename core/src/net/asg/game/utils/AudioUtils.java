@@ -410,7 +410,9 @@ public class AudioUtils {
         private boolean isDownloadComplete;
         private byte[] fileBytesBuffer;
         private RadialProgressBar downloadButton;
+        RodkastEpisode episode;
 
+        //MP3 attributes
         public long duration;
         private String title;
         private String author;
@@ -434,6 +436,7 @@ public class AudioUtils {
 
             position = 0;
             isPlaying = false;
+            this.episode = episode;
             //this.downloadButton = downloadButton;
 
             //this.title = episodeName
