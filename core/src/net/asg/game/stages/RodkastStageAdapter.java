@@ -173,6 +173,8 @@ public class RodkastStageAdapter extends Stage {
         Label backButtonSpacer = new Label("", defaultScreenLabelStyle);
         backButtonSpacer.setWidth(BANNER_SIZE);
 
+        main.setSize(GlobalConstants.APP_WIDTH, GlobalConstants.APP_HEIGHT);
+
         Label nameLabel = new Label(GlobalConstants.GAME_TITLE, titleScreenLabelStyle);
 
         Button backButton = menuProvider.getBackButton();

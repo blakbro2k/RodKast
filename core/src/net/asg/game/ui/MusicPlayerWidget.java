@@ -11,13 +11,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.Widget;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import net.asg.game.providers.MenuProvider;
 import net.asg.game.utils.AudioUtils;
+import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.MessageCatalog;
 import net.asg.game.utils.Utils;
 import net.asg.game.utils.parser.RodkastEpisode;
@@ -26,7 +26,7 @@ import net.asg.game.utils.parser.RodkastEpisode;
  * Created by Blakbro2k on 8/7/2017.
  */
 
-public class MusicPlayerWidget extends Container {
+public class MusicPlayerWidget extends Table {
     private LabelStyle labelStyle;
     private Button playButton;
     private RodkastEpisode episode;
@@ -39,6 +39,7 @@ public class MusicPlayerWidget extends Container {
     private EventListener listener;
 
     public MusicPlayerWidget(RodkastEpisode episode, Skin skin, Image image){
+        //ChangeListener
         if(episode == null) {
             throw new IllegalArgumentException(MessageCatalog.NULL_RODKAST_EPISODE_MSG);
         }
@@ -52,10 +53,10 @@ public class MusicPlayerWidget extends Container {
         }
 
         this.episode = episode;
-        this.playButton = new Button(skin, MenuProvider.RIGHT_BUTTON);
         this.labelStyle = skin.get(MenuProvider.LABEL_STYLE_DEFAULT, Label.LabelStyle.class);
         this.image = image;
         this.seekerBar = new ProgressBar(0, 1, 0.1f, false, skin);
+        this.playButton = new Button(skin, MenuProvider.PLAY_BUTTON);
 
         playButton.addListener(new ClickListener()
         {
@@ -93,20 +94,15 @@ public class MusicPlayerWidget extends Container {
     }
 
     private void setPlayerTitle() {
-        if(main == null){
-            main = new Table();
-        }
-
-        main.reset();
-        System.out.println("image: " + image.getWidth());
-        main.add(image).left().fill().width(image.getWidth());
-        main.add(getTitleActor()).fill();
-        System.out.println("playButton: " + playButton.getWidth());
-        main.add(playButton).right().fill().width(140);
+        //reset();
+        clear();
+        System.out.println("title: " + getHeight());
+        add(image).left().width(140).height(getHeight());
+        add(getTitleActor()).fill().expand();
+        add(playButton).right().width(140).height(getHeight());
 
         addListener(listener);
-
-        setActor(main);
+        //setActor(main);
     }
 
     private Actor getTitleActor() {
@@ -114,7 +110,9 @@ public class MusicPlayerWidget extends Container {
             titleActor = new Table();
             titleActor.add(new Label("RodKast", labelStyle)).expand().fill();
             titleActor.row();
-            titleActor.add(new Label(Utils.getTitleFromEpisode(episode), labelStyle)).expand().fill();
+            Label desc = new Label(Utils.getTitleFromEpisode(episode), labelStyle);
+            //desc.setWrap(true);
+            titleActor.add(desc).expand().fill();
             titleActor.row();
             titleActor.add(seekerBar).expandX().fill();
         }
@@ -127,7 +125,6 @@ public class MusicPlayerWidget extends Container {
 
     public void setEpisode(RodkastEpisode episode){
         this.episode = episode;
-        //titleActor.clear();
         this.titleActor = null;
         setPlayerTitle();
     }

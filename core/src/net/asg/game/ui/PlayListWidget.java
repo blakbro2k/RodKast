@@ -71,7 +71,7 @@ public class PlayListWidget extends Table{
         reset();
 
         add(getDateActor()).expand().fill();
-        add(getTitleActor()).pad(4,2,2,4);
+        add(getTitleActor());//.pad(4,2,2,4);
 
         RadialDownloadButtonGroup downloadButtonActor = getDownloadActor();
         //downloadButtonActor.setValue(AudioUtils.getInstance().getAudioDownloadProgressValue(episode));

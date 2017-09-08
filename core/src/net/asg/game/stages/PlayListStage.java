@@ -3,6 +3,7 @@ package net.asg.game.stages;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
@@ -43,14 +44,14 @@ public class PlayListStage extends RodkastStageAdapter {
 
         setUpStageTitleWindow(main, true);
         setUpPlayerWindow(main);
-        setUpPlayListWindow(main, episodeList);
+        setUpPlayListWindow(main);
         setUpAdMobWindow(main);
 
         addActor(main);
         setInputProcessor();
     }
 
-    private void setUpPlayListWindow(Table main, Array<RodkastEpisode> episodeList) {
+    private void setUpPlayListWindow(Table main) {
         Actor playList = setUpPlayListActor(episodeList);
 
         ScrollPane pane = new ScrollPane(playList);
@@ -72,7 +73,7 @@ public class PlayListStage extends RodkastStageAdapter {
         _episodePlayer = new MusicPlayerWidget(defaultEpisode, defaultSkin, rodKastImage);
         _episodePlayer.setName(MUSICPLAYER_NAME);
         _episodePlayer.debugAll();
-        _episodePlayer.size(GlobalConstants.APP_WIDTH, getBannerOffSet() * PLAYER_WINDOW_SIZE);
+        _episodePlayer.setSize(GlobalConstants.APP_WIDTH, getBannerOffSet() * PLAYER_WINDOW_SIZE);
         _episodePlayer.addListener(new ClickListener()
         {
             @Override
@@ -82,17 +83,17 @@ public class PlayListStage extends RodkastStageAdapter {
             }
         });
 
-        _episodePlayer.setHeight(getBannerOffSet() * PLAYER_WINDOW_SIZE);
+        Container<MusicPlayerWidget> player = new Container<>();
+        player.debugAll();
+        player.setActor(_episodePlayer);
 
         main.row();
-        main.add(_episodePlayer).colspan(COLSPAN).setActorHeight(getBannerOffSet() * PLAYER_WINDOW_SIZE);//.height(getBannerOffSet() * PLAYER_WINDOW_SIZE).fillX().expandX().colspan(COLSPAN);
+        main.add(player).height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(COLSPAN);
     }
 
     private Actor setUpPlayListActor(Array<RodkastEpisode> episodes) {
         Table playList = new Table();
         playList.debugAll();
-
-        //Array<PlayListWidget> pList = new Array<>();
 
         for(final RodkastEpisode episode : episodes)
             if (episode != null) {
@@ -121,8 +122,6 @@ public class PlayListStage extends RodkastStageAdapter {
                 playList.add(widget.getDownloadActor()).height(PlayListWidget.DEFAULT_DATE_HEIGHT).width(PlayListWidget.DEFAULT_DATE_WIDTH).expand().fill();
                 playList.row();
             }
-        //List<Table> uiList = new List<Table>(defaultSkin);
-        //uiList.setItems(pList);
         return playList;
     }
 }

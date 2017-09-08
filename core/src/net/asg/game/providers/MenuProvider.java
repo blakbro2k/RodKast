@@ -14,7 +14,7 @@ import net.asg.game.utils.Utils;
  */
 
 public class MenuProvider implements Disposable {
-    public static final String RIGHT_BUTTON = "right";
+    public static final String PLAY_BUTTON = "right";
     public static final String LEFT_BUTTON = "left";
     public static final String FONT_TITLE = "font-title";
     public static final String LABEL_STYLE_DEFAULT = "default";
@@ -38,7 +38,7 @@ public class MenuProvider implements Disposable {
 
     //Buttons
     public Button getRightButton(){
-        return new Button(skin, RIGHT_BUTTON);
+        return new Button(skin, PLAY_BUTTON);
     }
 
     public Button getBackButton(){

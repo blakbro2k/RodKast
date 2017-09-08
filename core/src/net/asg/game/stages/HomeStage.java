@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.asg.game.RodKastApplication;
 import net.asg.game.ui.RadialProgressBar;
+import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.MessageCatalog;
 
 /**
@@ -25,7 +26,8 @@ public class HomeStage extends RodkastStageAdapter {
         Table main = new Table();
         main.setFillParent(true);
         main.top();
-        main.debug();
+        main.debugAll();
+        main.setSize(GlobalConstants.APP_WIDTH, GlobalConstants.APP_HEIGHT);
 
         addActor(main);
         setInputProcessor();
