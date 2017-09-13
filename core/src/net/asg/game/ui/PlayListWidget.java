@@ -54,15 +54,16 @@ public class PlayListWidget extends Table{
 
         this.labelStyle = skin.get(labelStyle, LabelStyle.class);
         this.downloadProgressBar =  new RadialProgressBar(0, 1, true, skin);
-        downloadProgressBar.setName(PROGRESS_ACTOR_NAME);
         this.downloadButtons = new Button(skin, DOWNLOAD_ACTOR_NAME);
+        this.episode = episode;
+
+        downloadProgressBar.setName(PROGRESS_ACTOR_NAME);
         downloadButtons.setName(DOWNLOAD_ACTOR_NAME);
         //TODO: Setup a Runnable if download button is pressed and progress is not 100.  Check if value changed
         //fire even if so
         //TODO: capture change even from value change
 
         this.downloadButtonGroup = new RadialDownloadButtonGroup(downloadProgressBar, downloadButtons);
-        this.episode = episode;
 
         initialize();
     }
@@ -71,16 +72,16 @@ public class PlayListWidget extends Table{
         reset();
 
         add(getDateActor()).expand().fill();
-        add(getTitleActor());//.pad(4,2,2,4);
+        add(getTitleActor());
 
         RadialDownloadButtonGroup downloadButtonActor = getDownloadActor();
-        //downloadButtonActor.setValue(AudioUtils.getInstance().getAudioDownloadProgressValue(episode));
+        System.out.println(episode + " d value = " + AudioUtils.getInstance().getAudioDownloadProgressValue(episode));
 
         float value = (float) (Math.random() * 1);
         System.out.println("value: " + value);
+
+
         downloadButtonActor.setValue(value);
-
-
         downloadButtonActor.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {

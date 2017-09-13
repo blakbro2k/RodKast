@@ -182,8 +182,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle: {
 },
 net.asg.game.ui.RadialProgressBar$RadialProgressBarStyle: {
 	default: {
-		backgroundColor: { a: 1, b: 1, g: 0, r: 0},
-		timerColor: { a: 1, b: 1, g: 0, r: 0}
+		timerColor: { a: 1, b: 0, g: 0, r: 1}
 	}
 
 	background: {
@@ -192,8 +191,8 @@ net.asg.game.ui.RadialProgressBar$RadialProgressBarStyle: {
 	}
 
 	backgroundcolor: {
-		backgroundColor: { a: 1, b: 1, g: 0, r: 0},
-		timerColor: { a: 1, b: 0.5, g: 0.7, r: 0}
+		backgroundColor: { a: 1, b: 0, g: 0, r: 1},
+		timerColor: { a: 1, b: 0, g: 0.7, r: 0}
 	}
 },
 com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {

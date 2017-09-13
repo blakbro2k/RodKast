@@ -27,14 +27,15 @@ public class RadialDownloadButtonGroup extends WidgetGroup {
 
         //setFillParent(true);
         validate();
+        System.out.println("width: " + getParent());
 
         Actor bar = actors[0];
         Actor button = actors[1];
 
-        float localWidth;
-        float localHeight;
-
         if(bar != null) {
+            float localWidth;
+            float localHeight;
+
             localWidth = bar.getWidth();
             localHeight = bar.getHeight();
 

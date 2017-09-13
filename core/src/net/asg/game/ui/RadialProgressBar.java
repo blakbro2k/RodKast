@@ -42,7 +42,6 @@ public class RadialProgressBar extends Table{
     public RadialProgressBar(float min, float max, boolean clockwise, RadialProgressBarStyle style){
         setDebug(true, true);
         setStyle(style);
-        setSize(getPrefWidth(), getPrefHeight());
 
         this.isClockwise = clockwise;
         this.min = this.value = min;
@@ -66,6 +65,7 @@ public class RadialProgressBar extends Table{
         //cooldownDisplay.setFillParent(true);
 
         //addActor(cooldownDisplay);
+        setSize(getPrefWidth(), getPrefHeight());
     }
 
     public void setStyle (RadialProgressBarStyle style) {
@@ -76,6 +76,7 @@ public class RadialProgressBar extends Table{
             throw new IllegalArgumentException("timerColor in style not found.");
         }
         this.style = style;
+        invalidateHierarchy();
     }
 
     /** Returns the progress bar's style. Modifying the returned style may not have an effect until
@@ -86,20 +87,13 @@ public class RadialProgressBar extends Table{
 
     @Override
     public void draw(Batch batch, float parentAlpha){
-        validate();
-        //cooldownDisplay.clear();
+        //validate();
 
         //draw background
         Color color = getColor();
         color.a *= parentAlpha;
         if (style.background != null) {
             setBackground(style.background);
-        }
-
-        //draw background color circle
-        if(style.backgroundColor != null){
-            setColor(style.backgroundColor);
-            //TODO: create a filled Circle to draw
         }
 
         //draw timer color
@@ -176,6 +170,14 @@ public class RadialProgressBar extends Table{
             float cx = radius * MathUtils.cos(START_ANGLE * MathUtils.degreesToRadians);
             float cy = radius * MathUtils.sin((-1 * START_ANGLE) * MathUtils.degreesToRadians);
 
+            //draw background color circle
+            if(style.backgroundColor != null){
+                Color preserveColor = getColor();
+                display.setColor(style.backgroundColor);
+
+                display.fillCircle((int) getX(), (int) getY(), (int) getWidth()/2);
+                setColor(preserveColor);
+            }
 
             display.setColor(getColor());
 
@@ -185,6 +187,7 @@ public class RadialProgressBar extends Table{
                 float temp = cx;
                 cx = cos * cx - sin * cy;
                 cy = sin * temp + cos * cy;
+
                 display.fillTriangle((int) getWidth()/2, (int) getHeight()/2,
                         (int) (getWidth()/2 + pcx), (int) (getHeight()/2 + pcy),
                         (int) (getWidth()/2 + cx), (int) (getHeight()/2 + cy));
