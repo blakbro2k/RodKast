@@ -54,6 +54,7 @@ public class PlayListStage extends RodkastStageAdapter {
         Actor playList = setUpPlayListActor(episodeList);
 
         ScrollPane pane = new ScrollPane(playList);
+        pane.setScrollingDisabled(true, false);
 
         main.row();
         main.add(pane).height(getBannerOffSet() * PLAYLIST_WINDOW_SIZE).colspan(COLSPAN);
