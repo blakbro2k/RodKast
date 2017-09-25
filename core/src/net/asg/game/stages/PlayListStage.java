@@ -38,7 +38,7 @@ public class PlayListStage extends RodkastStageAdapter {
 
         setUpStageTitleWindow(main, true);
         setUpPlayerWindow(main);
-        //setUpPlayListWindow(main);
+        setUpPlayListWindow(main);
         setUpAdMobWindow(main);
 
         addActor(main);
@@ -56,12 +56,8 @@ public class PlayListStage extends RodkastStageAdapter {
     }
 
     private void setUpPlayerWindow(Table main) {
-        Container<MusicPlayerWidget> player = new Container<>();
-        player.debugAll();
-        player.setActor(getMusicWidget());
-
         main.row();
-        main.add(player).height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(COLSPAN);
+        main.add(getMusicWidget()).height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(COLSPAN);
     }
 
     private Actor setUpPlayListActor(Array<RodkastEpisode> episodes) {

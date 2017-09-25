@@ -100,9 +100,9 @@ public class MusicPlayerWidget extends Table {
         //reset();
         clear();
         System.out.println("title: " + getHeight());
-        add(image).left().width(140).height(getHeight());
-        add(getTitleActor()).fill().expand();
-        add(playButton).right().width(140).height(getHeight());
+        add(image).left().width(100).height(getHeight());
+        add(getTitleActor()).fill();
+        add(playButton).right().width(100).height(getHeight());
 
         addListener(listener);
         //setActor(main);
