@@ -21,6 +21,10 @@ import java.util.Locale;
 
 class RodkastItemModel{
     static final String RODKAST_URL_STRING = "http://rodkast.com/feed/podcast/";
+    private static final String ATTRIBUTE_STRING = "Attribute";
+    private static final String ELEMENT_STRING = "Element";
+    private static final String DATE_STRING = "Date";
+
     public static final String RSS_TITLE = "title";
     public static final String RSS_LINK = "link";
     public static final String RSS_PUBLISHED_DATE = "pubDate";
@@ -106,7 +110,7 @@ class RodkastItemModel{
     }
 
     private static XMLImage getRssImage(Element element) throws IllegalArgumentException, MalformedURLException {
-        validateInput(element, "Element");
+        validateInput(element, ELEMENT_STRING);
 
         Element elem = element.getChildByName(RSS_IMAGE);
         if(elem == null){
@@ -141,8 +145,8 @@ class RodkastItemModel{
     }
 
     private static Element getValidatedChildByName(String attr, Element element) throws IllegalArgumentException{
-        validateInput(element, "Element");
-        validateInput(attr, "Attribute");
+        validateInput(element, ELEMENT_STRING);
+        validateInput(attr, ATTRIBUTE_STRING);
 
         Element elem = element.getChildByName(attr);
         if(elem == null){
@@ -153,7 +157,7 @@ class RodkastItemModel{
 
     private static Calendar parseDate(String date) throws ParseException, IllegalArgumentException {
         GregorianCalendar calendar = new GregorianCalendar();
-        validateInput(calendar, "Date");
+        validateInput(calendar, DATE_STRING);
 
         Date parsedDate = new SimpleDateFormat(RSS_DATE_PATTERN, Locale.US).parse(date);
         calendar.setTime(parsedDate);

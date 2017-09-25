@@ -25,25 +25,20 @@ public class PlayListStage extends RodkastStageAdapter {
     private static final float PLAYER_WINDOW_SIZE = .2f;
     private static final float PLAYLIST_WINDOW_SIZE = .8f;
     private static final float PLAYLIST_PADDING = 4f;
-    private static final String MUSICPLAYER_NAME = "musicplayer";
-    private MusicPlayerWidget _episodePlayer;
-    private Array<RodkastEpisode> episodeList;
 
     public PlayListStage(RodKastApplication app){
         super(app);
 
         Table main = new Table();
-        main.setFillParent(true);
+        //main.setFillParent(true);
         main.top();
         main.debugAll();
-
-        if(episodeList == null){
-            episodeList = getEpisodelist();
-        }
+        main.setHeight(GlobalConstants.VIEWPORT_HEIGHT);
+        main.setWidth(GlobalConstants.VIEWPORT_WIDTH);
 
         setUpStageTitleWindow(main, true);
         setUpPlayerWindow(main);
-        setUpPlayListWindow(main);
+        //setUpPlayListWindow(main);
         setUpAdMobWindow(main);
 
         addActor(main);
@@ -51,7 +46,7 @@ public class PlayListStage extends RodkastStageAdapter {
     }
 
     private void setUpPlayListWindow(Table main) {
-        Actor playList = setUpPlayListActor(episodeList);
+        Actor playList = setUpPlayListActor(getEpisodeList());
 
         ScrollPane pane = new ScrollPane(playList);
         pane.setScrollingDisabled(true, false);
@@ -61,31 +56,9 @@ public class PlayListStage extends RodkastStageAdapter {
     }
 
     private void setUpPlayerWindow(Table main) {
-        RodkastEpisode defaultEpisode = null; //TODO: Add getLastPlayed Preference to AudioUtils
-
-        if(episodeList != null) {
-            defaultEpisode = episodeList.get(0);
-        }
-
-        TextureRegion rodKastTextureRegion = imageProvider.getRodKastImage();
-        Image rodKastImage = new Image(rodKastTextureRegion);
-
-        _episodePlayer = new MusicPlayerWidget(defaultEpisode, defaultSkin, rodKastImage);
-        _episodePlayer.setName(MUSICPLAYER_NAME);
-        _episodePlayer.debugAll();
-        _episodePlayer.setSize(GlobalConstants.APP_WIDTH, getBannerOffSet() * PLAYER_WINDOW_SIZE);
-        _episodePlayer.addListener(new ClickListener()
-        {
-            @Override
-            public void clicked (InputEvent event, float x, float y) {
-                app.pushScreen(app.getCurrentScreen());
-                app.gotoPodPlayerScreen();
-            }
-        });
-
         Container<MusicPlayerWidget> player = new Container<>();
         player.debugAll();
-        player.setActor(_episodePlayer);
+        player.setActor(getMusicWidget());
 
         main.row();
         main.add(player).height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(COLSPAN);

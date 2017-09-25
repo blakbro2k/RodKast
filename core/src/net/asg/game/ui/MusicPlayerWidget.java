@@ -33,6 +33,7 @@ public class MusicPlayerWidget extends Table {
     private Image image;
     private Table main;
     private ProgressBar seekerBar;
+    private ProgressBar volumeBar;
     private Table titleActor;
 
     private static final float PLAYLIST_PADDING = 4f;
@@ -56,6 +57,8 @@ public class MusicPlayerWidget extends Table {
         this.labelStyle = skin.get(MenuProvider.LABEL_STYLE_DEFAULT, Label.LabelStyle.class);
         this.image = image;
         this.seekerBar = new ProgressBar(0, 1, 0.1f, false, skin);
+        this.volumeBar = new ProgressBar(0, 1, 0.1f, false, skin);
+
         this.playButton = new Button(skin, MenuProvider.PLAY_BUTTON);
 
         playButton.addListener(new ClickListener()
@@ -136,5 +139,14 @@ public class MusicPlayerWidget extends Table {
             return titleActor.addListener(this.listener);
         }
         return false;
+    }
+
+    public ProgressBar getSeekBar() {
+        //progressBar = AudioUtils.getInstance().
+        return seekerBar;
+    }
+
+    public ProgressBar getVolumeBar() {
+        return volumeBar;
     }
 }

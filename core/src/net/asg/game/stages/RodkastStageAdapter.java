@@ -3,10 +3,12 @@ package net.asg.game.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -23,6 +25,7 @@ import net.asg.game.providers.ImageProvider;
 import net.asg.game.providers.MenuProvider;
 import net.asg.game.providers.SkinProvider;
 import net.asg.game.providers.SoundProvider;
+import net.asg.game.ui.MusicPlayerWidget;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.MessageCatalog;
 import net.asg.game.utils.Utils;
@@ -37,8 +40,9 @@ import java.io.IOException;
  */
 
 public class RodkastStageAdapter extends Stage {
-    protected static final int BANNER_SIZE = 50;
-    protected static final int COLSPAN = 3;
+    static final int BANNER_SIZE = 50;
+    static final int COLSPAN = 3;
+    static final String MUSICPLAYER_NAME = "musicplayer";
 
     ImageProvider imageProvider;
     private SoundProvider soundProvider;
@@ -54,6 +58,8 @@ public class RodkastStageAdapter extends Stage {
     private Dialog errorDialog;
 
     private RodkastChannel rssChannel;
+    protected MusicPlayerWidget _episodePlayer;
+    private Array<RodkastEpisode> episodeList;
 
     Skin defaultSkin;
 
@@ -209,5 +215,35 @@ public class RodkastStageAdapter extends Stage {
 
     public AssetsManager assets() {
         return manager;
+    }
+
+    public MusicPlayerWidget getMusicWidget(){
+        if(_episodePlayer == null){
+            //TODO: Add getLastPlayed Preference to AudioUtils
+            RodkastEpisode defaultEpisode = getEpisodeList().get(0);
+
+            TextureRegion rodKastTextureRegion = imageProvider.getRodKastImage();
+            Image rodKastImage = new Image(rodKastTextureRegion);
+
+            _episodePlayer = new MusicPlayerWidget(defaultEpisode, defaultSkin, rodKastImage);
+            _episodePlayer.setName(MUSICPLAYER_NAME);
+            _episodePlayer.debugAll();
+            _episodePlayer.addListener(new ClickListener()
+            {
+                @Override
+                public void clicked (InputEvent event, float x, float y) {
+                    app.pushScreen(app.getCurrentScreen());
+                    app.gotoPodPlayerScreen();
+                }
+            });
+        }
+        return _episodePlayer;
+    }
+
+    public Array<RodkastEpisode> getEpisodeList(){
+        if(episodeList == null){
+            episodeList = getEpisodelist();
+        }
+        return episodeList;
     }
 }
