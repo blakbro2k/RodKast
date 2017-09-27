@@ -14,8 +14,7 @@ public class ErrorUtils {
     private static ErrorUtils _ourInstance = new ErrorUtils();
     private RodKastApplication application;
 
-    private ErrorUtils() {
-    }
+    private ErrorUtils() {}
 
     public static ErrorUtils getInstance() {
         return _ourInstance;
@@ -25,11 +24,11 @@ public class ErrorUtils {
         this.application = application;
     }
 
-    public boolean hasApplication(){
+    private boolean hasApplication(){
         return application != null;
     }
 
-    public void validateUtil(){
+    private void validateUtil(){
         if(!hasApplication()){
             throw new GdxRuntimeException("An application must be set to send messages to");
         }

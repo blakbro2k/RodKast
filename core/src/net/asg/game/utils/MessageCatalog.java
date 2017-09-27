@@ -5,6 +5,8 @@ package net.asg.game.utils;
  */
 
 public class MessageCatalog {
+    private MessageCatalog(){}
+
     public static final String NULL_SKIN_OBJECT_MSG = "Skin cannot be null";
     public static final String NULL_ATTRIBUTE_MSG = " attribute could not be found";
     public static final String LOADING_MSG = "Loading...";
@@ -16,6 +18,4 @@ public class MessageCatalog {
     public static final String NULL_SKIN_MSG = "You must have a valid skin";
     public static final String NULL_LABEL_STLYE_MSG = "You must have a valid label style";
     public static final String NULL_IMAGE_MSG = "Image is null";
-
-    private MessageCatalog(){}
 }

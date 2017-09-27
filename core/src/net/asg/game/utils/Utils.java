@@ -186,20 +186,18 @@ public class Utils {
         closeStream(os);
     }
 
-    private static void closeStream(Object o) throws GdxRuntimeException {
-        if (o == null) {
-            throw new GdxRuntimeException("Object stream must be InputStream or OutputStream");
-        }
-
-        try {
-            if (o instanceof InputStream) {
-                ((InputStream) o).close();
+    private static void closeStream(Object stream) throws GdxRuntimeException {
+        if (stream != null) {
+            try {
+                if (stream instanceof InputStream) {
+                    ((InputStream) stream).close();
+                }
+                if (stream instanceof OutputStream) {
+                    ((OutputStream) stream).close();
+                }
+            } catch (IOException e) {
+                throw new GdxRuntimeException("Object stream must be InputStream or OutputStream",e);
             }
-            if (o instanceof OutputStream) {
-                ((OutputStream) o).close();
-            }
-        } catch (IOException e) {
-            throw new GdxRuntimeException(e);
         }
     }
 

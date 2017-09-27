@@ -4,7 +4,6 @@ import android.app.Application;
 import android.os.Bundle;
 import android.util.Log;
 
-//import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
 /**
  * Created by Blakbro2k on 6/25/2017.
