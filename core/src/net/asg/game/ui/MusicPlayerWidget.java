@@ -101,7 +101,7 @@ public class MusicPlayerWidget extends Table {
         clear();
         System.out.println("title: " + getHeight());
         add(image).left().width(100).height(getHeight());
-        add(getTitleActor()).fill();
+        add(getTitleActor()).fill().width(GlobalConstants.APP_WIDTH - 200);
         add(playButton).right().width(100).height(getHeight());
 
         addListener(listener);
@@ -111,13 +111,14 @@ public class MusicPlayerWidget extends Table {
     private Actor getTitleActor() {
         if(titleActor == null){
             titleActor = new Table();
-            titleActor.add(new Label("RodKast", labelStyle)).expand().fill();
+            titleActor.add(new Label("RodKast", labelStyle)).left();
             titleActor.row();
             Label desc = new Label(Utils.getTitleFromEpisode(episode), labelStyle);
-            //desc.setWrap(true);
-            titleActor.add(desc).expand().fill();
+            desc.setWrap(true);
+            //desc.setEllipsis(true);
+            titleActor.add(desc);
             titleActor.row();
-            titleActor.add(seekerBar).expandX().fill();
+            titleActor.add(seekerBar);
         }
         return titleActor;
     }

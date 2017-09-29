@@ -24,8 +24,7 @@ public class RodkastChannel implements Disposable{
     private Array<RodkastEpisode> episodes;
     private Map<String,XMLImage> images;
 
-    public RodkastChannel(XmlReader.Element elem) throws GdxRuntimeException{
-        try{
+    public RodkastChannel(XmlReader.Element elem) throws MalformedURLException, ParseException {
             if (elem != null) {
                 this.title = RodkastItemModel.getRssTitle(elem);
                 this.link = RodkastItemModel.getRssUrl(elem);
@@ -35,9 +34,6 @@ public class RodkastChannel implements Disposable{
                 //this.images = RodkastItemModel.getRssImages(elem);
                 this.episodes = RodkastItemModel.getCompleteEpisodesList(elem);
             }
-        } catch (MalformedURLException | ParseException e){
-            throw new GdxRuntimeException(e);
-        }
     }
 
     public String getTitle(){

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
 
 /**
  * Created by eboateng on 7/19/2017.
@@ -27,26 +28,23 @@ public class XMLHandler implements Disposable{
         return urlLink.openConnection().getInputStream();
     }
 
-    public void getTotalRssFeed() throws GdxRuntimeException {
-            try {
+    public void getTotalRssFeed() throws IOException {
                 InputStream inputStream = getXMLstream();
 
                 if(inputStream != null) {
                     XmlReader reader = new XmlReader();
+                    //System.out.println("Enoch: " + inputStream);
                     xmlElements = reader.parse(inputStream);
                     isFeedFetched = true;
                     inputStream.close();
                 }
-            } catch (IOException e) {
-                throw new GdxRuntimeException(e);
-            }
     }
 
     public boolean isFetched(){
         return isFeedFetched;
     }
 
-    public RodkastChannel buildChannel() throws GdxRuntimeException {
+    public RodkastChannel buildChannel() throws IOException, ParseException {
             if(!isFeedFetched){
                 getTotalRssFeed();
             }

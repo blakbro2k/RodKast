@@ -10,7 +10,7 @@ android {
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
             jniLibs.srcDirs = ['libs']
-            main.java.srcDirs = ['src/main/kotlin']
+            //main.java.srcDirs = ['src/main/kotlin']
         }
 
         instrumentTest.setRoot('tests')

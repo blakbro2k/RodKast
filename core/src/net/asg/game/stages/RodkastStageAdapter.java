@@ -26,6 +26,7 @@ import net.asg.game.providers.MenuProvider;
 import net.asg.game.providers.SkinProvider;
 import net.asg.game.providers.SoundProvider;
 import net.asg.game.ui.MusicPlayerWidget;
+import net.asg.game.utils.ErrorUtils;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.MessageCatalog;
 import net.asg.game.utils.Utils;
@@ -34,6 +35,7 @@ import net.asg.game.utils.parser.RodkastEpisode;
 import net.asg.game.utils.parser.XMLHandler;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 /**
  * Created by Blakbro2k on 7/26/2017.
@@ -95,7 +97,7 @@ public class RodkastStageAdapter extends Stage {
         titlePlainScreenLabelStyle = menuProvider.getTitlePlainLableStyle();
     }
 
-    private void loadAssets(){
+    private void loadAssets() throws ParseException, IOException {
         if(loadingDialog == null){
             loadingDialog = new Dialog(MessageCatalog.LOADING_MSG, defaultSkin);
         }
@@ -118,16 +120,12 @@ public class RodkastStageAdapter extends Stage {
         }
     }
 
-    public void loadXmlData() throws GdxRuntimeException {
-        try{
+    public void loadXmlData() throws ParseException, IOException {
             if(xmlHandler == null){
                 xmlHandler = new XMLHandler();
             }
             rssChannel = xmlHandler.buildChannel();
-        } catch (IOException e) {
-            throw new GdxRuntimeException(e);
-        }
-    }
+      }
 
     public boolean isXmlLoaded(){
         return xmlHandler != null && xmlHandler.isFetched();
@@ -156,7 +154,7 @@ public class RodkastStageAdapter extends Stage {
         return true;
     }
 
-    Array<RodkastEpisode> getEpisodelist(){
+    Array<RodkastEpisode> getEpisodelist() throws ParseException, IOException {
         if(rssChannel == null){
             loadAssets();
         }
@@ -240,9 +238,14 @@ public class RodkastStageAdapter extends Stage {
         return _episodePlayer;
     }
 
-    public Array<RodkastEpisode> getEpisodeList(){
+    public Array<RodkastEpisode> getEpisodeList() {
         if(episodeList == null){
-            episodeList = getEpisodelist();
+            try {
+                episodeList = getEpisodelist();
+            } catch (Exception e) {
+                System.out.println("poppup");
+                ErrorUtils.getInstance().showErrorPopup(e);
+            }
         }
         return episodeList;
     }

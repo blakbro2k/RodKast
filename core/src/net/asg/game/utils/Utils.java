@@ -200,22 +200,4 @@ public class Utils {
             }
         }
     }
-
-     public static class EpisodeEncapsulation {
-        RodkastEpisode episode;
-        RadialProgressBar progressBar;
-
-        public EpisodeEncapsulation(RodkastEpisode episode, RadialProgressBar progressBar){
-            this.episode = episode;
-            this.progressBar = progressBar;
-        }
-
-        public RadialProgressBar getProgressBar() {
-            return progressBar;
-        }
-
-        public RodkastEpisode getEpisode() {
-            return episode;
-        }
-    }
 }

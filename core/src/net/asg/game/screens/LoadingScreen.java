@@ -6,6 +6,10 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import net.asg.game.RodKastApplication;
 import net.asg.game.stages.LoadingStage;
+import net.asg.game.utils.ErrorUtils;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 /**
  * Created by eboateng on 8/9/2017.
@@ -31,7 +35,7 @@ public class LoadingScreen extends RodKastScreenAdapter {
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
         //Interpolation
-        try {
+
             if (stage != null) {
                 stage.act(delta);
                 //Update the stage
@@ -40,13 +44,15 @@ public class LoadingScreen extends RodKastScreenAdapter {
                 if (!stage.assets().isUpdateDone()) {
                     ((LoadingStage) stage).update(stage.assets().getProgress());
                 } else if (!stage.isXmlLoaded()) {
-                    stage.loadXmlData();
+                    try {
+                        stage.loadXmlData();
+                    } catch (Exception e) {
+                        ErrorUtils.getInstance().showErrorPopup(e);
+                    }
                     app.gotoHomeScreen();
                 }
             }
-        } catch (GdxRuntimeException e) {
-            stage.displayErrorMessage(e.getMessage());
-        }
+
     }
 
     @Override
