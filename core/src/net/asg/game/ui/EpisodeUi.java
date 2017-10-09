@@ -23,7 +23,7 @@ import java.util.Calendar;
  * Created by Blakbro2k on 8/7/2017.
  */
 
-public class PlayListWidget extends Table{
+public class EpisodeUi extends Table{
     public final static int DEFAULT_DATE_WIDTH = 50;
     public final static int DEFAULT_DATE_HEIGHT = 50;
     public final static int DEFAULT_PADDING = 550;
@@ -38,7 +38,7 @@ public class PlayListWidget extends Table{
     private Table dateActor;
     private Label titleActor;
 
-    public PlayListWidget(RodkastEpisode episode, Skin skin, String labelStyle){
+    public EpisodeUi(RodkastEpisode episode, Skin skin, String labelStyle){
         super(skin);
         if(episode == null) {
             throw new IllegalArgumentException(MessageCatalog.NULL_RODKAST_EPISODE_MSG);
@@ -91,7 +91,7 @@ public class PlayListWidget extends Table{
         add(downloadButtonActor);
     }
 
-    public PlayListWidget(RodkastEpisode episode, Skin skin){
+    public EpisodeUi(RodkastEpisode episode, Skin skin){
         this(episode, skin, MenuProvider.LABEL_STYLE_DEFAULT);
     }
 

@@ -31,11 +31,12 @@ public class XMLHandlerTest {
         URL expectedURL = new URL("http://rodkast.com/feed/podcast/");
         //assertEquals(expectedURL,xmlHandler.urlLink);
        // assertTrue(xmlHandler.isFeedFetched);
+        throw new Exception("Test not initialized.");
     }
 
     @Test
     public void buildChannel() throws Exception {
-
+        throw new Exception("Test not initialized.");
     }
 
     @Test
@@ -51,5 +52,6 @@ public class XMLHandlerTest {
         System.out.println(episode.getPubishedDate());
         System.out.println(episode.getTitle());
         System.out.println(episode.getWebLink());*/
+        throw new Exception("Test not initialized.");
     }
 }

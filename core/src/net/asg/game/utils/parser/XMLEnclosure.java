@@ -16,7 +16,15 @@ public class XMLEnclosure {
     private String type;
     private URL url;
 
-    public XMLEnclosure(float length, String type, String url) throws MalformedURLException {
+    public XMLEnclosure(float length, String type, String url) throws MalformedURLException, IllegalArgumentException {
+        if(length < 0){
+            throw new IllegalArgumentException("length attribute cannot be less than zero.");
+        }
+
+        if(type == null){
+            throw new IllegalArgumentException("type attribute is missing or invalid.");
+        }
+
         this.length = length;
         this.type = type;
         this.url = new URL(url);

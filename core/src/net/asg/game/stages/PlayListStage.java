@@ -1,21 +1,21 @@
 package net.asg.game.stages;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 
 import net.asg.game.RodKastApplication;
-import net.asg.game.ui.MusicPlayerWidget;
-import net.asg.game.ui.PlayListWidget;
+import net.asg.game.ui.EpisodeUi;
 import net.asg.game.ui.RadialDownloadButtonGroup;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.parser.RodkastEpisode;
+
+import java.util.ArrayList;
 
 /**
  * Created by Blakbro2k on 7/23/2017.
@@ -64,13 +64,12 @@ public class PlayListStage extends RodkastStageAdapter {
         Table playList = new Table();
         playList.debugAll();
 
+        episodes.iterator();
         for(final RodkastEpisode episode : episodes)
             if (episode != null) {
 
-                PlayListWidget widget = new PlayListWidget(episode, defaultSkin);
+                EpisodeUi widget = new EpisodeUi(episode, defaultSkin);
                 widget.debugAll();
-
-                //final Utils.EpisodeEncapsulation epCap = new Utils.EpisodeEncapsulation(episode, widget.getDownloadProgressBar());
 
                 widget.addListener(new ClickListener() {
                     @Override
@@ -84,13 +83,14 @@ public class PlayListStage extends RodkastStageAdapter {
                 //progressGroup.setValue(AudioUtils.getInstance().getAudioDownloadProgressValue(episode));
                 //progressGroup
 
-                //pList.add(widget);
+                //list.add(widget);
 
-                playList.add(widget.getDateActor()).expand().height(PlayListWidget.DEFAULT_DATE_HEIGHT).width(PlayListWidget.DEFAULT_DATE_WIDTH);
+                playList.add(widget.getDateActor()).expand().height(EpisodeUi.DEFAULT_DATE_HEIGHT).width(EpisodeUi.DEFAULT_DATE_WIDTH);
                 playList.add(widget.getTitleActor()).fill();
-                playList.add(widget.getDownloadActor()).height(PlayListWidget.DEFAULT_DATE_HEIGHT).width(PlayListWidget.DEFAULT_DATE_WIDTH).expand().fill();
+                playList.add(widget.getDownloadActor()).height(EpisodeUi.DEFAULT_DATE_HEIGHT).width(EpisodeUi.DEFAULT_DATE_WIDTH).expand().fill();
                 playList.row();
             }
+
         return playList;
     }
 }

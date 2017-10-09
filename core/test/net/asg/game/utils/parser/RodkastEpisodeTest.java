@@ -28,6 +28,9 @@ public class RodkastEpisodeTest {
         XmlReader.Element elem = xmlElements.getChildByName(RodkastItemModel.RSS_CHANNEL);
 
         episode = new RodkastEpisode(elem);
+
+        XmlReader.Element element = new XmlReader.Element(null, null);
+
     }
 
     @AfterMethod

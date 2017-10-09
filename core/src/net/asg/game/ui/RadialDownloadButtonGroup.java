@@ -44,10 +44,10 @@ public class RadialDownloadButtonGroup extends WidgetGroup {
     }
 
     public void setValue(float value){
-        ((RadialProgressBar) findActor(PlayListWidget.PROGRESS_ACTOR_NAME)).setValue(value);
+        ((RadialProgressBar) findActor(EpisodeUi.PROGRESS_ACTOR_NAME)).setValue(value);
     }
 
     public boolean addListener(EventListener listener){
-        return findActor(PlayListWidget.DOWNLOAD_ACTOR_NAME).addListener(listener);
+        return findActor(EpisodeUi.DOWNLOAD_ACTOR_NAME).addListener(listener);
     }
 }

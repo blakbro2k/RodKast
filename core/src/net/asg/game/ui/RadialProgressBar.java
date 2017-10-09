@@ -59,12 +59,6 @@ public class RadialProgressBar extends Table{
     }
 
     private void initialize(){
-        //setTouchable(Touchable.enabled);
-
-        //Table cooldownDisplay = new Table();
-        //cooldownDisplay.setFillParent(true);
-
-        //addActor(cooldownDisplay);
         setSize(getPrefWidth(), getPrefHeight());
     }
 
@@ -87,7 +81,7 @@ public class RadialProgressBar extends Table{
 
     @Override
     public void draw(Batch batch, float parentAlpha){
-        //validate();
+        validate();
 
         //draw background
         Color color = getColor();
