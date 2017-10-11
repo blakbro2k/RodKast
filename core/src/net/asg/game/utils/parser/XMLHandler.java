@@ -1,7 +1,6 @@
 package net.asg.game.utils.parser;
 
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 
@@ -24,20 +23,26 @@ public class XMLHandler implements Disposable{
             this.urlLink = new URL(RodkastItemModel.RODKAST_URL_STRING);
     }
 
-    private InputStream getXMLstream() throws IOException {
+    InputStream getXMLstream() throws IOException {
         return urlLink.openConnection().getInputStream();
     }
 
-    public void getTotalRssFeed() throws IOException {
-                InputStream inputStream = getXMLstream();
+    private void fetchFeed() throws IOException {
+        InputStream inputStream = getXMLstream();
 
-                if(inputStream != null) {
-                    XmlReader reader = new XmlReader();
-                    //System.out.println("Enoch: " + inputStream);
-                    xmlElements = reader.parse(inputStream);
-                    isFeedFetched = true;
-                    inputStream.close();
-                }
+        if(inputStream != null) {
+            XmlReader reader = new XmlReader();
+            xmlElements = reader.parse(inputStream);
+            isFeedFetched = true;
+            inputStream.close();
+        }
+    }
+
+    public Element getRssFeed() throws IOException {
+        if(!isFeedFetched){
+            fetchFeed();
+        }
+        return xmlElements;
     }
 
     public boolean isFetched(){
@@ -45,14 +50,13 @@ public class XMLHandler implements Disposable{
     }
 
     public RodkastChannel buildChannel() throws IOException, ParseException {
-            if(!isFeedFetched){
-                getTotalRssFeed();
-            }
+        Element elem = getRssFeed();
 
-            Element elem = xmlElements.getChildByName(RodkastItemModel.RSS_CHANNEL);
-            if(elem != null){
-                return new RodkastChannel(elem);
-            }
+        Element channel = elem.getChildByName(RodkastItemModel.RSS_CHANNEL);
+
+        if(channel != null){
+            return new RodkastChannel(channel);
+        }
         return null;
     }
 
