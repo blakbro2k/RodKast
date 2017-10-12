@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by eboateng on 7/18/2017.
@@ -74,7 +75,7 @@ class RodkastItemModel{
     }
 
     public static XMLEnclosure getRssEnclosure(Element element) throws IllegalArgumentException, MalformedURLException {
-        //validateInput(element);
+        validateInput(element, ELEMENT_STRING);
 
         Element elem = element.getChildByName(RSS_EPISODE);
         if(elem == null){
@@ -107,6 +108,10 @@ class RodkastItemModel{
             }
         }
         return episodes;
+    }
+
+    public static Map<String,XMLImage> getRssImages(Element element) {
+        return null;
     }
 
     private static XMLImage getRssImage(Element element) throws IllegalArgumentException, MalformedURLException {

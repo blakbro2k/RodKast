@@ -1,7 +1,5 @@
 package net.asg.game.utils.parser;
 
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.XmlReader;
 
@@ -25,16 +23,18 @@ public class RodkastEpisode implements Disposable{
     private String category;
     private XMLEnclosure enclosure;
 
-    public RodkastEpisode(XmlReader.Element item) throws MalformedURLException, ParseException {
-            if (item != null){
-                this.title = RodkastItemModel.getRssTitle(item);
-                this.webLink = RodkastItemModel.getRssUrl(item);
-                this.pubishedDate = RodkastItemModel.getRssPubDate(item);
-                this.guid = RodkastItemModel.getRssGUID(item);
-                this.description = RodkastItemModel.getRssDescription(item);
-                this.category = RodkastItemModel.getRssCategory(item);
-                this.enclosure = RodkastItemModel.getRssEnclosure(item);
-            }
+    public RodkastEpisode(XmlReader.Element element) throws IllegalArgumentException, MalformedURLException, ParseException {
+        if (element == null){
+            throw new IllegalArgumentException("XML Element cannot be null");
+        }
+
+                this.title = RodkastItemModel.getRssTitle(element);
+                this.webLink = RodkastItemModel.getRssUrl(element);
+                this.pubishedDate = RodkastItemModel.getRssPubDate(element);
+                this.guid = RodkastItemModel.getRssGUID(element);
+                this.description = RodkastItemModel.getRssDescription(element);
+                this.category = RodkastItemModel.getRssCategory(element);
+                this.enclosure = RodkastItemModel.getRssEnclosure(element);
     }
 
     public String getTitle() {

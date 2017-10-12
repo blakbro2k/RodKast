@@ -2,7 +2,6 @@ package net.asg.game.utils.parser;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.XmlReader;
 
 import java.net.MalformedURLException;
@@ -24,16 +23,17 @@ public class RodkastChannel implements Disposable{
     private Array<RodkastEpisode> episodes;
     private Map<String,XMLImage> images;
 
-    public RodkastChannel(XmlReader.Element elem) throws MalformedURLException, ParseException {
-            if (elem != null) {
-                this.title = RodkastItemModel.getRssTitle(elem);
-                this.link = RodkastItemModel.getRssUrl(elem);
-                this.lastBuildDate = RodkastItemModel.getLastBuildDate(elem);
-                this.language = RodkastItemModel.getRssLanguage(elem);
-                this.description = RodkastItemModel.getRssDescription(elem);
-                //this.images = RodkastItemModel.getRssImages(elem);
-                this.episodes = RodkastItemModel.getCompleteEpisodesList(elem);
-            }
+    public RodkastChannel(XmlReader.Element element) throws IllegalArgumentException, MalformedURLException, ParseException {
+        if (element == null){
+            throw new IllegalArgumentException("XML Element cannot be null");
+        }
+                this.title = RodkastItemModel.getRssTitle(element);
+                this.link = RodkastItemModel.getRssUrl(element);
+                this.lastBuildDate = RodkastItemModel.getLastBuildDate(element);
+                this.language = RodkastItemModel.getRssLanguage(element);
+                this.description = RodkastItemModel.getRssDescription(element);
+                this.images = RodkastItemModel.getRssImages(element);
+                this.episodes = RodkastItemModel.getCompleteEpisodesList(element);
     }
 
     public String getTitle(){
@@ -54,9 +54,8 @@ public class RodkastChannel implements Disposable{
     public Array<RodkastEpisode> getEpisodes() {
         return episodes;
     }
-    /*public String getTitle(){
-        return title;
-    }*/
+    public Map<String,XMLImage> getImages() {
+        return images; }
 
     public String toString() {
         return "<Title: " + getTitle() + ">\n"
@@ -73,11 +72,22 @@ public class RodkastChannel implements Disposable{
         title = null;
         link  = null;
         description = null;
-        lastBuildDate.clear();
-        lastBuildDate = null;
+
+        if(lastBuildDate != null){
+            lastBuildDate.clear();
+            lastBuildDate = null;
+        }
+
         language = null;
-        episodes.clear();
-        episodes = null;
-        //private Map<String,XMLImage> images;
+
+        if(episodes != null){
+            episodes.clear();
+            episodes = null;
+        }
+
+        if(images != null){
+            images.clear();
+            images = null;
+        }
     }
 }
