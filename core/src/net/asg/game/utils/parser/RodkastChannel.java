@@ -72,13 +72,12 @@ public class RodkastChannel implements Disposable{
         title = null;
         link  = null;
         description = null;
+        language = null;
 
         if(lastBuildDate != null){
             lastBuildDate.clear();
             lastBuildDate = null;
         }
-
-        language = null;
 
         if(episodes != null){
             episodes.clear();
