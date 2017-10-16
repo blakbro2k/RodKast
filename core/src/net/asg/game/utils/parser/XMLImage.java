@@ -35,4 +35,8 @@ public class XMLImage {
     public URL getUrl() {
         return url;
     }
+
+    public static String[] getRequiredAttirbutes() {
+        return new String[]{TITLE_ATTRIBUTE, LINK_ATTRIBUTE, URL_ATTRIBUTE};
+    }
 }

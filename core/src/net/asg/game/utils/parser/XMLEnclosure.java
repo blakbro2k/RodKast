@@ -1,5 +1,7 @@
 package net.asg.game.utils.parser;
 
+import com.badlogic.gdx.utils.Array;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -41,4 +43,9 @@ public class XMLEnclosure {
     public URL getUrl() {
         return url;
     }
+
+    public static String[] getRequiredAttirbutes() {
+        return new String[]{LENGTH_ATTRIBUTE, TYPE_ATTRIBUTE, URL_ATTRIBUTE};
+    }
 }
+

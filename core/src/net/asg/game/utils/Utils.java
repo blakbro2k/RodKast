@@ -163,7 +163,7 @@ public class Utils {
      * @param attribute
      * @return
      */
-    public static float atof(String attribute) {
+    public static float atof(String attribute) throws NumberFormatException{
         if (attribute != null) {
             return Float.parseFloat(attribute);
         }

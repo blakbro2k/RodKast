@@ -45,7 +45,6 @@ public class XMLEnclosureTest {
     public void getUrl() throws Exception {
         XMLEnclosure goodType = new XMLEnclosure(10,"mpge","http://rodkast.com/feed/podcast");
         URL expectedURL = new URL("http://rodkast.com/feed/podcast");
-        //XMLEnclosure nonZeforLength = new XMLEnclosure(10,"mpge","http://rodkast.com/feed/podcast");
 
         try{
             XMLEnclosure nullType = new XMLEnclosure(11,"mpge",null);

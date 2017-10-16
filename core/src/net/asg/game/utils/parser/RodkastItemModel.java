@@ -1,6 +1,8 @@
 package net.asg.game.utils.parser;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.StringBuilder;
+import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 
 import net.asg.game.utils.MessageCatalog;
@@ -82,6 +84,8 @@ class RodkastItemModel{
             throwArgumentException(RSS_EPISODE);
         }
 
+        validateXMLAttributes(elem, XMLEnclosure.getRequiredAttirbutes());
+
         return new XMLEnclosure(Utils.atof(elem.getAttribute(XMLEnclosure.LENGTH_ATTRIBUTE)),
                 elem.getAttribute(XMLEnclosure.TYPE_ATTRIBUTE),
                 elem.getAttribute(XMLEnclosure.URL_ATTRIBUTE));
@@ -111,10 +115,15 @@ class RodkastItemModel{
     }
 
     public static Map<String,XMLImage> getRssImages(Element element) {
+        validateInput(element, ELEMENT_STRING);
+
+        //element.getChildrenByName()
+
+        System.out.println("getRssImages():" + element);
         return null;
     }
 
-    private static XMLImage getRssImage(Element element) throws IllegalArgumentException, MalformedURLException {
+    public static XMLImage getRssImage(Element element) throws IllegalArgumentException, MalformedURLException {
         validateInput(element, ELEMENT_STRING);
 
         Element elem = element.getChildByName(RSS_IMAGE);
@@ -122,9 +131,24 @@ class RodkastItemModel{
             throwArgumentException(RSS_IMAGE);
         }
 
+        validateXMLAttributes(elem, XMLImage.getRequiredAttirbutes());
+
         return new XMLImage(elem.getAttribute(XMLImage.TITLE_ATTRIBUTE),
                 elem.getAttribute(XMLImage.LINK_ATTRIBUTE),
                 elem.getAttribute(XMLImage.URL_ATTRIBUTE));
+    }
+
+    private static void validateXMLAttributes(Element element, String[] attributes) {
+        validateInput(element, ELEMENT_STRING);
+        validateInput(attributes, "Attributes input is null");
+
+        for(String attribute : attributes) {
+            try{
+                element.getAttribute(attribute);
+            } catch (Exception e){
+                throw new IllegalArgumentException(e);
+            }
+        }
     }
 
     private static void throwArgumentException(String name) throws IllegalArgumentException{
@@ -161,11 +185,15 @@ class RodkastItemModel{
     }
 
     private static Calendar parseDate(String date) throws ParseException, IllegalArgumentException {
+        validateInput(date, DATE_STRING);
         GregorianCalendar calendar = new GregorianCalendar();
-        validateInput(calendar, DATE_STRING);
 
         Date parsedDate = new SimpleDateFormat(RSS_DATE_PATTERN, Locale.US).parse(date);
-        calendar.setTime(parsedDate);
-        return calendar;
+
+        if(parsedDate != null){
+            calendar.setTime(parsedDate);
+            return calendar;
+        }
+        throw new IllegalArgumentException("Unable to part date: " + date + " attribute.");
     }
 }
