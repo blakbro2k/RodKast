@@ -447,6 +447,10 @@ public class RodkastItemModelTest {
         }
 
         XmlReader.Element element = new XmlReader.Element(RodkastItemModel.RSS_IMAGE,parent);
+        element.setAttribute(XMLImage.LINK_ATTRIBUTE, null);
+        element.setAttribute(XMLImage.TITLE_ATTRIBUTE, null);
+        element.setAttribute(XMLImage.URL_ATTRIBUTE, null);
+
         //is null
         parent.addChild(element);
         try{
@@ -457,6 +461,47 @@ public class RodkastItemModelTest {
         }
         parent.removeChild(element);
 
-        throw new Exception("Test not initialized.");
+        String url = "http://rodkast.com/wp-content/uploads/2016/09/cropped-rodkast-logo-32x32.jpg";
+        String title = "Rodkast";
+        String link = "http://rodkast.com";
+
+        XMLImage expected = new XMLImage(title, link, url);
+
+        element.setAttribute(XMLImage.LINK_ATTRIBUTE, link);
+        parent.addChild(element);
+        try{
+            RodkastItemModel.getRssEnclosure(parent);
+        } catch(Exception e){
+            System.out.println("getRssEnclosure() error message: " + e);
+            Assert.assertTrue(e instanceof IllegalArgumentException);
+        }
+        parent.removeChild(element);
+
+        element.setAttribute(XMLImage.URL_ATTRIBUTE, url);
+        parent.addChild(element);
+        try{
+            RodkastItemModel.getRssEnclosure(parent);
+        } catch(Exception e){
+            System.out.println("getRssEnclosure() error message: " + e);
+            Assert.assertTrue(e instanceof IllegalArgumentException);
+        }
+        parent.removeChild(element);
+
+        element.setAttribute(XMLImage.TITLE_ATTRIBUTE, title);
+        parent.addChild(element);
+        try{
+            RodkastItemModel.getRssEnclosure(parent);
+        } catch(Exception e){
+            System.out.println("getRssEnclosure() error message: " + e);
+            Assert.assertTrue(e instanceof IllegalArgumentException);
+        }
+        parent.removeChild(element);
+
+        //matches
+        parent.addChild(element);
+        Assert.assertEquals(expected.getTitle(),RodkastItemModel.getRssImage(parent).getTitle());
+        Assert.assertEquals(expected.getLink(),RodkastItemModel.getRssImage(parent).getLink());
+        Assert.assertEquals(expected.getUrl(),RodkastItemModel.getRssImage(parent).getUrl());
+        parent.removeChild(element);
     }
 }

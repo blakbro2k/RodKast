@@ -1,1 +1,1 @@
-include 'desktop', 'android', 'ios', 'core', 'ios-moe', "BaseGameUtils"
+include 'desktop', 'android', 'ios', 'core', 'ios-moe', 'BaseGameUtils'

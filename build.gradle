@@ -107,6 +107,12 @@ project(":core") {
         testCompile "org.assertj:assertj-core:$assertjVersion"
         //testCompile "org.testng:testng:6.9.10"
         testCompile "org.mockito:mockito-core:$mockitoVersion"
+
+        testCompile "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        testCompile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        testCompile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        testCompile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        testCompile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
     }
 }
 project(":ios-moe") {

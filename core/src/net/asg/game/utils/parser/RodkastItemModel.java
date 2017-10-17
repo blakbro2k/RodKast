@@ -92,12 +92,12 @@ class RodkastItemModel{
     }
 
     public static Array<RodkastEpisode> getCompleteEpisodesList(Element element) throws MalformedURLException, ParseException {
-        if(element != null){
-            Array<Element> items = element.getChildrenByName(RodkastItemModel.RSS_ITEM);
+        validateInput(element, ELEMENT_STRING);
 
-            return buildRodkestEpisodes(items);
-        }
-        return null;
+        Array<Element> items = element.getChildrenByName(RodkastItemModel.RSS_ITEM);
+        validateInput(items, "episodes");
+
+        return buildRodkestEpisodes(items);
     }
 
     private static Array<RodkastEpisode> buildRodkestEpisodes(Array<Element> items) throws MalformedURLException, ParseException {
@@ -118,7 +118,6 @@ class RodkastItemModel{
         validateInput(element, ELEMENT_STRING);
 
         //element.getChildrenByName()
-
         System.out.println("getRssImages():" + element);
         return null;
     }
