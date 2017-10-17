@@ -21,6 +21,7 @@ import java.util.Map;
 
 public class AudioUtils {
     private static final String CONTENT_LENGTH = "Content-Length";
+    private static final String RESERVED_CHARACTERS_PATTERN = "[:*?\"<>|]";
     private static AudioUtils _ourInstance = new AudioUtils();
     private static Map<String,Music> _audioTable = new Hashtable<>();
     private static Map<String, AudioUtils.EpisodeAudio> _audioIndex = new Hashtable<>();
@@ -106,7 +107,7 @@ public class AudioUtils {
         if(path == null){
             path = GlobalConstants.DEFAULT_DOWNLOAD_FOLDER;
         }
-        saveString(STORAGE_PATH_PREFERENCE, path);
+        saveString(STORAGE_PATH_PREFERENCE, path.replaceAll(RESERVED_CHARACTERS_PATTERN, ""));
     }
 
     public void toggleStoragePref() {

@@ -437,7 +437,7 @@ public class RodkastItemModelTest {
     }
 
     @Test
-    public void getRssImages() throws Exception {
+    public void getRssImage() throws Exception {
         //is missing
         try{
             RodkastItemModel.getRssImage(parent);

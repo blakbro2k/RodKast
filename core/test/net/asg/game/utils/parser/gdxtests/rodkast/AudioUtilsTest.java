@@ -35,7 +35,7 @@ public class AudioUtilsTest {
 
         //AudioUtils.getInstance().setStoragePref(false);
         //useExternal = AudioUtils.getInstance().getStoragePref();
-       //Assert.assertFalse("Set to use External file should be false: " + useExternal, useExternal);
+        //Assert.assertFalse("Set to use External file should be false: " + useExternal, useExternal);
     }
 
     @Test
@@ -79,8 +79,20 @@ public class AudioUtilsTest {
         AudioUtils.getInstance().setStoragePathPref("");
         Assert.assertEquals("", AudioUtils.getInstance().getStoragePathPref());
 
-        AudioUtils.getInstance().setStoragePathPref("rodkast");
+        AudioUtils.getInstance().setStoragePathPref("rodkast/place");
+        Assert.assertEquals("rodkast/place", AudioUtils.getInstance().getStoragePathPref());
+
+        AudioUtils.getInstance().setStoragePathPref(null);
         Assert.assertEquals("rodkast", AudioUtils.getInstance().getStoragePathPref());
+
+        String invalidPath = "[v:a<l\"id*Pa|th?Now>]";
+        String validPath = "this/is/valid";
+        String validPathNow = "[validPathNow]";
+
+        AudioUtils.getInstance().setStoragePathPref(invalidPath);
+        Assert.assertEquals(validPathNow, AudioUtils.getInstance().getStoragePathPref());
+        AudioUtils.getInstance().setStoragePathPref(validPath);
+        Assert.assertEquals(validPath, AudioUtils.getInstance().getStoragePathPref());
     }
 
     @Test
