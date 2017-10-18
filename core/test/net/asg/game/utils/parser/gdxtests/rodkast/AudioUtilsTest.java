@@ -1,6 +1,11 @@
 package net.asg.game.utils.parser.gdxtests.rodkast;
 
+import com.badlogic.gdx.utils.Array;
+
 import net.asg.game.utils.AudioUtils;
+import net.asg.game.utils.parser.RodkastChannel;
+import net.asg.game.utils.parser.RodkastEpisode;
+import net.asg.game.utils.parser.XMLHandler;
 import net.asg.game.utils.parser.gdxtests.GdxTestRunner;
 
 import org.junit.After;
@@ -15,14 +20,29 @@ import org.junit.runner.RunWith;
 
 @RunWith(GdxTestRunner.class)
 public class AudioUtilsTest {
+    private XMLHandler xmlHandler;
+    private RodkastChannel rssChannel;
+    private Array<RodkastEpisode> episodes;
+
     @Before
     public void setUp() throws Exception {
+        xmlHandler = new XMLHandler();
 
+        rssChannel = xmlHandler.buildChannel();
+
+        if(rssChannel == null) {
+            throw new Exception("rssChannel is null");
+        }
+
+        episodes = rssChannel.getEpisodes();
     }
 
     @After
     public void tearDown() throws Exception {
-
+        xmlHandler.dispose();
+        rssChannel.dispose();
+        episodes.clear();
+        episodes = null;
     }
 
     @Test
@@ -127,6 +147,7 @@ public class AudioUtilsTest {
 
     @Test
     public void dowloadEpisode() throws Exception {
+        AudioUtils.getInstance().dowloadEpisode(episodes.peek());
         throw new Exception("Test not initialized");
     }
 
