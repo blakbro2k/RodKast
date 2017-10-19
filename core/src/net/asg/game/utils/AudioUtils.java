@@ -21,30 +21,19 @@ import java.util.Map;
 
 public class AudioUtils {
     private static final String CONTENT_LENGTH = "Content-Length";
-    private static final String RESERVED_CHARACTERS_PATTERN = "[:*?\"<>|]";
     private static AudioUtils _ourInstance = new AudioUtils();
     private static Map<String,Music> _audioTable = new Hashtable<>();
     private static Map<String, AudioUtils.EpisodeAudio> _audioIndex = new Hashtable<>();
     private static String _currentAudioPlayingName = null;
     private static Music _episodeMusicObject;
 
-    private static final String EXTERNAL_STORAGE_PREFERENCE = "ext_storage"; //true = external; false = internal
-    private static final String STORAGE_PATH_PREFERENCE = "storage_path";
-    private static final String INTERNET_DOWNLOAD_PREFERENCE = "inet_only";
-    private static final String INTERNAL_ASSETS_PATH = "data/";
-
-
     private AudioUtils() {
-        setStoragePref(true);
-        setStoragePathPref(null);
+        PreferencesUtil.setStoragePref(true);
+        PreferencesUtil.setStoragePathPref(null);
     }
 
     public static AudioUtils getInstance() {
         return _ourInstance;
-    }
-
-    private Preferences getPreferences() {
-        return Gdx.app.getPreferences(GlobalConstants.PREFERENCES_NAME);
     }
 
     private void addAudio(String key, Music music){
@@ -66,64 +55,13 @@ public class AudioUtils {
         return _audioTable.get(key);
     }
 
-    private boolean isDownloaded(RodkastEpisode episode) {
-        if(episode == null){
-            return false;
-        }
-
-        return isDownloaded(getFileFromURL(episode.getMediaLink()));
+    public boolean isDownloaded(RodkastEpisode episode) {
+        return episode != null && isDownloaded(getFileFromURL(episode.getMediaLink()));
     }
 
     private boolean isDownloaded(String episodeName) {
-        if(episodeName == null){
-            return false;
-        }
-
         String rodKastEpisode = getFullFilePath(episodeName);
-        return getStoragePref()? Gdx.files.external(rodKastEpisode).exists() : Gdx.files.internal(rodKastEpisode).exists();
-    }
-
-    public String getStoragePathPref(){
-        return getPreferences().getString(STORAGE_PATH_PREFERENCE, GlobalConstants.DEFAULT_DOWNLOAD_FOLDER);
-    }
-
-    public boolean getStoragePref(){
-        return getPreferences().getBoolean(EXTERNAL_STORAGE_PREFERENCE, true);
-    }
-
-    public boolean getInternetOnlyPref(){
-        return getPreferences().getBoolean(INTERNET_DOWNLOAD_PREFERENCE, true);
-    }
-
-    public void setStoragePref(boolean bool) {
-        saveBoolean(EXTERNAL_STORAGE_PREFERENCE, bool);
-    }
-
-    public void setInternetOnlyPref(boolean bool) {
-        saveBoolean(INTERNET_DOWNLOAD_PREFERENCE, bool);
-    }
-
-    public void setStoragePathPref(String path) {
-        if(path == null){
-            path = GlobalConstants.DEFAULT_DOWNLOAD_FOLDER;
-        }
-        saveString(STORAGE_PATH_PREFERENCE, path.replaceAll(RESERVED_CHARACTERS_PATTERN, ""));
-    }
-
-    public void toggleStoragePref() {
-        saveBoolean(EXTERNAL_STORAGE_PREFERENCE, !getPreferences().getBoolean(EXTERNAL_STORAGE_PREFERENCE, true));
-    }
-
-    private void saveBoolean(String key, boolean value) {
-        Preferences preferences = getPreferences();
-        preferences.putBoolean(key, value);
-        preferences.flush();
-    }
-
-    private void saveString(String key, String value) {
-        Preferences preferences = getPreferences();
-        preferences.putString(key, value);
-        preferences.flush();
+        return episodeName != null && PreferencesUtil.getStoragePref()? Gdx.files.external(rodKastEpisode).exists() : Gdx.files.internal(rodKastEpisode).exists();
     }
 
     public void dispose() {
@@ -215,7 +153,10 @@ public class AudioUtils {
         if(episode == null){
             return;
         }
-            boolean isDownloaded = isDownloaded(episode);
+
+        //boolean isDownloaded = isDownloaded(episode);
+
+        //System.out.println("isDownloaded" + isDownloaded);
         //TODO: Add temp download functionality
         //TODO: it should download as ._temp
         //TODO: count all ._temp if exist restart downloads.
@@ -223,9 +164,9 @@ public class AudioUtils {
         //TODO: Check dl over Network config
         //TODO: error retry if network is unavailibly
 
-            if(!isDownloaded){
-                beginDownload(episode);
-            }
+        if(!isDownloaded(episode)){
+            //beginDownload(episode);
+        }
     }
 
     private String getFileFromURL(URL url){
@@ -302,7 +243,7 @@ public class AudioUtils {
         if(fileName == null){
             fileName = "";
         }
-        return getStoragePathPref() + "\\" + fileName;
+        return PreferencesUtil.getStoragePathPref() + "\\" + fileName;
     }
 
     private HttpResponseListener createNewRodKastListener(final String fileName) throws GdxRuntimeException{
@@ -389,7 +330,7 @@ public class AudioUtils {
     }
 
     private Music createNewAudio(String fileName) {
-        boolean isExternal = getStoragePref();
+        boolean isExternal = PreferencesUtil.getStoragePref();
         System.out.println("createNewAudio: " + isExternal);
         String rodKastEpisode = getFullFilePath(fileName);
 
