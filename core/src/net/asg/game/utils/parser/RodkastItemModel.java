@@ -1,5 +1,7 @@
 package net.asg.game.utils.parser;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.badlogic.gdx.utils.XmlReader;
@@ -114,12 +116,13 @@ class RodkastItemModel{
         return episodes;
     }
 
-    public static Map<String,XMLImage> getRssImages(Element element) {
+    public static Array<Element> getRssImages(Element element) {
         validateInput(element, ELEMENT_STRING);
 
-        //element.getChildrenByName()
-        System.out.println("getRssImages():" + element);
-        return null;
+        Array<Element> elem = element.getChildrenByName(RSS_IMAGE);
+        validateInput(elem, RSS_IMAGE);
+
+        return elem;
     }
 
     public static XMLImage getRssImage(Element element) throws IllegalArgumentException, MalformedURLException {
@@ -194,5 +197,9 @@ class RodkastItemModel{
             return calendar;
         }
         throw new IllegalArgumentException("Unable to part date: " + date + " attribute.");
+    }
+
+    public static Image makeImage(){
+        return new Image();
     }
 }

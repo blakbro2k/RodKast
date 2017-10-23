@@ -3,8 +3,10 @@ package net.asg.game.utils.parser;
 import com.badlogic.gdx.utils.XmlReader;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.net.MalformedURLException;
@@ -45,7 +47,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getRssUrl(parent);
         } catch(Exception e){
-            System.out.println("getRssUrl() error message: " + e);
+            System.out.println("getRssUrl(): Caught: " + e);
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
 
@@ -56,7 +58,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getRssUrl(parent);
         } catch (Exception e){
-            System.out.println("getRssUrl() error message: " + e);
+            System.out.println("getRssUrl(): Caught: " + e);
             Assert.assertTrue(e instanceof MalformedURLException);
         }
         parent.removeChild(element);
@@ -73,7 +75,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getRssUrl(parent);
         } catch (Exception e){
-            System.out.println("getRssUrl() error message: " + e);
+            System.out.println("getRssUrl(): Caught: " + e);
             Assert.assertTrue(e instanceof MalformedURLException);
         }
         parent.removeChild(element);
@@ -84,7 +86,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getRssUrl(parent);
         } catch (Exception e){
-            System.out.println("getRssUrl() error message: " + e);
+            System.out.println("getRssUrl(): Caught: " + e);
             Assert.assertTrue(e instanceof MalformedURLException);
         }
         parent.removeChild(element);
@@ -95,7 +97,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getRssUrl(parent);
         } catch (Exception e){
-            System.out.println("getRssUrl() error message: " + e);
+            System.out.println("getRssUrl(): Caught: " + e);
             Assert.assertTrue(e instanceof MalformedURLException);
         }
         parent.removeChild(element);
@@ -109,7 +111,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getRssPubDate(parent);
         } catch(Exception e){
-            System.out.println("getLastBuildDate() error message: " + e);
+            System.out.println("getRssPubDate(): Caught: " + e);
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
 
@@ -119,7 +121,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getRssPubDate(parent);
         } catch(Exception e){
-            System.out.println("getLastBuildDate() error message: " + e);
+            System.out.println("getRssPubDate(): Caught: " + e);
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
         parent.removeChild(element);
@@ -130,7 +132,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getRssPubDate(parent);
         } catch(Exception e){
-            System.out.println("getLastBuildDate() error message: " + e);
+            System.out.println("getRssPubDate(): Caught: " + e);
             Assert.assertTrue(e instanceof ParseException);
         }
         parent.removeChild(element);
@@ -141,7 +143,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getRssPubDate(parent);
         } catch(Exception e){
-            System.out.println("getLastBuildDate() error message: " + e);
+            System.out.println("getRssPubDate(): Caught: " + e);
             Assert.assertTrue(e instanceof ParseException);
         }
         parent.removeChild(element);
@@ -166,7 +168,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getLastBuildDate(parent);
         } catch(Exception e){
-            System.out.println("getLastBuildDate() error message: " + e);
+            System.out.println("getLastBuildDate(): Caught: " + e);
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
 
@@ -176,7 +178,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getLastBuildDate(parent);
         } catch(Exception e){
-            System.out.println("getLastBuildDate() error message: " + e);
+            System.out.println("getLastBuildDate(): Caught:  " + e);
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
         parent.removeChild(element);
@@ -187,7 +189,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getLastBuildDate(parent);
         } catch(Exception e){
-            System.out.println("getLastBuildDate() error message: " + e);
+            System.out.println("getLastBuildDate(): Caught: " + e);
             Assert.assertTrue(e instanceof ParseException);
         }
         parent.removeChild(element);
@@ -198,7 +200,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getLastBuildDate(parent);
         } catch(Exception e){
-            System.out.println("getLastBuildDate() error message: " + e);
+            System.out.println("getLastBuildDate(): Caught: " + e);
             Assert.assertTrue(e instanceof ParseException);
         }
         parent.removeChild(element);
@@ -221,7 +223,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getRssTitle(parent);
         } catch(Exception e){
-            System.out.println("getRssTitle() error message: " + e);
+            System.out.println("getRssTitle(): Caught: " + e);
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
 
@@ -249,7 +251,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getRssGUID(parent);
         } catch(Exception e){
-            System.out.println("getRssGUID() error message: " + e);
+            System.out.println("getRssGUID(): Caught: " + e);
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
 
@@ -277,7 +279,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getRssDescription(parent);
         } catch(Exception e){
-            System.out.println("getRssDescription() error message: " + e);
+            System.out.println("getRssDescription(): Caught: " + e);
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
 
@@ -305,7 +307,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getRssCategory(parent);
         } catch(Exception e){
-            System.out.println("getRssCategory() error message: " + e);
+            System.out.println("getRssCategory(): Caught: " + e);
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
 
@@ -333,7 +335,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getRssLanguage(parent);
         } catch(Exception e){
-            System.out.println("getRssLanguage() error message: " + e);
+            System.out.println("getRssLanguage(): Caught: " + e);
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
 
@@ -361,7 +363,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getRssEnclosure(parent);
         } catch(Exception e){
-            System.out.println("getRssEnclosure() error message: " + e);
+            System.out.println("getRssEnclosure(): Caught: " + e);
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
 
@@ -381,7 +383,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getRssEnclosure(parent);
         } catch(Exception e){
-            System.out.println("getRssEnclosure() error message: " + e);
+            System.out.println("getRssEnclosure(): Caught: " + e);
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
         parent.removeChild(testEnclosure);
@@ -391,7 +393,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getRssEnclosure(parent);
         } catch(Exception e){
-            System.out.println("getRssEnclosure() error message: " + e);
+            System.out.println("getRssEnclosure(): Caught: " + e);
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
         parent.removeChild(testEnclosure);
@@ -401,7 +403,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getRssEnclosure(parent);
         } catch(Exception e){
-            System.out.println("getRssEnclosure() error message: " + e);
+            System.out.println("getRssEnclosure(): Caught: " + e);
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
         parent.removeChild(testEnclosure);
@@ -411,7 +413,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getRssEnclosure(parent);
         } catch(Exception e){
-            System.out.println("getRssEnclosure() error message: " + e);
+            System.out.println("getRssEnclosure(): Caught: " + e);
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
         parent.removeChild(testEnclosure);
@@ -430,10 +432,65 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getCompleteEpisodesList(parent);
         } catch(Exception e){
-            System.out.println("getRssEnclosure() error message: " + e);
+            System.out.println("getCompleteEpisodesList(): Caught: " + e);
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
-        throw new Exception("Test not initialized.");
+
+        /*
+                this.title = RodkastItemModel.getRssTitle(element);
+                this.webLink = RodkastItemModel.getRssUrl(element);
+                this.pubishedDate = RodkastItemModel.getRssPubDate(element);
+                this.guid = RodkastItemModel.getRssGUID(element);
+                this.description = RodkastItemModel.getRssDescription(element);
+                this.category = RodkastItemModel.getRssCategory(element);
+                this.enclosure = RodkastItemModel.getRssEnclosure(element);
+
+    public static final String RSS_TITLE = "title";
+    public static final String RSS_LINK = "link";
+    public static final String RSS_PUBLISHED_DATE = "pubDate";
+    public static final String RSS_LAST_BUILD_DATE = "lastBuildDate";
+    public static final String RSS_ITEM = "item";
+    public static final String RSS_DESCRIPTION = "description";
+    public static final String RSS_CATEGORY = "category";
+    public static final String RSS_GUID = "guid";
+    public static final String RSS_LANGUAGE = "language";
+    public static final String RSS_IMAGE = "image";
+    public static final String RSS_EPISODE = "enclosure";
+    public static final String RSS_CHANNEL = "channel";
+
+         */
+
+        //is null
+        XmlReader.Element item1 = new XmlReader.Element(RodkastItemModel.RSS_ITEM,parent);
+        item1.setAttribute(RodkastItemModel.RSS_TITLE, null);
+        item1.setAttribute(RodkastItemModel.RSS_LINK, null);
+        item1.setAttribute(RodkastItemModel.RSS_PUBLISHED_DATE, null);
+        item1.setAttribute(RodkastItemModel.RSS_LAST_BUILD_DATE, null);
+        item1.setAttribute(RodkastItemModel.RSS_ITEM, null);
+        item1.setAttribute(RodkastItemModel.RSS_DESCRIPTION, null);
+        item1.setAttribute(RodkastItemModel.RSS_CATEGORY, null);
+        item1.setAttribute(RodkastItemModel.RSS_GUID, null);
+        item1.setAttribute(RodkastItemModel.RSS_LANGUAGE, null);
+        item1.setAttribute(RodkastItemModel.RSS_IMAGE, null);
+        item1.setAttribute(RodkastItemModel.RSS_EPISODE, null);
+        item1.setAttribute(RodkastItemModel.RSS_CHANNEL, null);
+
+        String link = "http://media.blubrry.com/rodkast/traffic.libsyn.com/rodkast/Rodkast111.mp3";
+        String title = "Rodkast Episode 8";
+        String length = "";
+        String description = "description";
+        String category = "category";
+        String guid = "597643375665446";
+        String enclosure = "enclosure";
+        String channel = "channel";
+        String episode = "channel";
+
+        Assert.assertNull(RodkastItemModel.RSS_ITEM, item1);
+    }
+
+    @Test
+    public void getRssImages() throws Exception {
+        throw new Exception("Test not initialized yet");
     }
 
     @Test
@@ -442,7 +499,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getRssImage(parent);
         } catch(Exception e){
-            System.out.println("getRssEnclosure() error message: " + e);
+            System.out.println("getRssImage(): Caught: " + e);
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
 
@@ -456,7 +513,7 @@ public class RodkastItemModelTest {
         try{
             RodkastItemModel.getRssImage(parent);
         } catch(Exception e){
-            System.out.println(element + "getLastBuildDate() error message: " + e);
+            System.out.println("getRssImage(): Caught: " + e);
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
         parent.removeChild(element);
@@ -467,12 +524,22 @@ public class RodkastItemModelTest {
 
         XMLImage expected = new XMLImage(title, link, url);
 
+        element.setAttribute(XMLImage.TITLE_ATTRIBUTE, title);
+        parent.addChild(element);
+        try{
+            RodkastItemModel.getRssImage(parent);
+        } catch(Exception e){
+            System.out.println("getRssImage(): Caught: " + e);
+            Assert.assertTrue(e instanceof IllegalArgumentException);
+        }
+        parent.removeChild(element);
+
         element.setAttribute(XMLImage.LINK_ATTRIBUTE, link);
         parent.addChild(element);
         try{
-            RodkastItemModel.getRssEnclosure(parent);
+            RodkastItemModel.getRssImage(parent);
         } catch(Exception e){
-            System.out.println("getRssEnclosure() error message: " + e);
+            System.out.println("getRssImage(): Caught: " + e);
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
         parent.removeChild(element);
@@ -480,19 +547,9 @@ public class RodkastItemModelTest {
         element.setAttribute(XMLImage.URL_ATTRIBUTE, url);
         parent.addChild(element);
         try{
-            RodkastItemModel.getRssEnclosure(parent);
+            RodkastItemModel.getRssImage(parent);
         } catch(Exception e){
-            System.out.println("getRssEnclosure() error message: " + e);
-            Assert.assertTrue(e instanceof IllegalArgumentException);
-        }
-        parent.removeChild(element);
-
-        element.setAttribute(XMLImage.TITLE_ATTRIBUTE, title);
-        parent.addChild(element);
-        try{
-            RodkastItemModel.getRssEnclosure(parent);
-        } catch(Exception e){
-            System.out.println("getRssEnclosure() error message: " + e);
+            System.out.println("getRssImage(): Caught: " + e);
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
         parent.removeChild(element);

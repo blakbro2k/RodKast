@@ -15,14 +15,13 @@ import org.junit.runner.RunWith;
 @RunWith(GdxTestRunner.class)
 public class PreferencesUtilTest {
     @BeforeClass
-    public static void setUP() throws Exception {
-            PreferencesUtil.getPreferences();
-            PreferencesUtil.setStoragePref(true);
-            PreferencesUtil.setStoragePathPref(null);
+    public void setUp(){
+
     }
 
-   @Test
+    @Test
     public void saveBoolean() throws Exception {
+        //method = PreferencesUtil.getClass();
        throw new Exception("Test not initialized.");
     }
 
@@ -53,12 +52,7 @@ public class PreferencesUtilTest {
 
     @Test
     public void getPreferences() throws Exception {
-        throw new Exception("Test not initialized.");
-    }
-
-    @Test
-    public void getStoragePathPref() throws Exception {
-        throw new Exception("Test not initialized.");
+        Assert.assertNotNull(PreferencesUtil.getPreferences());
     }
 
     @Test

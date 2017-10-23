@@ -21,7 +21,7 @@ public class RodkastChannel implements Disposable{
     private Calendar lastBuildDate;
     private String language;
     private Array<RodkastEpisode> episodes;
-    private Map<String,XMLImage> images;
+    private Array<XmlReader.Element> images;
 
     public RodkastChannel(XmlReader.Element element) throws IllegalArgumentException, MalformedURLException, ParseException {
         if (element == null){
@@ -54,8 +54,10 @@ public class RodkastChannel implements Disposable{
     public Array<RodkastEpisode> getEpisodes() {
         return episodes;
     }
-    public Map<String,XMLImage> getImages() {
-        return images; }
+
+    public Array<XmlReader.Element> getImages() {
+        return images;
+    }
 
     public String toString() {
         return "<Title: " + getTitle() + ">\n"
