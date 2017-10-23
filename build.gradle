@@ -32,6 +32,7 @@ allprojects {
         junitVersion = '4.12'
         assertjVersion = "2.0.0"
         mockitoVersion = "1.10.19"
+        jetbrainsVersion = "15.0"
     }
 
     repositories {

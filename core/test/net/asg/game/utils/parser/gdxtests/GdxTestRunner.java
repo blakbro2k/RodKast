@@ -16,11 +16,15 @@ package net.asg.game.utils.parser.gdxtests;
  * limitations under the License.
  ******************************************************************************/
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL30;
+
+import net.asg.game.RodKastApplication;
 
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
@@ -43,6 +47,7 @@ public class GdxTestRunner extends BlockJUnit4ClassRunner implements Application
         // Use Mockito to mock the OpenGL methods since we are running headlessly
         Gdx.gl20 = Mockito.mock(GL30.class);
         Gdx.gl = Gdx.gl20;
+        //Gdx.app = Mockito.mock(Application.class);
     }
 
     @Override

@@ -1,69 +1,64 @@
 package net.asg.game.utils.parser.gdxtests.rodkast;
 
-import net.asg.game.utils.AudioUtils;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.PreferencesUtil;
+import net.asg.game.utils.parser.gdxtests.GdxTestRunner;
 
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
+import org.junit.runner.RunWith;
 
 /**
  * Created by eboateng on 10/19/2017.
  */
+@RunWith(GdxTestRunner.class)
 public class PreferencesUtilTest {
-    boolean initialized = false;
-
-    @Before
-    public void setUP() throws Exception {
-        if(!initialized){
+    @BeforeClass
+    public static void setUP() throws Exception {
             PreferencesUtil.getPreferences();
             PreferencesUtil.setStoragePref(true);
             PreferencesUtil.setStoragePathPref(null);
-        }
     }
-
 
    @Test
     public void saveBoolean() throws Exception {
-
+       throw new Exception("Test not initialized.");
     }
 
     @Test
     public void saveString() throws Exception {
-
+        throw new Exception("Test not initialized.");
     }
 
     @Test
     public void saveInteger() throws Exception {
-
+        throw new Exception("Test not initialized.");
     }
 
     @Test
     public void saveLong() throws Exception {
-
+        throw new Exception("Test not initialized.");
     }
 
     @Test
     public void saveFloat() throws Exception {
-
+        throw new Exception("Test not initialized.");
     }
 
     @Test
     public void saveValues() throws Exception {
-
+        throw new Exception("Test not initialized.");
     }
 
     @Test
     public void getPreferences() throws Exception {
-
+        throw new Exception("Test not initialized.");
     }
 
     @Test
     public void getStoragePathPref() throws Exception {
-
+        throw new Exception("Test not initialized.");
     }
 
     @Test
