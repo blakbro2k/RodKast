@@ -1,5 +1,7 @@
 package net.asg.game.utils.parser.gdxtests.rodkast;
 
+import com.badlogic.gdx.utils.GdxRuntimeException;
+
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.PreferencesUtil;
 import net.asg.game.utils.parser.gdxtests.GdxTestRunner;
@@ -14,39 +16,61 @@ import org.junit.runner.RunWith;
  */
 @RunWith(GdxTestRunner.class)
 public class PreferencesUtilTest {
-    @BeforeClass
-    public void setUp(){
 
-    }
 
     @Test
     public void saveBoolean() throws Exception {
-        //method = PreferencesUtil.getClass();
-       throw new Exception("Test not initialized.");
+        PreferencesUtil.saveBoolean("testBool", false);
+        Assert.assertFalse(PreferencesUtil.getPreferences().getBoolean("testBool"));
+        PreferencesUtil.saveBoolean("testBool", true);
+        Assert.assertTrue(PreferencesUtil.getPreferences().getBoolean("testBool"));
     }
 
     @Test
     public void saveString() throws Exception {
-        throw new Exception("Test not initialized.");
+        try{
+            PreferencesUtil.saveString("testString", null);
+        } catch (Exception e) {
+            System.out.println("saveString(): Caught: " + e);
+            Assert.assertTrue(e instanceof GdxRuntimeException);
+        }
+
+        PreferencesUtil.saveString("testString", "testString");
+        Assert.assertNotNull(PreferencesUtil.getPreferences().getBoolean("testString"));
     }
 
     @Test
     public void saveInteger() throws Exception {
-        throw new Exception("Test not initialized.");
+        PreferencesUtil.saveInteger("testInteger", 256);
+        Assert.assertEquals(256, PreferencesUtil.getPreferences().getInteger("testInteger"),0);
+        PreferencesUtil.saveInteger("testInteger", -256);
+        Assert.assertEquals(-256, PreferencesUtil.getPreferences().getInteger("testInteger"),0);
     }
 
     @Test
     public void saveLong() throws Exception {
-        throw new Exception("Test not initialized.");
+        PreferencesUtil.saveLong("testLong", 5416654644L);
+        Assert.assertEquals(5416654644L, PreferencesUtil.getPreferences().getLong("testLong"),0);
+        PreferencesUtil.saveLong("testLong", -5416654644L);
+        Assert.assertEquals(-5416654644L, PreferencesUtil.getPreferences().getLong("testLong"),0);
     }
 
     @Test
     public void saveFloat() throws Exception {
-        throw new Exception("Test not initialized.");
+        PreferencesUtil.saveFloat("testFloat", 1f);
+        Assert.assertEquals(1f, PreferencesUtil.getPreferences().getFloat("testFloat"), 0);
+        PreferencesUtil.saveFloat("testFloat", 0f);
+        Assert.assertEquals(0f, PreferencesUtil.getPreferences().getFloat("testFloat"), 0);
+        PreferencesUtil.saveFloat("testFloat", 0.5f);
+        Assert.assertEquals(0.5f, PreferencesUtil.getPreferences().getFloat("testFloat"), 0);
     }
 
     @Test
     public void saveValues() throws Exception {
+        PreferencesUtil.saveBoolean("testBool", false);
+        Assert.assertFalse(PreferencesUtil.getPreferences().getBoolean("testBool"));
+        PreferencesUtil.saveBoolean("testBool", true);
+        Assert.assertTrue(PreferencesUtil.getPreferences().getBoolean("testBool"));
         throw new Exception("Test not initialized.");
     }
 

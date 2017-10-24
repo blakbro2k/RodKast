@@ -18,7 +18,10 @@ public class XMLImage {
     private URL link;
     private URL url;
 
-    public XMLImage(String title, String link, String url) throws MalformedURLException{
+    public XMLImage(String title, String link, String url) throws IllegalArgumentException, MalformedURLException{
+        if(title == null || link == null || url == null){
+            throw new IllegalArgumentException("XMLImage title, link or url cannot be null.");
+        }
         this.title = title;
         this.link = new URL(link);
         this.url = new URL(url);

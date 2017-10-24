@@ -2,6 +2,7 @@ package net.asg.game.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import java.util.Map;
 
@@ -43,7 +44,7 @@ public class PreferencesUtil {
         saveBoolean(INTERNET_DOWNLOAD_PREFERENCE, bool);
     }
 
-    public static void setStoragePathPref(String path) {
+    public static void setStoragePathPref(String path){
         if(path == null){
             path = GlobalConstants.DEFAULT_DOWNLOAD_FOLDER;
         }
@@ -60,7 +61,11 @@ public class PreferencesUtil {
         preferences.flush();
     }
 
-    public static void saveString(String key, String value) {
+    public static void saveString(String key, String value){
+        if(value == null){
+            throw new GdxRuntimeException("Preference string cannot be null");
+        }
+
         Preferences preferences = getPreferences();
         preferences.putString(key, value);
         preferences.flush();
