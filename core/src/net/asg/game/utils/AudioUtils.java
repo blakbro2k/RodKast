@@ -56,12 +56,7 @@ public class AudioUtils {
     }
 
     public boolean isDownloaded(RodkastEpisode episode) {
-        return episode != null && isDownloaded(getFileFromURL(episode.getMediaLink()));
-    }
-
-    private boolean isDownloaded(String episodeName) {
-        String rodKastEpisode = getFullFilePath(episodeName);
-        return episodeName != null && PreferencesUtil.getStoragePref()? Gdx.files.external(rodKastEpisode).exists() : Gdx.files.internal(rodKastEpisode).exists();
+        return episode != null && FileUtils.isFileDownloaded(getFileFromURL(episode.getMediaLink()));
     }
 
     public void dispose() {
@@ -369,7 +364,7 @@ public class AudioUtils {
 
             this.episodeName = getEpisodeAudioFileName(episode);
 
-            if(isDownloaded(episodeName)){
+            if(FileUtils.isFileDownloaded(episodeName)){
                 progress = 1;
             } else {
                 progress = (float) Math.round(Math.random() * 1);
