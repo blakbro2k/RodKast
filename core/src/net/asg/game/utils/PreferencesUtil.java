@@ -89,7 +89,7 @@ public class PreferencesUtil {
         preferences.flush();
     }
 
-    public static void saveValues(String key, Map<String, ?> values) {
+    public static void saveValues(Map<String, ?> values) {
         Preferences preferences = getPreferences();
         preferences.put(values);
         preferences.flush();

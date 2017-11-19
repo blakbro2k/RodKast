@@ -5,4 +5,20 @@ package net.asg.game.utils;
  */
 
 public class FileUtils {
+    private int downloadThreshold = 2;
+
+    public void addDownload(){
+
+    }
+    public boolean removeDownload(){
+        return false;
+    }
+    public void viewDownloadQueue(){
+    }
+    public int getTotalNumDownloads(){
+        return 0;
+    }
+    public int getActiveNumDownloads(){
+        return 0;
+    }
 }

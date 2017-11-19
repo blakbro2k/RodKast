@@ -11,6 +11,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Hashtable;
+import java.util.Map;
+
 /**
  * Created by eboateng on 10/19/2017.
  */
@@ -67,11 +70,22 @@ public class PreferencesUtilTest {
 
     @Test
     public void saveValues() throws Exception {
-        PreferencesUtil.saveBoolean("testBool", false);
-        Assert.assertFalse(PreferencesUtil.getPreferences().getBoolean("testBool"));
-        PreferencesUtil.saveBoolean("testBool", true);
-        Assert.assertTrue(PreferencesUtil.getPreferences().getBoolean("testBool"));
-        throw new Exception("Test not initialized.");
+        Map testMixValues = new Hashtable();
+        testMixValues.put("testValsBool", true);
+        testMixValues.put("testValsString", "String");
+        testMixValues.put("testValsFloat", 1f);
+        testMixValues.put("testValsLong", 42324L);
+       // testMixValues.put("bool", true);
+
+        PreferencesUtil.saveValues(testMixValues);
+
+        Map values = PreferencesUtil.getPreferences().get();
+        Assert.assertEquals("true", values.get("testValsBool"));
+        Assert.assertEquals("String", values.get("testValsString"));
+        Assert.assertEquals("1.0", values.get("testValsFloat"));
+        Assert.assertEquals("42324", values.get("testValsLong"));
+
+       // throw new Exception("Test not initialized.");
     }
 
     @Test
