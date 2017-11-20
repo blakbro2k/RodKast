@@ -7,7 +7,6 @@ import net.asg.game.utils.PreferencesUtil;
 import net.asg.game.utils.parser.gdxtests.GdxTestRunner;
 
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
