@@ -56,7 +56,7 @@ public class AudioUtils {
     }
 
     public boolean isDownloaded(RodkastEpisode episode) {
-        return episode != null && FileUtils.isFileDownloaded(getFileFromURL(episode.getMediaLink()));
+        return episode != null && FileUtils.getInstance().isFileDownloaded(getFileFromURL(episode.getMediaLink()));
     }
 
     public void dispose() {
@@ -364,7 +364,7 @@ public class AudioUtils {
 
             this.episodeName = getEpisodeAudioFileName(episode);
 
-            if(FileUtils.isFileDownloaded(episodeName)){
+            if(FileUtils.getInstance().isFileDownloaded(episodeName)){
                 progress = 1;
             } else {
                 progress = (float) Math.round(Math.random() * 1);
