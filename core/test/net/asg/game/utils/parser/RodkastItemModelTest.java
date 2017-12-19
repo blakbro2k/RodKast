@@ -445,18 +445,18 @@ public class RodkastItemModelTest {
                 this.category = RodkastItemModel.getRssCategory(element);
                 this.enclosure = RodkastItemModel.getRssEnclosure(element);
 
-    public static final String RSS_TITLE = "title";
-    public static final String RSS_LINK = "link";
-    public static final String RSS_PUBLISHED_DATE = "pubDate";
-    public static final String RSS_LAST_BUILD_DATE = "lastBuildDate";
-    public static final String RSS_ITEM = "item";
-    public static final String RSS_DESCRIPTION = "description";
-    public static final String RSS_CATEGORY = "category";
-    public static final String RSS_GUID = "guid";
-    public static final String RSS_LANGUAGE = "language";
-    public static final String RSS_IMAGE = "image";
-    public static final String RSS_EPISODE = "enclosure";
-    public static final String RSS_CHANNEL = "channel";
+            public static final String RSS_TITLE = "title";
+           public static final String RSS_LINK = "link";
+           public static final String RSS_PUBLISHED_DATE = "pubDate";
+           public static final String RSS_LAST_BUILD_DATE = "lastBuildDate";
+           public static final String RSS_ITEM = "item";
+           public static final String RSS_DESCRIPTION = "description";
+           public static final String RSS_CATEGORY = "category";
+           public static final String RSS_GUID = "guid";
+           public static final String RSS_LANGUAGE = "language";
+           public static final String RSS_IMAGE = "image";
+           public static final String RSS_EPISODE = "enclosure";
+           public static final String RSS_CHANNEL = "channel";
 
          */
 

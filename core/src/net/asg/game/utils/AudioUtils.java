@@ -264,6 +264,7 @@ public class AudioUtils {
                 byte[] bytes = new byte[1024];
                 int count;
                 long read = 0;
+
                 try {
                     // Keep reading bytes and storing them until there are no more.
                     while ((count = is.read(bytes, 0, bytes.length)) != -1) {
@@ -274,8 +275,6 @@ public class AudioUtils {
                         // System.out.println("float: " + ((double) read / (double) length));
                         final int progress = ((int) (((double) read / (double) length) * 100));
                         final String progressString = progress == 100 ? "Click to download" : progress + "%";
-
-                        audioIndexObject.updateProgres(progress);
 
                         if(progress == 100){
                             audioIndexObject.setTotalFileLength(length);
