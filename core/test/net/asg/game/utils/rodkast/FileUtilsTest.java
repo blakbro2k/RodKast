@@ -1,4 +1,6 @@
-package net.asg.game.utils;
+package net.asg.game.utils.rodkast;
+
+import net.asg.game.utils.FileUtils;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -50,6 +52,8 @@ public class FileUtilsTest {
 
     @Test
     public void processNextDownload() throws Exception {
+        throw new Exception("Test not initialized");
+        /*
         String fileName = "TestFileObject3";
         URL url = new URL("http://speedtest-ny.turnkeyinternet.net/100mb.bin");
 
@@ -57,6 +61,6 @@ public class FileUtilsTest {
         FileUtils.getInstance().queueDownload(obj);
         //FileUtils.getInstance().processNextDownload();
 
-        throw new Exception("Test not initialized");
+        throw new Exception("Test not initialized");*/
     }
 }

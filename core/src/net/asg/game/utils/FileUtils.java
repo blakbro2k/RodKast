@@ -24,9 +24,9 @@ public class FileUtils {
 
     private static FileUtils _ourInstance = new FileUtils();
     private Queue<FileUtilObject> downloadQueue;
-    private Map<String, Integer> fileNameIndex;
+    private Map<Integer, Float> congruentDownloads;
     public final int DEFAULT_DOWNLOAD_THRESHOLD = 3;
-    private int congruentDownloads = 0;
+    //private int congruentDownloads = 0;
 
     private FileUtils(){
         initialize();
@@ -42,65 +42,57 @@ public class FileUtils {
         return _ourInstance;
     }
 
-    public int getDownloadQueueSize(){
-        return downloadQueue.size;
-    }
-
     public boolean isFileDownloaded(String fileName) throws GdxRuntimeException{
         return fileName != null && PreferencesUtil.getStoragePref()? Gdx.files.external(fileName).exists() : Gdx.files.internal(fileName).exists();
     }
 
-    public void queueDownload(FileUtilObject fileUtilObject) throws GdxRuntimeException{
+    public int getDownloadQueueSize(){
+        return downloadQueue.size;
+    }
+
+    public void queueDownload(FileUtilObject fileUtilObject){
         if(fileUtilObject == null){
             return;
         }
         downloadQueue.addFirst(fileUtilObject);
     }
 
-    public FileUtilObject removeDownload() throws GdxRuntimeException{
-        if(downloadQueue .size == 0){
+    public FileUtilObject removeDownload(){
+        if(downloadQueue.size == 0){
             return null;
         }
         return downloadQueue.removeFirst();
     }
 
     public void processNextDownload() throws GdxRuntimeException{
-        FileUtilObject download = removeDownload();
+        //FileUtilObject download = removeDownload();
+        if(downloadQueue.size < 1){
+            return;
+        }
+
+        FileUtilObject download = downloadQueue.get(0);
+
         if(download == null){
             return;
         }
 
-        if(congruentDownloads > DEFAULT_DOWNLOAD_THRESHOLD){
-            throw new GdxRuntimeException("Max congruent downloads reached");
+        if(congruentDownloads.size() + 1 < DEFAULT_DOWNLOAD_THRESHOLD){
+            //increaseCongruentDownloads();
+            URL link = download.getUrl();
+
+            Net.HttpRequest request = new Net.HttpRequest(Net.HttpMethods.GET);
+            request.setTimeOut(GlobalConstants.HTTP_REQUEST_TIMEOUT);
+            request.setUrl(link.toString());
+
+            RodkastHttpListener requestTest = new RodkastHttpListener(download);
+            System.out.println("download: " + requestTest);
+            // Send the request, listen for the response
+            Gdx.net.sendHttpRequest(request, new RodkastHttpListener(download));
         }
-
-        increaseCongruentDownloads();
-        URL link = download.getUrl();
-
-        Net.HttpRequest request = new Net.HttpRequest(Net.HttpMethods.GET);
-        request.setTimeOut(GlobalConstants.HTTP_REQUEST_TIMEOUT);
-        request.setUrl(link.toString());
-
-        RodkastHttpListener requestTest = new RodkastHttpListener(download);
-        System.out.println("download: " + requestTest);
-        // Send the request, listen for the response
-        Gdx.net.sendHttpRequest(request, new RodkastHttpListener(download));
     }
 
     private int getCongruentDownloads(){
-        return congruentDownloads;
-    }
-
-    private void increaseCongruentDownloads(){
-        congruentDownloads++;
-    }
-
-    private void decreaseCongruentDownloads(){
-        if(congruentDownloads < 1){
-            congruentDownloads = 0;
-        } else {
-            congruentDownloads--;
-        }
+        return congruentDownloads.size();
     }
 
     private class RodkastHttpListener implements Net.HttpResponseListener {
@@ -145,7 +137,7 @@ public class FileUtils {
             } catch (IOException e) {
                 throw new GdxRuntimeException(e);
             } finally {
-                decreaseCongruentDownloads();
+                //decreaseCongruentDownloads();
                 Utils.closeInputStream(is);
                 //Utils.closeOutputStream(os);
             }
@@ -207,6 +199,14 @@ public class FileUtils {
         @Override
         public void read(Json json, JsonValue jsonData) {
 
+        }
+
+        public Array iterator(){
+            return fileBytes;
+        }
+
+        public String toString(){
+            return fileName + ": " + fileBytes;
         }
     }
 }

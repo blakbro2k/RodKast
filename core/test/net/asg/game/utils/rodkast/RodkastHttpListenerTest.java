@@ -1,4 +1,4 @@
-package net.asg.game.utils;
+package net.asg.game.utils.rodkast;
 
 import org.junit.Test;
 

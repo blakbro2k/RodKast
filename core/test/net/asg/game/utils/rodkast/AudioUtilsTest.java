@@ -1,4 +1,4 @@
-package net.asg.game.utils.parser.gdxtests.rodkast;
+package net.asg.game.utils.rodkast;
 
 import com.badlogic.gdx.utils.Array;
 
@@ -8,9 +8,6 @@ import net.asg.game.utils.parser.RodkastEpisode;
 import net.asg.game.utils.parser.XMLHandler;
 import net.asg.game.utils.parser.gdxtests.GdxTestRunner;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

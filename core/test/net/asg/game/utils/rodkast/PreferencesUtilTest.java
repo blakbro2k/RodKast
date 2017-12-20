@@ -1,4 +1,4 @@
-package net.asg.game.utils.parser.gdxtests.rodkast;
+package net.asg.game.utils.rodkast;
 
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
