@@ -1,9 +1,11 @@
 package net.asg.game.utils.rodkast;
 
 import net.asg.game.utils.FileUtils;
+import net.asg.game.utils.parser.gdxtests.GdxTestRunner;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.net.URL;
 
@@ -12,15 +14,11 @@ import static org.junit.Assert.*;
 /**
  * Created by Blakbro2k on 12/18/2017.
  */
+@RunWith(GdxTestRunner.class)
 public class FileUtilsTest {
     @Test
     public void getInstance() throws Exception {
         Assert.assertNotNull(FileUtils.getInstance());
-    }
-
-    @Test
-    public void isFileDownloaded() throws Exception {
-        throw new Exception("Test not initialized");
     }
 
     @Test
@@ -52,15 +50,16 @@ public class FileUtilsTest {
 
     @Test
     public void processNextDownload() throws Exception {
-        throw new Exception("Test not initialized");
-        /*
+        //throw new Exception("Test not initialized");
+
         String fileName = "TestFileObject3";
         URL url = new URL("http://speedtest-ny.turnkeyinternet.net/100mb.bin");
 
         FileUtils.FileUtilObject obj = new FileUtils.FileUtilObject(fileName, url);
         FileUtils.getInstance().queueDownload(obj);
-        //FileUtils.getInstance().processNextDownload();
+        FileUtils.getInstance().clearDownloadQueue();
+        FileUtils.getInstance().processNextDownload();
+        FileUtils.getInstance().clearDownloadQueue();
 
-        throw new Exception("Test not initialized");*/
     }
 }

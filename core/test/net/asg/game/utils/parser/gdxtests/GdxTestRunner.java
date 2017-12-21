@@ -18,6 +18,7 @@ package net.asg.game.utils.parser.gdxtests;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Net;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL30;
@@ -43,6 +44,7 @@ public class GdxTestRunner extends BlockJUnit4ClassRunner implements Application
         // Use Mockito to mock the OpenGL methods since we are running headlessly
         Gdx.gl20 = Mockito.mock(GL30.class);
         Gdx.gl = Gdx.gl20;
+        //Gdx.net = Mockito.mock(Net.class);
     }
 
     @Override

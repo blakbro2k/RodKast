@@ -445,7 +445,7 @@ public class RodkastItemModelTest {
                 this.category = RodkastItemModel.getRssCategory(element);
                 this.enclosure = RodkastItemModel.getRssEnclosure(element);
 
-            public static final String RSS_TITLE = "title";
+           public static final String RSS_TITLE = "title";
            public static final String RSS_LINK = "link";
            public static final String RSS_PUBLISHED_DATE = "pubDate";
            public static final String RSS_LAST_BUILD_DATE = "lastBuildDate";

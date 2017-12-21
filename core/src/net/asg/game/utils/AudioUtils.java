@@ -55,8 +55,12 @@ public class AudioUtils {
         return _audioTable.get(key);
     }
 
-    public boolean isDownloaded(RodkastEpisode episode) {
-        return episode != null && FileUtils.getInstance().isFileDownloaded(getFileFromURL(episode.getMediaLink()));
+    public boolean isEpisodeDownloaded(RodkastEpisode episode) {
+        return isFileDownloaded(getFileFromURL(episode.getMediaLink()));
+    }
+
+    public boolean isFileDownloaded(String fileName) throws GdxRuntimeException {
+        return fileName != null && PreferencesUtil.getStoragePref() ? Gdx.files.external(fileName).exists() : Gdx.files.internal(fileName).exists();
     }
 
     public void dispose() {
@@ -70,7 +74,7 @@ public class AudioUtils {
     }
 
     public void playEpisode(RodkastEpisode episode) {
-        if(isDownloaded(episode)){
+        if(isEpisodeDownloaded(episode)){
             String currentEpisodeName = getEpisodeAudioFileName(episode);
 
             if(!isCurrentlyPlaying(currentEpisodeName)){
@@ -159,7 +163,7 @@ public class AudioUtils {
         //TODO: Check dl over Network config
         //TODO: error retry if network is unavailibly
 
-        if(!isDownloaded(episode)){
+        if(!isEpisodeDownloaded(episode)){
             //beginDownload(episode);
         }
     }
@@ -171,7 +175,7 @@ public class AudioUtils {
         String filePath = url.getFile();
         return filePath.substring(filePath.lastIndexOf('/') + 1);
     }
-
+/*
     private void beginDownload(RodkastEpisode episode){
         if(episode == null) {
             throw new RuntimeException("Invalid episode");
@@ -192,7 +196,7 @@ public class AudioUtils {
         } catch (GdxRuntimeException e){
             throw new GdxRuntimeException(e);
         }
-    }
+    }*/
 
     public float getAudioDownloadProgressValue(RodkastEpisode episode){
         if(episode != null){
@@ -240,7 +244,7 @@ public class AudioUtils {
         }
         return PreferencesUtil.getStoragePathPref() + "\\" + fileName;
     }
-
+/*
     private HttpResponseListener createNewRodKastListener(final String fileName) throws GdxRuntimeException{
         if(fileName == null){
             throw new GdxRuntimeException("Episode not found");
@@ -295,7 +299,7 @@ public class AudioUtils {
                                 //ystem.out.println(progressString);
                                 //button.setText(progressString);
                             }
-                        });*/
+                        });
                     }
                 } catch (IOException e) {
                     throw new GdxRuntimeException(e);
@@ -322,7 +326,7 @@ public class AudioUtils {
             }
         };
     }
-
+*/
     private Music createNewAudio(String fileName) {
         boolean isExternal = PreferencesUtil.getStoragePref();
         System.out.println("createNewAudio: " + isExternal);
@@ -363,7 +367,7 @@ public class AudioUtils {
 
             this.episodeName = getEpisodeAudioFileName(episode);
 
-            if(FileUtils.getInstance().isFileDownloaded(episodeName)){
+            if(isFileDownloaded(episodeName)){
                 progress = 1;
             } else {
                 progress = (float) Math.round(Math.random() * 1);

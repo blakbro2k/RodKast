@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.Hashtable;
 import java.util.Map;
 
 /**
@@ -24,7 +25,7 @@ public class FileUtils {
 
     private static FileUtils _ourInstance = new FileUtils();
     private Queue<FileUtilObject> downloadQueue;
-    private Map<Integer, Float> congruentDownloads;
+    private Hashtable<Integer, Float> congruentDownloads;
     public final int DEFAULT_DOWNLOAD_THRESHOLD = 3;
     //private int congruentDownloads = 0;
 
@@ -36,14 +37,13 @@ public class FileUtils {
         if(downloadQueue == null){
             downloadQueue = new Queue<>();
         }
+        if(congruentDownloads == null){
+            congruentDownloads = new Hashtable<>();
+        }
     }
 
     public static FileUtils getInstance() {
         return _ourInstance;
-    }
-
-    public boolean isFileDownloaded(String fileName) throws GdxRuntimeException{
-        return fileName != null && PreferencesUtil.getStoragePref()? Gdx.files.external(fileName).exists() : Gdx.files.internal(fileName).exists();
     }
 
     public int getDownloadQueueSize(){
@@ -65,6 +65,10 @@ public class FileUtils {
     }
 
     public void processNextDownload() throws GdxRuntimeException{
+        //TODO: Check if anything is in queue
+        //TODO: Check for internet
+        //TODO: Check if is downloaded started
+        //TODO: if finished remove download
         //FileUtilObject download = removeDownload();
         if(downloadQueue.size < 1){
             return;
@@ -76,7 +80,7 @@ public class FileUtils {
             return;
         }
 
-        if(congruentDownloads.size() + 1 < DEFAULT_DOWNLOAD_THRESHOLD){
+        if(getCongruentDownloads() + 1 < DEFAULT_DOWNLOAD_THRESHOLD){
             //increaseCongruentDownloads();
             URL link = download.getUrl();
 
@@ -84,8 +88,6 @@ public class FileUtils {
             request.setTimeOut(GlobalConstants.HTTP_REQUEST_TIMEOUT);
             request.setUrl(link.toString());
 
-            RodkastHttpListener requestTest = new RodkastHttpListener(download);
-            System.out.println("download: " + requestTest);
             // Send the request, listen for the response
             Gdx.net.sendHttpRequest(request, new RodkastHttpListener(download));
         }
@@ -93,6 +95,10 @@ public class FileUtils {
 
     private int getCongruentDownloads(){
         return congruentDownloads.size();
+    }
+
+    public void clearDownloadQueue() {
+        downloadQueue.clear();
     }
 
     private class RodkastHttpListener implements Net.HttpResponseListener {
