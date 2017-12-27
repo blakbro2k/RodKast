@@ -10,10 +10,9 @@ import com.badlogic.gdx.utils.Queue;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URL;
-import java.util.Hashtable;
-import java.util.Map;
+import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * Created by eboateng on 10/19/2017.
@@ -21,13 +20,13 @@ import java.util.Map;
 
 public class FileUtils {
     private static final String CONTENT_LENGTH = "Content-Length";
-    private static final int DEFAULT_FILE_BYTE_LENTHG = 1024;
+    private static final int DEFAULT_FILE_BYTE_LENGTH = 1024;
 
     private static FileUtils _ourInstance = new FileUtils();
     private Queue<FileUtilObject> downloadQueue;
-    private Hashtable<Integer, Float> congruentDownloads;
     public final int DEFAULT_DOWNLOAD_THRESHOLD = 3;
-    //private int congruentDownloads = 0;
+    private int byteLength = DEFAULT_FILE_BYTE_LENGTH;
+    //private int concurrentDownloads = 0;
 
     private FileUtils(){
         initialize();
@@ -37,17 +36,10 @@ public class FileUtils {
         if(downloadQueue == null){
             downloadQueue = new Queue<>();
         }
-        if(congruentDownloads == null){
-            congruentDownloads = new Hashtable<>();
-        }
     }
 
     public static FileUtils getInstance() {
         return _ourInstance;
-    }
-
-    public int getDownloadQueueSize(){
-        return downloadQueue.size;
     }
 
     public void queueDownload(FileUtilObject fileUtilObject){
@@ -65,7 +57,6 @@ public class FileUtils {
     }
 
     public void processNextDownload() throws GdxRuntimeException{
-        //TODO: Check if anything is in queue
         //TODO: Check for internet
         //TODO: Check if is downloaded started
         //TODO: if finished remove download
@@ -80,21 +71,25 @@ public class FileUtils {
             return;
         }
 
-        if(getCongruentDownloads() + 1 < DEFAULT_DOWNLOAD_THRESHOLD){
-            //increaseCongruentDownloads();
+        System.out.println("processNextDownload():getConcurrentDownloads()=" + getConcurrentDownloads());
+        if(getConcurrentDownloads() <= DEFAULT_DOWNLOAD_THRESHOLD){
+            System.out.println("processNextDownload(): processing=" + download);
             URL link = download.getUrl();
 
             Net.HttpRequest request = new Net.HttpRequest(Net.HttpMethods.GET);
             request.setTimeOut(GlobalConstants.HTTP_REQUEST_TIMEOUT);
             request.setUrl(link.toString());
 
+            System.out.println("link=" + link);
             // Send the request, listen for the response
             Gdx.net.sendHttpRequest(request, new RodkastHttpListener(download));
+        } else {
+            throw new GdxRuntimeException("The maximum number of concurrent downloads has been reached at " + getConcurrentDownloads());
         }
     }
 
-    private int getCongruentDownloads(){
-        return congruentDownloads.size();
+    public int getConcurrentDownloads(){
+        return downloadQueue.size;
     }
 
     public void clearDownloadQueue() {
@@ -110,55 +105,48 @@ public class FileUtils {
 
         @Override
         public void handleHttpResponse(Net.HttpResponse httpResponse){
+            System.out.println("Downloading " + obj.getFileName());
+
             // Determine how much we have to download
             long length = Long.parseLong(httpResponse.getHeader(CONTENT_LENGTH));
+            obj.setFileLength(length);
 
             // We're going to download the file to external storage, create the streams
             InputStream is = httpResponse.getResultAsStream();
             //OutputStream os = Gdx.files.external(audioIndexObject.getFilePath()).write(false);
 
-            byte[] bytes = new byte[DEFAULT_FILE_BYTE_LENTHG];
+            byte[] bytes = new byte[byteLength];
             int count;
-            long read = 0;
+            //long read = 0;
 
             try{
                 while ((count = is.read(bytes, 0, bytes.length)) != -1) {
                     //os.write(bytes, 0, count);
+                    obj.updateBytes(bytes, count);
+                    System.out.println("received " + bytes + " bytes for file: " + obj.getFileName());
 
-                    obj.updateBytes(bytes);
-                    read += count;
-
-                    // Update the UI with the download progress
-                    // System.out.println("float: " + ((double) read / (double) length));
-                    final int progress = ((int) (((double) read / (double) length) * 100));
-                    //final String progressString = progress == 100 ? "Click to download" : progress + "%";
-
-                    //audioIndexObject.updateProgres(progress);
-
-                    if(progress == 100){
-                        System.out.println(obj.getFileName() + obj);
-                        // audioIndexObject.setTotalFileLength(length);
+                    if(obj.getProgress() == 100){
+                        System.out.println("handleHttpResponse(): " + obj.getFileName() + obj);
                     }
                 }
             } catch (IOException e) {
                 throw new GdxRuntimeException(e);
             } finally {
-                //decreaseCongruentDownloads();
                 Utils.closeInputStream(is);
                 //Utils.closeOutputStream(os);
             }
         }
 
         @Override
-        public void failed(Throwable t) {
-            Gdx.app.postRunnable(new Runnable() {
+        public void failed(Throwable t) {//TODO:
+            /*Gdx.app.postRunnable(new Runnable() {
                 @Override
                 public void run () {
                     //ErrorUtils.getInstance().showErrorPopup(t);
                     //throw new GdxRuntimeException(t);
                     //Gdx.app.log("Error",t.getMessage());
                 }
-            });
+            });*/
         }
 
         @Override
@@ -167,26 +155,37 @@ public class FileUtils {
         }
     }
 
-    public static class FileUtilObject implements Json.Serializable{
+    public static abstract class FileUtilObject implements Json.Serializable{
         private final int MAX_OBJECT_BYTES = 1024;
         private String fileName;
         private URL url;
         private Array<byte[]> fileBytes;
-        //private byte[] bytes;
+        private long fileLength = 0;
+        private long bytesRead = 0;
 
         public FileUtilObject(String fileName, URL url){
+            if (fileName == null){
+                throw new GdxRuntimeException("Unable to create new FileUtilObject, fileName is null");
+            }
+
+            if (url == null){
+                throw new GdxRuntimeException("Unable to create new FileUtilObject, url is null");
+            }
+
             this.fileName = fileName;
             this.url = url;
             fileBytes = new Array<>();
         }
 
-        public void updateBytes(byte[] inBytes){
-            if(inBytes.length > MAX_OBJECT_BYTES){
+        public void updateBytes(byte[] inBytes, int count){
+            if (inBytes.length <= MAX_OBJECT_BYTES) {
+                System.out.println("bytes: " + Arrays.toString(inBytes));
+
+                bytesRead += count;
+                fileBytes.add(inBytes);
+            } else {
                 throw new GdxRuntimeException("Cannot update file, bytes exceed maximum.");
             }
-            System.out.println("bytes: " + inBytes);
-
-            fileBytes.add(inBytes);
         }
 
         public URL getUrl(){
@@ -198,21 +197,29 @@ public class FileUtils {
         }
 
         @Override
-        public void write(Json json) {
-
-        }
+        public abstract void write(Json json);
 
         @Override
-        public void read(Json json, JsonValue jsonData) {
+        public abstract void read(Json json, JsonValue jsonData);
 
-        }
-
-        public Array iterator(){
-            return fileBytes;
+        public Iterator<byte[]> iterator(){
+            return fileBytes.iterator();
         }
 
         public String toString(){
             return fileName + ": " + fileBytes;
+        }
+
+        public void setFileLength(long fileLength) {
+            this.fileLength = fileLength;
+        }
+
+        public long getFileLength() {
+            return fileLength;
+        }
+
+        public int getProgress(){
+            return ((int) (((double) bytesRead / (double) fileLength) * 100));
         }
     }
 }

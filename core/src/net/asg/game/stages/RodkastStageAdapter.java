@@ -37,11 +37,13 @@ import net.asg.game.utils.parser.XMLHandler;
 import java.io.IOException;
 import java.text.ParseException;
 
+import jdk.nashorn.internal.runtime.ECMAException;
+
 /**
  * Created by Blakbro2k on 7/26/2017.
  */
 
-public class RodkastStageAdapter extends Stage {
+public class RodkastStageAdapter extends Stage{
     static final int BANNER_SIZE = 50;
     static final int COLSPAN = 3;
     static final String MUSICPLAYER_NAME = "musicplayer";
@@ -108,16 +110,17 @@ public class RodkastStageAdapter extends Stage {
 
     public void displayErrorMessage(String message){
         if(errorDialog == null){
-            errorDialog = new Dialog(message, defaultSkin);
+            errorDialog = new Dialog("", defaultSkin);
         }
+        errorDialog.text(message);
         errorDialog.show(this);
     }
 
     public void hideErrorMessage(){
         if(errorDialog != null){
             errorDialog.hide();
-            errorDialog = null;
         }
+        errorDialog = null;
     }
 
     public void loadXmlData() throws ParseException, IOException {
@@ -215,8 +218,9 @@ public class RodkastStageAdapter extends Stage {
         return manager;
     }
 
-    public MusicPlayerWidget getMusicWidget(){
+    public MusicPlayerWidget getMusicWidget() throws Exception{
         if(_episodePlayer == null){
+            System.out.println("getMusicWidget(): getEpisodeList()=" + getEpisodeList());
             //TODO: Add getLastPlayed Preference to AudioUtils
             RodkastEpisode defaultEpisode = getEpisodeList().get(0);
 
@@ -238,14 +242,9 @@ public class RodkastStageAdapter extends Stage {
         return _episodePlayer;
     }
 
-    public Array<RodkastEpisode> getEpisodeList() {
+    public Array<RodkastEpisode> getEpisodeList() throws Exception{
         if(episodeList == null){
-            try {
                 episodeList = getEpisodelist();
-            } catch (Exception e) {
-                System.out.println("poppup");
-                ErrorUtils.getInstance().showErrorPopup(e);
-            }
         }
         return episodeList;
     }

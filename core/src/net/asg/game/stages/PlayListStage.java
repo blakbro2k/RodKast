@@ -8,10 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import net.asg.game.RodKastApplication;
 import net.asg.game.ui.EpisodeUi;
 import net.asg.game.ui.RadialDownloadButtonGroup;
+import net.asg.game.utils.ErrorUtils;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.parser.RodkastEpisode;
 
@@ -29,23 +31,28 @@ public class PlayListStage extends RodkastStageAdapter {
     public PlayListStage(RodKastApplication app){
         super(app);
 
-        Table main = new Table();
-        //main.setFillParent(true);
-        main.top();
-        main.debugAll();
-        main.setHeight(GlobalConstants.VIEWPORT_HEIGHT);
-        main.setWidth(GlobalConstants.VIEWPORT_WIDTH);
+        try{
+            Table main = new Table();
+            //main.setFillParent(true);
+            main.top();
+            main.debugAll();
+            main.setHeight(GlobalConstants.VIEWPORT_HEIGHT);
+            main.setWidth(GlobalConstants.VIEWPORT_WIDTH);
 
-        setUpStageTitleWindow(main, true);
-        setUpPlayerWindow(main);
-        setUpPlayListWindow(main);
-        setUpAdMobWindow(main);
+            setUpStageTitleWindow(main, true);
+            setUpPlayerWindow(main);
+            setUpPlayListWindow(main);
+            setUpAdMobWindow(main);
 
-        addActor(main);
-        setInputProcessor();
+            addActor(main);
+            setInputProcessor();
+        } catch (Exception e){
+            ErrorUtils.getInstance().showErrorPopup(e);
+        }
+
     }
 
-    private void setUpPlayListWindow(Table main) {
+    private void setUpPlayListWindow(Table main) throws Exception{
         Actor playList = setUpPlayListActor(getEpisodeList());
 
         ScrollPane pane = new ScrollPane(playList);
@@ -55,12 +62,12 @@ public class PlayListStage extends RodkastStageAdapter {
         main.add(pane).height(getBannerOffSet() * PLAYLIST_WINDOW_SIZE).colspan(COLSPAN);
     }
 
-    private void setUpPlayerWindow(Table main) {
+    private void setUpPlayerWindow(Table main) throws Exception{
         main.row();
         main.add(getMusicWidget()).height(getBannerOffSet() * PLAYER_WINDOW_SIZE).colspan(COLSPAN);
     }
 
-    private Actor setUpPlayListActor(Array<RodkastEpisode> episodes) {
+    private Actor setUpPlayListActor(Array<RodkastEpisode> episodes) throws Exception{
         Table playList = new Table();
         playList.debugAll();
 

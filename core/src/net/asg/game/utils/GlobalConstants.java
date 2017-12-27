@@ -5,6 +5,8 @@ package net.asg.game.utils;
  */
 
 public class GlobalConstants {
+    public static final String USER_AGENT = "LMozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0";
+
     //prevent instantation
     private GlobalConstants(){}
 
@@ -13,6 +15,7 @@ public class GlobalConstants {
     public static final int APP_WIDTH = 480;
     public static final int APP_HEIGHT = 800;
     public static final int HTTP_REQUEST_TIMEOUT = 2500;
+    public static final int ERROR_MSG_TIMEOUT = 8000;
 
     public static final int VIEWPORT_WIDTH = APP_WIDTH;
     public static final int VIEWPORT_HEIGHT = APP_HEIGHT;

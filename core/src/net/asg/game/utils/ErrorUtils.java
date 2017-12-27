@@ -1,6 +1,9 @@
 package net.asg.game.utils;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.Timer;
 
 import net.asg.game.RodKastApplication;
 import net.asg.game.screens.RodKastScreenAdapter;
@@ -56,6 +59,7 @@ public class ErrorUtils {
                 popMessage(message);
             }
         }
+        //throw new GdxRuntimeException(t);
     }
 
     private void popMessage(String message){
@@ -66,7 +70,41 @@ public class ErrorUtils {
             stage = screen.getStage();
             if(stage != null){
                 stage.displayErrorMessage(message);
+                closeMessageOnTimer();
             }
         }
+    }
+
+    private void hideMessage(){
+        RodKastScreenAdapter screen = application.getCurrentScreen();
+        RodkastStageAdapter stage;
+
+        if(screen != null){
+            stage = screen.getStage();
+            if(stage != null){
+                stage.hideErrorMessage();
+            }
+        }
+    }
+
+    private void closeMessageOnTimer(){
+        final long splash_start_time = TimeUtils.millis();
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                long splash_elapsed_time = TimeUtils.millis() - splash_start_time;
+                if (splash_elapsed_time < GlobalConstants.ERROR_MSG_TIMEOUT) {
+                    Timer.schedule(
+                            new Timer.Task() {
+                                @Override
+                                public void run() {
+                                    hideMessage();
+                                }
+                            }, (float) (GlobalConstants.ERROR_MSG_TIMEOUT - splash_elapsed_time) / 1000);
+                } else {
+                    hideMessage();
+                }
+            }
+        });
     }
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import net.asg.game.RodKastApplication;
+import net.asg.game.utils.ErrorUtils;
 import net.asg.game.utils.GlobalConstants;
 
 /**
@@ -18,23 +19,27 @@ public class PodPlayerStage extends RodkastStageAdapter {
     public PodPlayerStage(RodKastApplication app) {
         super(app);
 
-        Table main = new Table();
-        main.setFillParent(true);
-        main.top();
-        main.debug();
-        main.setSize(GlobalConstants.APP_WIDTH, GlobalConstants.APP_HEIGHT);
+        try{
+            Table main = new Table();
+            main.setFillParent(true);
+            main.top();
+            main.debug();
+            main.setSize(GlobalConstants.APP_WIDTH, GlobalConstants.APP_HEIGHT);
 
-        setUpStageTitleWindow(main, true);
-        setUpEpisodeWindow(main);
-        setUpPlayerWindow(main);
-        setUpVolume(main);
-        setUpAdMobWindow(main);
+            setUpStageTitleWindow(main, true);
+            setUpEpisodeWindow(main);
+            setUpPlayerWindow(main);
+            setUpVolume(main);
+            setUpAdMobWindow(main);
 
-        addActor(main);
-        setInputProcessor();
+            addActor(main);
+            setInputProcessor();
+        } catch (Exception e){
+            ErrorUtils.getInstance().showErrorPopup(e);
+        }
     }
 
-    private void setUpEpisodeWindow(Table main) {
+    private void setUpEpisodeWindow(Table main) throws Exception{
         ImageButton playerButton = new ImageButton(imageProvider.getRodKastButtonStyle());
         main.row();
         main.add(playerButton).height(getBannerOffSet() * PLAYER_WINDOW_SIZE).fillX().colspan(COLSPAN);
@@ -42,7 +47,7 @@ public class PodPlayerStage extends RodkastStageAdapter {
         main.add(getProgressBar()).expandX().fillX().colspan(COLSPAN);
     }
 
-    private void setUpPlayerWindow(Table main) {
+    private void setUpPlayerWindow(Table main) throws Exception{
         main.row();
         Table group = new Table();
 
@@ -55,17 +60,17 @@ public class PodPlayerStage extends RodkastStageAdapter {
         main.add(group).expandX().fillX().colspan(COLSPAN);
     }
 
-    private void setUpVolume(Table main) {
+    private void setUpVolume(Table main) throws Exception{
         main.row();
         main.add(getVolumeBarBar()).expandX().fillX().colspan(COLSPAN);
     }
 
-    private ProgressBar getProgressBar(){
+    private ProgressBar getProgressBar() throws Exception{
         //System.out.println(_episodePlayer);
         return getMusicWidget().getSeekBar();
     }
 
-    private ProgressBar getVolumeBarBar(){
+    private ProgressBar getVolumeBarBar() throws Exception{
         return getMusicWidget().getVolumeBar();
     }
 }

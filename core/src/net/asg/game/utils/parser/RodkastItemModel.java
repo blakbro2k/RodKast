@@ -1,10 +1,7 @@
 package net.asg.game.utils.parser;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.StringBuilder;
-import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 
 import net.asg.game.utils.MessageCatalog;
@@ -18,17 +15,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * Created by eboateng on 7/18/2017.
  */
 
-class RodkastItemModel{
-    static final String RODKAST_URL_STRING = "http://rodkast.com/feed/podcast/";
-    private static final String ATTRIBUTE_STRING = "Attribute";
-    private static final String ELEMENT_STRING = "Element";
-    private static final String DATE_STRING = "Date";
+public class RodkastItemModel{
+    public static final String RODKAST_URL_STRING = "http://rodkast.com/feed/podcast/";
+    public static final String ATTRIBUTE_STRING = "Attribute";
+    public static final String ELEMENT_STRING = "Element";
+    public static final String DATE_STRING = "Date";
 
     public static final String RSS_TITLE = "title";
     public static final String RSS_LINK = "link";

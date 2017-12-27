@@ -79,18 +79,18 @@ public class MusicPlayerWidget extends Table {
         setPlayerTitle();
     }
 
-    private void processPlayEvent(MusicPlayerWidget widget){
+    private void processPlayEvent(MusicPlayerWidget widget) {
         if(widget != null) {
             AudioUtils.getInstance().playEpisode(widget.getEpisode());
         }
     }
 
-    private void processSliderEvent(MusicPlayerWidget widget, Actor actor){
+    private void processSliderEvent(MusicPlayerWidget widget, Actor actor) {
         /*
         if (!sliderUpdating && slider.isDragging()){
             music.setEpisodePosition((slider.getValue() / 100f) * songDuration);
         }*/
-        System.out.println("actor: " + actor);
+        //System.out.println("actor: " + actor);
         if(widget != null){
             AudioUtils.getInstance().setEpisodePosition(widget.getEpisode());
         }

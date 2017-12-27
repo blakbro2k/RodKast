@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.asg.game.RodKastApplication;
 import net.asg.game.ui.RadialProgressBar;
+import net.asg.game.utils.ErrorUtils;
 import net.asg.game.utils.GlobalConstants;
 import net.asg.game.utils.MessageCatalog;
 
@@ -23,22 +24,26 @@ public class HomeStage extends RodkastStageAdapter {
     public HomeStage(RodKastApplication app){
         super(app);
 
-        Table main = new Table();
-        main.setFillParent(true);
-        main.top();
-        main.debugAll();
-        main.setSize(GlobalConstants.APP_WIDTH, GlobalConstants.APP_HEIGHT);
+        try{
+            Table main = new Table();
+            main.setFillParent(true);
+            main.top();
+            main.debugAll();
+            main.setSize(GlobalConstants.APP_WIDTH, GlobalConstants.APP_HEIGHT);
 
-        addActor(main);
-        setInputProcessor();
+            addActor(main);
+            setInputProcessor();
 
-        setUpStageTitleWindow(main, false);
-        setUpPlayerWindow(main);
-        setUpSocialWindow(main);
-        setUpAdMobWindow(main);
+            setUpStageTitleWindow(main, false);
+            setUpPlayerWindow(main);
+            setUpSocialWindow(main);
+            setUpAdMobWindow(main);
+        } catch (Exception e){
+            ErrorUtils.getInstance().showErrorPopup(e);
+        }
     }
 
-    private void setUpPlayerWindow(Table main) {
+    private void setUpPlayerWindow(Table main) throws Exception {
         //Label nameLabel = new Label("Player Window Section", defaultScreenLabelStyle);
         ImageButton playerButton = new ImageButton(imageProvider.getRodKastButtonStyle());
 
@@ -55,7 +60,7 @@ public class HomeStage extends RodkastStageAdapter {
         main.add(playerButton).height(getBannerOffSet() * PLAYER_WINDOW_SIZE).fillX().colspan(COLSPAN);
     }
 
-    private void setUpSocialWindow(Table main) {
+    private void setUpSocialWindow(Table main) throws Exception {
         Label nameLabel = new Label(MessageCatalog.SOCIAL_WINDOW_MSG, defaultScreenLabelStyle);
 
         main.row();

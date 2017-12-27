@@ -8,6 +8,8 @@ import com.badlogic.gdx.Net.HttpResponseListener;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 import net.asg.game.ui.RadialProgressBar;
 import net.asg.game.utils.parser.RodkastEpisode;
@@ -124,7 +126,7 @@ public class AudioUtils {
         return 0.5f;
     }
 
-    private boolean isCurrentlyPlaying(String currentEpisodeName) {
+    public boolean isCurrentlyPlaying(String currentEpisodeName) {
         return _currentAudioPlayingName != null && !_currentAudioPlayingName.isEmpty() && _currentAudioPlayingName.equals(currentEpisodeName);
     }
 
@@ -144,7 +146,14 @@ public class AudioUtils {
         if(episode == null){
             return null;
         }
-        return getFileFromURL(episode.getMediaLink());
+        return getFileFromURL(getEpisodeUrlFromEpisode(episode));
+    }
+
+    private URL getEpisodeUrlFromEpisode(RodkastEpisode episode){
+        if(episode == null){
+            return null;
+        }
+        return episode.getMediaLink();
     }
 
 
@@ -168,7 +177,7 @@ public class AudioUtils {
         }
     }
 
-    private String getFileFromURL(URL url){
+    public String getFileFromURL(URL url){
         if(url == null) {
             return null;
         }
@@ -339,17 +348,14 @@ public class AudioUtils {
         }
     }
 
-    private class EpisodeAudio{
+    private class EpisodeAudio extends FileUtils.FileUtilObject{
         private float position;
-        private float totalFileLength;
-        private float progress;
         private String filePath;
         private String type;
-        private String episodeName;
+        private float progress;
         private boolean isPlaying;
         private boolean isDownloadComplete;
         private byte[] fileBytesBuffer;
-        private RadialProgressBar downloadButton;
         RodkastEpisode episode;
 
         //MP3 attributes
@@ -360,14 +366,19 @@ public class AudioUtils {
         private String date;
         private String copyright;
         private String comment;
-        //private Mpg123Decoder decoder;
 
-        EpisodeAudio(RodkastEpisode episode){
+        private EpisodeAudio(String fileName, URL url) {
+            super(fileName, url);
+
+        }
+
+        public EpisodeAudio(RodkastEpisode episode) {
+            this(getEpisodeAudioFileName(episode), getEpisodeUrlFromEpisode(episode));
+            this.episode = episode;
+
             System.out.println("added " + episode + "to Download index");
 
-            this.episodeName = getEpisodeAudioFileName(episode);
-
-            if(isFileDownloaded(episodeName)){
+            if(isFileDownloaded(getFileName())){
                 progress = 1;
             } else {
                 progress = (float) Math.round(Math.random() * 1);
@@ -377,31 +388,6 @@ public class AudioUtils {
             position = 0;
             isPlaying = false;
             this.episode = episode;
-            //this.downloadButton = downloadButton;
-
-            //this.title = episodeName
-            /*
-            File file = new File(filename);
-            AudioFileFormat baseFileFormat = null;
-            AudioFormat baseFormat = null;
-            baseFileFormat = AudioSystem.getAudioFileFormat(file);
-            baseFormat = baseFileFormat.getFormat();
-
-            if (baseFileFormat instanceof TAudioFileFormat)
-            {
-                Map properties = ((TAudioFileFormat)baseFileFormat).properties();
-                String key = "author";
-                String val = (String) properties.get(key);
-                key = "mp3.id3tag.v2";
-                InputStream tag= (InputStream) properties.get(key);
-            }
-            // TAudioFormat properties
-            if (baseFormat instanceof TAudioFormat)
-            {
-                Map properties = ((TAudioFormat)baseFormat).properties();
-                String key = "bitrate";
-                Integer val = (Integer) properties.get(key);
-            }*/
         }
 
         public void updateProgres(float value) {
@@ -414,10 +400,6 @@ public class AudioUtils {
             this.duration = value;
         }
 
-        public float getProgress(){
-            return progress;
-        }
-
         public float getPosition(){
             return position;
         }
@@ -426,20 +408,22 @@ public class AudioUtils {
             return isPlaying;
         }
 
-        public void setTotalFileLength(float length){
-            this.totalFileLength = length;
-        }
-
-        public float getTotalFileLength(){
-            return totalFileLength;
-        }
-
         public void setFilePath(String fullFilePath) {
             this.filePath = fullFilePath;
         }
 
         public String getFilePath() {
             return filePath;
+        }
+
+        @Override
+        public void write(Json json) {
+
+        }
+
+        @Override
+        public void read(Json json, JsonValue jsonData) {
+
         }
     }
 }

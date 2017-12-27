@@ -1,14 +1,20 @@
 package net.asg.game.utils.parser;
 
+import com.badlogic.gdx.net.HttpRequestHeader;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
+
+import net.asg.game.utils.GlobalConstants;
+import net.asg.game.utils.MessageCatalog;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.text.ParseException;
+import java.util.Enumeration;
 
 /**
  * Created by eboateng on 7/19/2017.
@@ -24,7 +30,9 @@ public class XMLHandler implements Disposable{
     }
 
     InputStream getXMLstream() throws IOException {
-        return urlLink.openConnection().getInputStream();
+        URLConnection openConn = urlLink.openConnection();
+        openConn.addRequestProperty(HttpRequestHeader.UserAgent, GlobalConstants.USER_AGENT);
+        return openConn.getInputStream();
     }
 
     private void fetchFeed() throws IOException {

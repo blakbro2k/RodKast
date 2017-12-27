@@ -485,7 +485,7 @@ public class RodkastItemModelTest {
         String channel = "channel";
         String episode = "channel";
 
-        Assert.assertNull(RodkastItemModel.RSS_ITEM, item1);
+        Assert.assertNull(RodkastItemModel.RSS_ITEM, item1.getAttribute(RodkastItemModel.RSS_ITEM));
     }
 
     @Test
